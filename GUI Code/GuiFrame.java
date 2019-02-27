@@ -14,10 +14,10 @@ public class GuiFrame extends JFrame {
 
         this.setVisible(true);
 
-        LoginPanel loginPanel = new LoginPanel();
+        DashboardPanel loginPanel = new DashboardPanel();
         window.add(loginPanel);
 
         this.pack();
-        this.setSize( 2400, 1400);
+        this.setSize( 1600, 900);
     }
 }
