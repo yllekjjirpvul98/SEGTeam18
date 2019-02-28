@@ -17,7 +17,7 @@ public class DataPanel extends JPanel {
 
 
     public DataPanel(){
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         this.init();
     }
 
@@ -96,108 +96,192 @@ public class DataPanel extends JPanel {
 
 
         //  ---- Layout ----
-        JPanel row1 = new JPanel();
-        row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
-        row1.add(Box.createRigidArea(new Dimension(25,0)));
-        row1.add(metricLabel1);
-        row1.add(Box.createRigidArea(new Dimension(50,0)));
-        row1.add(metricValue1);
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
 
-        JPanel row2 = new JPanel();
-        row2.setLayout(new BoxLayout(row2, BoxLayout.LINE_AXIS));
-        row2.add(Box.createRigidArea(new Dimension(25,0)));
-        row2.add(metricLabel2);
-        row2.add(Box.createRigidArea(new Dimension(50,0)));
-        row2.add(metricValue2);
+        JPanel row0L = new JPanel();
+        row0L.setLayout(new BoxLayout(row0L, BoxLayout.LINE_AXIS));
+        row0L.add(Box.createRigidArea(new Dimension(25,0)));
+        row0L.add(titleLabel);
+        row0L.add(Box.createHorizontalGlue());
 
-        JPanel row3 = new JPanel();
-        row3.setLayout(new BoxLayout(row3, BoxLayout.LINE_AXIS));
-        row3.add(Box.createRigidArea(new Dimension(25,0)));
-        row3.add(metricLabel3);
-        row3.add(Box.createRigidArea(new Dimension(50,0)));
-        row3.add(metricValue3);
+        JPanel row1L = new JPanel();
+        row1L.setLayout(new BoxLayout(row1L, BoxLayout.LINE_AXIS));
+        row1L.add(Box.createRigidArea(new Dimension(85,0)));
+        row1L.add(metricLabel1);
+        row1L.add(Box.createHorizontalGlue());
 
-        JPanel row4 = new JPanel();
-        row4.setLayout(new BoxLayout(row4, BoxLayout.LINE_AXIS));
-        row4.add(Box.createRigidArea(new Dimension(25,0)));
-        row4.add(metricLabel4);
-        row4.add(Box.createRigidArea(new Dimension(50,0)));
-        row4.add(metricValue4);
+        JPanel row2L = new JPanel();
+        row2L.setLayout(new BoxLayout(row2L, BoxLayout.LINE_AXIS));
+        row2L.add(Box.createRigidArea(new Dimension(85,0)));
+        row2L.add(metricLabel2);
+        row2L.add(Box.createHorizontalGlue());
 
-        JPanel row5 = new JPanel();
-        row5.setLayout(new BoxLayout(row5, BoxLayout.LINE_AXIS));
-        row5.add(Box.createRigidArea(new Dimension(25,0)));
-        row5.add(metricLabel5);
-        row5.add(Box.createRigidArea(new Dimension(50,0)));
-        row5.add(metricValue5);
+        JPanel row3L = new JPanel();
+        row3L.setLayout(new BoxLayout(row3L, BoxLayout.LINE_AXIS));
+        row3L.add(Box.createRigidArea(new Dimension(85,0)));
+        row3L.add(metricLabel3);
+        row3L.add(Box.createHorizontalGlue());
 
-        JPanel row6 = new JPanel();
-        row6.setLayout(new BoxLayout(row6, BoxLayout.LINE_AXIS));
-        row6.add(Box.createRigidArea(new Dimension(25,0)));
-        row6.add(metricLabel6);
-        row6.add(Box.createRigidArea(new Dimension(50,0)));
-        row6.add(metricValue6);
+        JPanel row4L = new JPanel();
+        row4L.setLayout(new BoxLayout(row4L, BoxLayout.LINE_AXIS));
+        row4L.add(Box.createRigidArea(new Dimension(85,0)));
+        row4L.add(metricLabel4);
+        row4L.add(Box.createHorizontalGlue());
 
-        JPanel row7 = new JPanel();
-        row7.setLayout(new BoxLayout(row7, BoxLayout.LINE_AXIS));
-        row7.add(Box.createRigidArea(new Dimension(25,0)));
-        row7.add(metricLabel7);
-        row7.add(Box.createRigidArea(new Dimension(50,0)));
-        row7.add(metricValue7);
+        JPanel row5L = new JPanel();
+        row5L.setLayout(new BoxLayout(row5L, BoxLayout.LINE_AXIS));
+        row5L.add(Box.createRigidArea(new Dimension(85,0)));
+        row5L.add(metricLabel5);
+        row5L.add(Box.createHorizontalGlue());
 
-        JPanel row8 = new JPanel();
-        row8.setLayout(new BoxLayout(row8, BoxLayout.LINE_AXIS));
-        row8.add(Box.createRigidArea(new Dimension(25,0)));
-        row8.add(metricLabel8);
-        row8.add(Box.createRigidArea(new Dimension(50,0)));
-        row8.add(metricValue8);
+        JPanel row6L = new JPanel();
+        row6L.setLayout(new BoxLayout(row6L, BoxLayout.LINE_AXIS));
+        row6L.add(Box.createRigidArea(new Dimension(85,0)));
+        row6L.add(metricLabel6);
+        row6L.add(Box.createHorizontalGlue());
 
-        JPanel row9 = new JPanel();
-        row9.setLayout(new BoxLayout(row9, BoxLayout.LINE_AXIS));
-        row9.add(Box.createRigidArea(new Dimension(25,0)));
-        row9.add(metricLabel9);
-        row9.add(Box.createRigidArea(new Dimension(50,0)));
-        row9.add(metricValue9);
+        JPanel row7L = new JPanel();
+        row7L.setLayout(new BoxLayout(row7L, BoxLayout.LINE_AXIS));
+        row7L.add(Box.createRigidArea(new Dimension(85,0)));
+        row7L.add(metricLabel7);
+        row7L.add(Box.createHorizontalGlue());
 
-        JPanel row10 = new JPanel();
-        row10.setLayout(new BoxLayout(row10, BoxLayout.LINE_AXIS));
-        row10.add(Box.createRigidArea(new Dimension(25,0)));
-        row10.add(metricLabel10);
-        row10.add(Box.createRigidArea(new Dimension(50,0)));
-        row10.add(metricValue10);
+        JPanel row8L = new JPanel();
+        row8L.setLayout(new BoxLayout(row8L, BoxLayout.LINE_AXIS));
+        row8L.add(Box.createRigidArea(new Dimension(85,0)));
+        row8L.add(metricLabel8);
+        row8L.add(Box.createHorizontalGlue());
 
-        JPanel row11 = new JPanel();
-        row11.setLayout(new BoxLayout(row11, BoxLayout.LINE_AXIS));
-        row11.add(Box.createRigidArea(new Dimension(25,0)));
-        row11.add(metricLabel11);
-        row11.add(Box.createRigidArea(new Dimension(50,0)));
-        row11.add(metricValue11);
+        JPanel row9L = new JPanel();
+        row9L.setLayout(new BoxLayout(row9L, BoxLayout.LINE_AXIS));
+        row9L.add(Box.createRigidArea(new Dimension(85,0)));
+        row9L.add(metricLabel9);
+        row9L.add(Box.createHorizontalGlue());
+
+        JPanel row10L = new JPanel();
+        row10L.setLayout(new BoxLayout(row10L, BoxLayout.LINE_AXIS));
+        row10L.add(Box.createRigidArea(new Dimension(85,0)));
+        row10L.add(metricLabel10);
+        row10L.add(Box.createHorizontalGlue());
+
+        JPanel row11L = new JPanel();
+        row11L.setLayout(new BoxLayout(row11L, BoxLayout.LINE_AXIS));
+        row11L.add(Box.createRigidArea(new Dimension(85,0)));
+        row11L.add(metricLabel11);
+        row11L.add(Box.createHorizontalGlue());
+
+        leftPanel.add(row0L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,40)));
+        leftPanel.add(row1L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row2L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row3L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row4L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row5L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row6L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row7L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row8L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row9L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row10L);
+        leftPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        leftPanel.add(row11L);
+        leftPanel.add(Box.createVerticalGlue());
 
 
-        this.add(titleLabel);
-        this.add(Box.createRigidArea(new Dimension(0,40)));
-        this.add(row1);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row2);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row3);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row4);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row5);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row6);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row7);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row8);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row9);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row10);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
-        this.add(row11);
-        this.add(Box.createVerticalGlue());
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+
+        JPanel row1R = new JPanel();
+        row1R.setLayout(new BoxLayout(row1R, BoxLayout.LINE_AXIS));
+        row1R.add(Box.createRigidArea(new Dimension(25,0)));
+        row1R.add(metricValue1);
+
+        JPanel row2R = new JPanel();
+        row2R.setLayout(new BoxLayout(row2R, BoxLayout.LINE_AXIS));
+        row2R.add(Box.createRigidArea(new Dimension(25,0)));
+        row2R.add(metricValue2);
+
+        JPanel row3R = new JPanel();
+        row3R.setLayout(new BoxLayout(row3R, BoxLayout.LINE_AXIS));
+        row3R.add(Box.createRigidArea(new Dimension(25,0)));
+        row3R.add(metricValue3);
+
+        JPanel row4R = new JPanel();
+        row4R.setLayout(new BoxLayout(row4R, BoxLayout.LINE_AXIS));
+        row4R.add(Box.createRigidArea(new Dimension(25,0)));
+        row4R.add(metricValue4);
+
+        JPanel row5R = new JPanel();
+        row5R.setLayout(new BoxLayout(row5R, BoxLayout.LINE_AXIS));
+        row5R.add(Box.createRigidArea(new Dimension(25,0)));
+        row5R.add(metricValue5);
+
+        JPanel row6R = new JPanel();
+        row6R.setLayout(new BoxLayout(row6R, BoxLayout.LINE_AXIS));
+        row6R.add(Box.createRigidArea(new Dimension(25,0)));
+        row6R.add(metricValue6);
+
+        JPanel row7R = new JPanel();
+        row7R.setLayout(new BoxLayout(row7R, BoxLayout.LINE_AXIS));
+        row7R.add(Box.createRigidArea(new Dimension(25,0)));
+        row7R.add(metricValue7);
+
+        JPanel row8R = new JPanel();
+        row8R.setLayout(new BoxLayout(row8R, BoxLayout.LINE_AXIS));
+        row8R.add(Box.createRigidArea(new Dimension(25,0)));
+        row8R.add(metricValue8);
+
+        JPanel row9R = new JPanel();
+        row9R.setLayout(new BoxLayout(row9R, BoxLayout.LINE_AXIS));
+        row9R.add(Box.createRigidArea(new Dimension(25,0)));
+        row9R.add(metricValue9);
+
+        JPanel row10R = new JPanel();
+        row10R.setLayout(new BoxLayout(row10R, BoxLayout.LINE_AXIS));
+        row10R.add(Box.createRigidArea(new Dimension(25,0)));
+        row10R.add(metricValue10);
+
+        JPanel row11R = new JPanel();
+        row11R.setLayout(new BoxLayout(row11R, BoxLayout.LINE_AXIS));
+        row11R.add(Box.createRigidArea(new Dimension(25,0)));
+        row11R.add(metricValue11);
+
+        rightPanel.add(Box.createRigidArea(new Dimension(0,80)));
+        rightPanel.add(row1R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row2R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row3R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row4R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row5R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row6R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row7R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row8R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row9R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row10R);
+        rightPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        rightPanel.add(row11R);
+        rightPanel.add(Box.createVerticalGlue());
+
+        this.add(leftPanel);
+        this.add(Box.createRigidArea(new Dimension(100,0)));
+        this.add(rightPanel);
 
     }
 

@@ -100,31 +100,37 @@ public class FilterPanel extends JPanel {
         JPanel row1L = new JPanel();
         row1L.setLayout(new BoxLayout(row1L, BoxLayout.LINE_AXIS));
         row1L.add(titleLabel);
+        row1L.add(Box.createHorizontalGlue());
 
         JPanel row2L = new JPanel();
         row2L.setLayout(new BoxLayout(row2L, BoxLayout.LINE_AXIS));
         row2L.add(Box.createRigidArea(new Dimension(60,0)));
         row2L.add(dateRangeCB);
+        row2L.add(Box.createHorizontalGlue());
 
         JPanel row3L = new JPanel();
         row3L.setLayout(new BoxLayout(row3L, BoxLayout.LINE_AXIS));
         row3L.add(Box.createRigidArea(new Dimension(60,0)));
         row3L.add(genderCB);
+        row3L.add(Box.createHorizontalGlue());
 
         JPanel row4L = new JPanel();
         row4L.setLayout(new BoxLayout(row4L, BoxLayout.LINE_AXIS));
         row4L.add(Box.createRigidArea(new Dimension(60,0)));
         row4L.add(ageCB);
+        row4L.add(Box.createHorizontalGlue());
 
         JPanel row5L = new JPanel();
         row5L.setLayout(new BoxLayout(row5L, BoxLayout.LINE_AXIS));
         row5L.add(Box.createRigidArea(new Dimension(60,0)));
         row5L.add(incomeCB);
+        row5L.add(Box.createHorizontalGlue());
 
         JPanel row6L = new JPanel();
         row6L.setLayout(new BoxLayout(row6L, BoxLayout.LINE_AXIS));
         row6L.add(Box.createRigidArea(new Dimension(60,0)));
         row6L.add(contextCB);
+        row6L.add(Box.createHorizontalGlue());
 
         leftPanel.add(row1L);
         leftPanel.add(Box.createRigidArea(new Dimension(0,40)));
