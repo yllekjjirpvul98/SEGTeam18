@@ -12,46 +12,46 @@ public class Calculation {
     }
 
     public int calImpression(){
-
+        return 0;
     }
 
     public int calClicks(){
-
+        return 0;
     }
 
     public int calUnique(){
-
+        return 0;
     }
 
     public int calBounce(){
-
+        return 0;
     }
 
     public int calConversion(){
-
+        return 0;
     }
 
     public int calTotal(){
-
+        return 0;
     }
 
     public double calCTR(){
-
+        return 0;
     }
 
     public double calCPA(){
-
+        return 0;
     }
 
     public double calCPC(){
-
+        return 0;
     }
 
     public double calCPM(){
-
+        return 0;
     }
 
     public double calBounceRate(){
-
+        return 0;
     }
 }

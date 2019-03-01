@@ -4,11 +4,12 @@ public class Main {
 
     public static void main(String[] args){
         Database database = new Database();
-        database.createDatabase();
+        database.connectToDatabase();
         ImpressionParser ip = new ImpressionParser();
         ip.loadDatabase("Impression");
-        ConversionParser cp = new ConversionParser();
-        cp.loadDatabase("Conversion");
-
+        ConversionParser cop = new ConversionParser();
+        cop.loadDatabase("Conversion");
+        ClickParser cp = new ClickParser();
+        cp.loadDatabase("Click");
     }
 }
