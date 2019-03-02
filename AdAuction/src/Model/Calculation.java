@@ -1,17 +1,17 @@
 package Model;
 
 public class Calculation {
-    Database database;
+    Database db;
     Filter filter;
     Bounce bounce;
 
-    Calculation(Database database, Filter filter, Bounce bounce){
+    Calculation(Database db, Bounce bounce, Filter filter){
         this.bounce = bounce;
         this.filter = filter;
-        this.database = database;
+        this.db = db;
     }
 
-    public int calImpression(){
+    public int calImpression(Filter filter){
         return 0;
     }
 

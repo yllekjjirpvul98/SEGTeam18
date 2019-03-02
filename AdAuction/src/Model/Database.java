@@ -22,9 +22,7 @@ public class Database {
         return statement;
     }
 
-
-    public static void main(String[] args){
-        Database db = new Database();
-        db.connectToDatabase();
+    public Connection getConnect() {
+        return connect;
     }
 }
