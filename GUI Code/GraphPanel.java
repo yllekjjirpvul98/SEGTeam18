@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GraphPanel extends JPanel {
 
@@ -17,7 +19,7 @@ public class GraphPanel extends JPanel {
 
         //   ---- Creating components ----
 
-        JLabel timeLab = new JLabel("Time Granularity");
+        JLabel timeLab = new JLabel("Time Granularity: ");
         timeLab.setFont(new Font("Courier", Font.PLAIN, 15));
 
         JSlider timeSlide = new JSlider();
@@ -32,6 +34,22 @@ public class GraphPanel extends JPanel {
         JButton histBut = new JButton("Histogram");
         histBut.setFont(new Font( "Courier", Font.BOLD, 15));
         histBut.setBackground(Color.lightGray);
+
+        lineBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lineBut.setBackground(new Color(0x76B8FF));
+                histBut.setBackground(Color.lightGray);
+            }
+        });
+        histBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                histBut.setBackground(new Color(0x76B8FF));
+                lineBut.setBackground(Color.lightGray);
+            }
+        });
+
 
         // Metric Buttons
         JButton impressionsBut = new JButton("Impressions");
