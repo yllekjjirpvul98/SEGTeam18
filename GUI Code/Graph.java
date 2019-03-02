@@ -1,10 +1,11 @@
 import javax.swing.*;
-import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import java.awt.*;
 
 public class Graph extends JPanel {
 
@@ -23,13 +24,14 @@ public class Graph extends JPanel {
         );
 
         ChartPanel panel = new ChartPanel(chart);
+        this.setLayout(new BorderLayout());
         chart.setBackgroundPaint(null);
-        this.add(panel);
+        this.add(panel, BorderLayout.CENTER);
     }
 
     private DefaultCategoryDataset createDataset() {
 
-        yAxisVar = "Number of clicks";
+        yAxisVar = "Clicks";
         String series1 = yAxisVar;
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();

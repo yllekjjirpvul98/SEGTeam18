@@ -1,13 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DashboardPanel extends JPanel {
 
     private GuiFrame window;
 
-    JPanel centrePanel = new JPanel();
+    JPanel centrePanel;
+    JPanel northPanel;
 
     private FilterPanel filterPanel = new FilterPanel(this);
     private DataPanel dataPanel = new DataPanel(this);
@@ -55,7 +54,7 @@ public class DashboardPanel extends JPanel {
 
 
         //  ---- Layout ----
-        JPanel northPanel = new JPanel();
+        northPanel = new JPanel();
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.PAGE_AXIS));
 
         JPanel row1n = new JPanel();
@@ -80,8 +79,9 @@ public class DashboardPanel extends JPanel {
         northPanel.add(row2n);
         northPanel.add(Box.createRigidArea(new Dimension(0,100)));
 
-        // Sets the default view
-        this.createCentrePanel("graphPanel");
+        centrePanel = new JPanel();
+        centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.LINE_AXIS));
+        this.createCentrePanel("dataPanel");
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(centrePanel, BorderLayout.CENTER);
@@ -89,11 +89,16 @@ public class DashboardPanel extends JPanel {
     }
 
     private void changePanel(String newView) {
+        Dimension windowSize = window.getSize();
         centrePanel.removeAll();
-        this.remove(centrePanel);
+        centrePanel.repaint();
 
         this.createCentrePanel(newView);
+        this.add(northPanel, BorderLayout.NORTH);
         this.add(centrePanel, BorderLayout.CENTER);
+
+        this.window.pack();
+        window.setSize(windowSize);
     }
 
     private void createCentrePanel(String newView){
@@ -103,8 +108,6 @@ public class DashboardPanel extends JPanel {
             newPanel = dataPanel;
         else
             newPanel = graphPanel;
-
-        centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.LINE_AXIS));
 
         centrePanel.add(Box.createRigidArea(new Dimension(80,0)));
         centrePanel.add(Box.createHorizontalGlue());

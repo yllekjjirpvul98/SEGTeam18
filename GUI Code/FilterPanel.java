@@ -61,19 +61,31 @@ public class FilterPanel extends JPanel {
         genderButtons.add(genRad3);
 
 
-        JSlider ageSlider = new JSlider();
-        ageSlider.setMinimum(0);
-        ageSlider.setMaximum(99);
-        ageSlider.setMaximumSize(new Dimension(200,30));
-        JLabel ageLabel = new JLabel("Years");
+        JSlider ageSlider1 = new JSlider();
+        ageSlider1.setMinimum(0);
+        ageSlider1.setMaximum(99);
+        ageSlider1.setMaximumSize(new Dimension(200,30));
+
+        JSlider ageSlider2 = new JSlider();
+        ageSlider2.setMinimum(0);
+        ageSlider2.setMaximum(99);
+        ageSlider2.setMaximumSize(new Dimension(200,30));
+
+        JLabel ageLabel = new JLabel("Years: " + ageSlider1.getValue() + " - " + ageSlider2.getValue());
         ageLabel.setFont(new Font("Courier", Font.PLAIN, 10));
 
 
-        JSlider moneySlider = new JSlider();
-        moneySlider.setMinimum(0);
-        moneySlider.setMaximum(99);
-        moneySlider.setMaximumSize(new Dimension(200,30));
-        JLabel moneyLabel = new JLabel("£1000's");
+        JSlider moneySlider1 = new JSlider();
+        moneySlider1.setMinimum(0);
+        moneySlider1.setMaximum(99);
+        moneySlider1.setMaximumSize(new Dimension(200,30));
+
+        JSlider moneySlider2 = new JSlider();
+        moneySlider2.setMinimum(0);
+        moneySlider2.setMaximum(99);
+        moneySlider2.setMaximumSize(new Dimension(200,30));
+
+        JLabel moneyLabel = new JLabel("£1000's: " + moneySlider1.getValue() + " - " + moneySlider2.getValue());
         moneyLabel.setFont(new Font("Courier", Font.PLAIN, 10));
 
 
@@ -178,13 +190,17 @@ public class FilterPanel extends JPanel {
 
         JPanel row6R = new JPanel();
         row6R.setLayout(new BoxLayout(row6R, BoxLayout.LINE_AXIS));
-        row6R.add(ageSlider);
+        row6R.add(ageSlider1);
+        row6R.add(Box.createRigidArea(new Dimension(25,0)));
+        row6R.add(ageSlider2);
         row6R.add(Box.createRigidArea(new Dimension(25,0)));
         row6R.add(ageLabel);
 
         JPanel row7R = new JPanel();
         row7R.setLayout(new BoxLayout(row7R, BoxLayout.LINE_AXIS));
-        row7R.add(moneySlider);
+        row7R.add(moneySlider1);
+        row7R.add(Box.createRigidArea(new Dimension(25,0)));
+        row7R.add(moneySlider2);
         row7R.add(Box.createRigidArea(new Dimension(25,0)));
         row7R.add(moneyLabel);
 
