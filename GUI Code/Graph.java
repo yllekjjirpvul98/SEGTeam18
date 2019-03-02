@@ -19,7 +19,7 @@ public class Graph extends JPanel {
         JFreeChart chart = ChartFactory.createLineChart(
                 "", // Chart title
                 "Date", // X-Axis Label
-                "Number of Clicks", // Y-Axis Label
+                "Number of Impressions", // Y-Axis Label
                 dataset
         );
 
@@ -31,7 +31,7 @@ public class Graph extends JPanel {
 
     private DefaultCategoryDataset createDataset() {
 
-        yAxisVar = "Clicks";
+        yAxisVar = "Impressions";
         String series1 = yAxisVar;
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();

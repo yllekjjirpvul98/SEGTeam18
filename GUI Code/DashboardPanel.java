@@ -113,10 +113,10 @@ public class DashboardPanel extends JPanel {
         centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(newPanel);
         centrePanel.add(Box.createHorizontalGlue());
-        centrePanel.add(Box.createRigidArea(new Dimension(100,0)));
+        centrePanel.add(Box.createRigidArea(new Dimension(50,0)));
         centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(filterPanel);
-        centrePanel.add(Box.createHorizontalGlue());
+        //centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(Box.createRigidArea(new Dimension(80,0)));
     }
 
