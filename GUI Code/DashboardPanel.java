@@ -6,8 +6,12 @@ import java.awt.event.ActionListener;
 public class DashboardPanel extends JPanel {
 
     private GuiFrame window;
-    private FilterPanel filterPanel = new FilterPanel();
-    private DataPanel dataPanel = new DataPanel();
+
+    JPanel centrePanel = new JPanel();
+
+    private FilterPanel filterPanel = new FilterPanel(this);
+    private DataPanel dataPanel = new DataPanel(this);
+    private GraphPanel graphPanel = new GraphPanel(this);
 
 
     public DashboardPanel(GuiFrame window){
@@ -40,11 +44,13 @@ public class DashboardPanel extends JPanel {
         dataViewBut.addActionListener(e -> {
             dataViewBut.setBackground(new Color(0x76B8FF));
             graphViewBut.setBackground(Color.lightGray);
+            this.changePanel("dataPanel");
         });
 
         graphViewBut.addActionListener(e -> {
             graphViewBut.setBackground(new Color(0x76B8FF));
             dataViewBut.setBackground(Color.lightGray);
+            this.changePanel("graphPanel");
         });
 
 
@@ -74,23 +80,42 @@ public class DashboardPanel extends JPanel {
         northPanel.add(row2n);
         northPanel.add(Box.createRigidArea(new Dimension(0,100)));
 
+        // Sets the default view
+        this.createCentrePanel("graphPanel");
 
-        JPanel centrePanel = new JPanel();
+        this.add(northPanel, BorderLayout.NORTH);
+        this.add(centrePanel, BorderLayout.CENTER);
+
+    }
+
+    private void changePanel(String newView) {
+        centrePanel.removeAll();
+        this.remove(centrePanel);
+
+        this.createCentrePanel(newView);
+        this.add(centrePanel, BorderLayout.CENTER);
+    }
+
+    private void createCentrePanel(String newView){
+        JPanel newPanel;
+
+        if (newView.equals("dataPanel"))
+            newPanel = dataPanel;
+        else
+            newPanel = graphPanel;
+
         centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.LINE_AXIS));
 
         centrePanel.add(Box.createRigidArea(new Dimension(80,0)));
         centrePanel.add(Box.createHorizontalGlue());
-        centrePanel.add(dataPanel);
+        centrePanel.add(newPanel);
         centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(Box.createRigidArea(new Dimension(100,0)));
         centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(filterPanel);
         centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(Box.createRigidArea(new Dimension(80,0)));
-
-        this.add(northPanel, BorderLayout.NORTH);
-        this.add(centrePanel, BorderLayout.CENTER);
-
     }
+
 
 }

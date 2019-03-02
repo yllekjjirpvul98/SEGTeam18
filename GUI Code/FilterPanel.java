@@ -3,7 +3,10 @@ import java.awt.*;
 
 public class FilterPanel extends JPanel {
 
-    public FilterPanel(){
+    private DashboardPanel dashboardPanel;
+
+    public FilterPanel(DashboardPanel dashboardPanel){
+        this.dashboardPanel = dashboardPanel;
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         this.init();
     }

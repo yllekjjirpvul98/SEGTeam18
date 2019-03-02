@@ -3,6 +3,7 @@ import java.awt.*;
 
 public class DataPanel extends JPanel {
 
+    private DashboardPanel dashboardPanel;
     private int numImpressions;
     private int numClicks;
     private int numUniques;
@@ -16,7 +17,8 @@ public class DataPanel extends JPanel {
     private double CTR;
 
 
-    public DataPanel(){
+    public DataPanel(DashboardPanel dashboardPanel){
+        this.dashboardPanel = dashboardPanel;
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         this.init();
     }
