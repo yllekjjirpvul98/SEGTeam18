@@ -38,14 +38,18 @@ public class Filter {
     public Map<String, String> getFilterArray() {
         Map<String, String> map = new HashMap<String, String>();
         if (dateRangeSelected){
-            map.put("dateRange" , getDateUpperRange() + "+" + getDateUpperRange());
-        }else if (genderSelected){
+            map.put("dateRange" , getDateLowerRange() + "+" + getDateUpperRange());
+        }
+        if (genderSelected){
             map.put("gender", getGender());
-        }else if (ageSelected){
+        }
+        if (ageSelected){
             map.put("age", getAge());
-        }else if (incomeSelected){
+        }
+        if (incomeSelected){
             map.put("income", getIncome());
-        }else if (contextSelected) {
+        }
+        if (contextSelected) {
             map.put("context", String.valueOf(getContext()));
         }return map;
     }
@@ -118,12 +122,12 @@ public class Filter {
         return incomeSelected;
     }
 
-    public Date getDateLowerRange() {
-        return dateLowerRange;
+    public String getDateLowerRange() {
+        return dateLowerRange.toString();
     }
 
-    public Date getDateUpperRange() {
-        return dateUpperRange;
+    public String getDateUpperRange() {
+        return dateUpperRange.toString();
     }
 
     public String getAge() {

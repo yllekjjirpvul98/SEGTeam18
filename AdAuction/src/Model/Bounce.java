@@ -19,7 +19,8 @@ public class Bounce {
         Map map = new HashMap<String, Integer>();
         if (timeSet){
             map.put("times", getTime());
-        }else if (numPageSet){
+        }
+        if (numPageSet){
             map.put("numPage", getNumOfPageVisited());
         }return  map;
     }
