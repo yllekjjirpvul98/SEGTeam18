@@ -28,29 +28,29 @@ public class Calculation {
         if (map.size() != 0){
             query += "WHERE ";
             if (map.containsKey("dateRange")){
-                String[] two = map.get("dateRange").split("+");
+                String[] two = map.get("dateRange").split("\\+");
                 query += "Date between '" + two[0] + " 00:00:00' and '" + two[1] + "23:59:00'";
             }
             if (map.containsKey("gender")){
-                if (!query.endsWith("Impression")){
+                if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
                 query += "Gender = " + map.get("gender");
             }
             if (map.containsKey("age")){
-                if (!query.endsWith("Impression")){
+                if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Age = " + map.get("age");
+                query += "Age = \"" + map.get("age") + "\"";
             }
             if (map.containsKey("income")){
-                if (!query.endsWith("Impression")){
+                if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
                 query += "Income = " + map.get("income");
             }
             if (map.containsKey("context")){
-                if (!query.endsWith("Impression")){
+                if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
                 query += "Context = " + map.get("context");
@@ -124,7 +124,7 @@ public class Calculation {
 
     public int calBounce(){
         int count = 0;
-        String query = "SELECT count(*) FROM Server INNER JOIN "; 9
+        String query = "SELECT count(*) FROM Server INNER JOIN ";
         String table = "CREATE TEMPORARY TABLE tempI AS SELECT * FROM Impression" + whereBounceClause();
 
         try{
@@ -157,12 +157,12 @@ public class Calculation {
     }
 
     public float calClickCost(){
-        float clickCost;
+        float clickCost = 0;
 
         String clickQuery = "SELECT sum(clickCost) FROM Click";
         clickQuery += whereClause();
         try{
-            ResultSet rsc = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery(clickQuery);
             while(rs.next()){
                 clickCost = rs.getInt("sum(clickCost)");
             }
@@ -174,12 +174,12 @@ public class Calculation {
     }
 
     public float calTotal(){
-        float impressionCost;
+        float impressionCost = 0;
 
         String impQuery = "SELECT sum(ImpressionCost) FROM Impression";
         impQuery += whereClause();
         try{
-            ResultSet rsi = statement.executeQuery(query);
+            ResultSet rsi = statement.executeQuery(impQuery);
             while(rsi.next()){
                 impressionCost = rsi.getInt("sum(ImpressionCost)");
             }
