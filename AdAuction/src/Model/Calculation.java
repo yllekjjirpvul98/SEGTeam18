@@ -1,6 +1,8 @@
 package Model;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 
@@ -58,18 +60,46 @@ public class Calculation {
 
 
     public int calImpression(){
-
+        int count = 0;
         String query = "SELECT count(*) FROM Impression ";
         query += whereClause();
-
+        try {
+            ResultSet rs = statement.executeQuery(query);
+            while(rs.next()){
+                count = rs.getInt("count(*)");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return count;
     }
 
     public int calClicks(){
-        return 0;
+        String query = "SELECT count(*) FROM Click INNER JOIN ";
+        String table = "CREATE TEMPORARY TABLE temp AS SELECT * FROM Impression " + whereClause();
+        int count = 0;
+        try {
+            statement.execute(table);
+            query += "temp ON Click.ID = temp.ID";
+            ResultSet rs = statement.executeQuery(query);
+            while(rs.next()){
+                count = rs.getInt("count(*)");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return count;
     }
 
     public int calUnique(){
-        return 0;
+        String query = "SELECT count(*) FROM (SELECT DISTINCT ID FROM Click)";
+        int count = 0;
+        try {
+            ResultSet rs = statement.executeQuery(query);
+            while(rs.next()){
+                count = rs.getInt("count(*)");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return count;
     }
 
     public int calBounce(){
