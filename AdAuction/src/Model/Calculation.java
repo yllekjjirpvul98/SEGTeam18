@@ -59,6 +59,25 @@ public class Calculation {
         }return query;
     }
 
+    public String whereBounceClause(){
+        Map<String, Integer> map = bounce.getBounceSettings();
+        String query = "";
+        if (map.size() != 0){
+            query += "WHERE ";
+
+            if (map.containsKey("times")){
+                query += "DATEDIFF(second, EntryDate, ExitDate) == " + map.get("times");
+            }
+            if (map.containsKey("numPage")){
+                if (!query.endsWith("Conversion")){
+                    query += " AND ";
+                }
+                query += "PageViewed = " + map.get("numPage");
+            }
+            query += ";";
+        }return query;
+    }
+
 
     public int calImpression(){
         int count = 0;
@@ -105,10 +124,12 @@ public class Calculation {
 
     public int calBounce(){
         int count = 0;
-        String query = "SELECT count(*) FROM Server WHERE PageViewed <= 1 AND";
-        query += whereClause();
+        String query = "SELECT count(*) FROM Server INNER JOIN "; 9
+        String table = "CREATE TEMPORARY TABLE tempI AS SELECT * FROM Impression" + whereBounceClause();
 
         try{
+            statement.execute(table);
+            query += "temp ON Server.ID = tempI.ID";
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
                 count = rs.getInt("count(*)");
