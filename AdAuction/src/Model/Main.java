@@ -8,5 +8,14 @@ public class Main {
         Filter filter = new Filter(false, false, false, false, false);
         Bounce bounce = new Bounce(false, false);
         Calculation cal = new Calculation(db, bounce, filter);
+
+
+        bounce.setTimeSet(True);
+        bounce.setTime(3);
+
+        bounce.setNumPageSet(True);
+        bounce.setNumOfPageVisited(5);
+
+        cal.calBounce();
     }
 }

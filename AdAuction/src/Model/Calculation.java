@@ -66,10 +66,10 @@ public class Calculation {
             query += "WHERE ";
 
             if (map.containsKey("times")){
-                query += "DATEDIFF(second, EntryDate, ExitDate) == " + map.get("times");
+                query += "DATEDIFF(second, EntryDate, ExitDate) = " + map.get("times");
             }
             if (map.containsKey("numPage")){
-                if (!query.endsWith("Conversion")){
+                if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
                 query += "PageViewed = " + map.get("numPage");
@@ -142,7 +142,7 @@ public class Calculation {
 
     public int calConversion(){
         int count = 0;
-        String query = "SELECT count(*) FROM Server WHERE Conversion == \"Yes\" AND";
+        String query = "SELECT count(*) FROM Server WHERE Conversion = \"Yes\" AND";
         query += whereClause();
 
         try{
