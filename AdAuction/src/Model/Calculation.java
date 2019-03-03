@@ -21,6 +21,7 @@ public class Calculation {
         this.connection = db.getConnect();
     }
 
+    //apply filter
     public String whereClause(){
         Map<String, String> map = filter.getFilterArray();
         String query = "";
@@ -103,34 +104,88 @@ public class Calculation {
     }
 
     public int calBounce(){
-        return 0;
+        int count = 0;
+        String query = "SELECT count(*) FROM Server WHERE PageViewed <= 1 AND";
+        query += whereClause();
+
+        try{
+            ResultSet rs = statement.executeQuery(query);
+            while(rs.next()){
+                count = rs.getInt("count(*)");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
     }
 
     public int calConversion(){
-        return 0;
+        int count = 0;
+        String query = "SELECT count(*) FROM Server WHERE Conversion == \"Yes\" AND";
+        query += whereClause();
+
+        try{
+            ResultSet rs = statement.executeQuery(query);
+            while(rs.next()){
+                count = rs.getInt("count(*)");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
     }
 
-    public int calTotal(){
-        return 0;
+    public float calClickCost(){
+        float clickCost;
+
+        String clickQuery = "SELECT sum(clickCost) FROM Click";
+        clickQuery += whereClause();
+        try{
+            ResultSet rsc = statement.executeQuery(query);
+            while(rs.next()){
+                clickCost = rs.getInt("sum(clickCost)");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return clickCost;
+    }
+
+    public float calTotal(){
+        float impressionCost;
+
+        String impQuery = "SELECT sum(ImpressionCost) FROM Impression";
+        impQuery += whereClause();
+        try{
+            ResultSet rsi = statement.executeQuery(query);
+            while(rsi.next()){
+                impressionCost = rsi.getInt("sum(ImpressionCost)");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return calClickCost()+impressionCost;
     }
 
     public double calCTR(){
-        return 0;
+        return calClicks()/calImpression();
     }
 
     public double calCPA(){
-        return 0;
+        return calTotal()/calConversion();
     }
 
     public double calCPC(){
-        return 0;
+        return calClickCost()/calClicks();
     }
 
     public double calCPM(){
-        return 0;
+        return calTotal()/(1000*calImpression());
     }
 
     public double calBounceRate(){
-        return 0;
+        return calBounce()/calClicks();
     }
 }
