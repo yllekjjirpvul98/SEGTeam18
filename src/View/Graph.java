@@ -1,3 +1,5 @@
+package View;
+
 import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
