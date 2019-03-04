@@ -2,6 +2,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FilterPanel extends JPanel {
 
@@ -21,6 +23,15 @@ public class FilterPanel extends JPanel {
 
         JCheckBox dateRangeCB = new JCheckBox(" Date Range ");
         dateRangeCB.setFont(new Font("Courier", Font.PLAIN, 15));
+
+        dateRangeCB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(dateRangeCB.isSelected()){
+
+                }
+            }
+        });
 
         JCheckBox genderCB = new JCheckBox(" Gender     ");
         genderCB.setFont(new Font("Courier", Font.PLAIN, 15));
