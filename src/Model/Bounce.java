@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Bounce {
 
-    int time;
-    int numOfPageVisited;
+    int time = 5;
+    int numOfPageVisited = 2;
     boolean timeSet = false;
     boolean numPageSet = false;
 

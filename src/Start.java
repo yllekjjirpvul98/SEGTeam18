@@ -9,5 +9,9 @@ public class Start {
 
         model.setControl(control);
         view.setControl(control);
+
+        if (!(view.isActive())){
+            control.getModel().getDb().closeDatabase();
+        }
     };
 }

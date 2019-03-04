@@ -16,12 +16,18 @@ public class Model {
     }
 
     private Calculation cal;
+    private Database db;
+
+    public Database getDb() {
+        return db;
+    }
 
     public Calculation getCal() {
         return cal;
     }
+
     public void init(){
-        Database db = new Database();
+        db = new Database();
         db.connectToDatabase();
         Filter filter = new Filter(false, false, false, false, false);
         Bounce bounce = new Bounce(false, false);

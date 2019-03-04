@@ -28,16 +28,20 @@ public class DataPanel extends JPanel {
     private void init(){
 
         numImpressions = dashboardPanel.getWindow().getControl().getModel().getCal().calImpression();
-        numClicks = 0;
-        numUniques = 0;
-        numConvos = 0;
-        numBounces = 0;
-        bounceRate = 0;
-        totalCost = 0;
-        CPA = 0;
-        CPC = 0;
-        CPM = 0;
-        CTR = 0;
+        System.out.println(numImpressions);
+        numClicks = dashboardPanel.getWindow().getControl().getModel().getCal().calClicks();
+        System.out.println(numClicks);
+        numUniques = dashboardPanel.getWindow().getControl().getModel().getCal().calUnique();
+        System.out.println(numUniques);
+        numConvos = dashboardPanel.getWindow().getControl().getModel().getCal().calConversion();
+        System.out.println(numConvos);
+        numBounces = dashboardPanel.getWindow().getControl().getModel().getCal().calBounce();
+        bounceRate = dashboardPanel.getWindow().getControl().getModel().getCal().calBounceRate();
+        totalCost = dashboardPanel.getWindow().getControl().getModel().getCal().calTotal();
+        CPA = dashboardPanel.getWindow().getControl().getModel().getCal().calCPA();
+        CPC = dashboardPanel.getWindow().getControl().getModel().getCal().calCPC();
+        CPM = dashboardPanel.getWindow().getControl().getModel().getCal().calCPM();
+        CTR = dashboardPanel.getWindow().getControl().getModel().getCal().calCTR();
 
         //  ---- Creating components ----
         JLabel titleLabel = new JLabel("Key Metrics");
