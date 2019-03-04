@@ -1,9 +1,13 @@
 package View;
 
+import Control.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class GuiFrame extends JFrame {
+
+    private Controller control;
 
     private Container window;
 
@@ -16,6 +20,10 @@ public class GuiFrame extends JFrame {
         super(title);
         window = this.getContentPane();
         this.init();
+    }
+
+    public void setControl(Controller control){
+        this.control = control;
     }
 
     private void init() {
