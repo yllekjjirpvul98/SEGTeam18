@@ -5,14 +5,15 @@ import java.awt.*;
 
 public class DashboardPanel extends JPanel {
 
+
     private GuiFrame window;
 
     JPanel centrePanel;
     JPanel northPanel;
 
-    private FilterPanel filterPanel = new FilterPanel(this);
-    private DataPanel dataPanel = new DataPanel(this);
-    private GraphPanel graphPanel = new GraphPanel(this);
+    private FilterPanel filterPanel;
+    private DataPanel dataPanel;
+    private GraphPanel graphPanel;
 
 
     public DashboardPanel(GuiFrame window){
@@ -21,7 +22,15 @@ public class DashboardPanel extends JPanel {
         this.init();
     }
 
+    public GuiFrame getWindow() {
+        return window;
+    }
+
     private void init(){
+
+        filterPanel = new FilterPanel(this);
+        dataPanel = new DataPanel(this);
+        graphPanel = new GraphPanel(this);
 
         //  ---- Creating Components ----
         JLabel title = new JLabel("DashBoard");

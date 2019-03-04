@@ -27,7 +27,7 @@ public class DataPanel extends JPanel {
 
     private void init(){
 
-        numImpressions = 0;
+        numImpressions = dashboardPanel.getWindow().getControl().getModel().getCal().calImpression();
         numClicks = 0;
         numUniques = 0;
         numConvos = 0;

@@ -7,28 +7,36 @@ import java.awt.*;
 
 public class GuiFrame extends JFrame {
 
+    public Controller getControl() {
+        return control;
+    }
+
     private Controller control;
 
     private Container window;
 
-    private LoginPanel loginPanel = new LoginPanel(this);
-    private HelpPanel helpPanel = new HelpPanel(this);
-    private DashboardPanel dashboardPanel = new DashboardPanel(this);
+    private LoginPanel loginPanel;
+    private HelpPanel helpPanel;
+    private DashboardPanel dashboardPanel;
 
 
     public GuiFrame (String title) {
         super(title);
         window = this.getContentPane();
-        this.init();
     }
 
     public void setControl(Controller control){
         this.control = control;
+        init();
     }
 
     private void init() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+
+        loginPanel = new LoginPanel(this);
+        helpPanel = new HelpPanel(this);
+        dashboardPanel = new DashboardPanel(this);
 
         this.add(loginPanel);
         this.pack();
