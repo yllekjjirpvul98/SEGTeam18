@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Database {
@@ -15,6 +16,14 @@ public class Database {
             statement = connect.createStatement();
         }catch (Exception e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void closeDatabase(){
+        try {
+            connect.close();
+        }catch(SQLException e){
+            e.printStackTrace();
         }
     }
 

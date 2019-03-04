@@ -76,13 +76,13 @@ public class Calculation {
     }
 
     public int calClicks(){
-        String query = "SELECT count(*) FROM Click INNER JOIN ";
-        String table = "CREATE TEMPORARY TABLE temp AS SELECT * FROM Impression ";
+        String query = "SELECT count(*) FROM Click INNER JOIN Impression ON Impression.ID = Click.ID";
+//        String table = "CREATE TEMPORARY TABLE temp AS SELECT I FROM Impression ";
         int count = 0;
         try {
-            statement.execute("DROP TABLE IF EXISTS temp;");
-            statement.execute(table);
-            query += "temp ON Click.ID = temp.ID ";
+//            statement.execute("DROP TABLE IF EXISTS temp;");
+//            statement.execute(table);
+//            query += "Impression ON Click.ID = temp.ID ";
             query += whereClause();
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
@@ -115,12 +115,12 @@ public class Calculation {
 
         int count = 0;
         String query = "SELECT count(*) FROM Server INNER JOIN ";
-        String table = "CREATE TEMPORARY TABLE tempI AS SELECT * FROM Impression";
+//        String table = "CREATE TEMPORARY TABLE tempI AS SELECT * FROM Impression";
 
         try{
-            statement.execute("DROP TABLE IF EXISTS tempI;");
-            statement.execute(table);
-            query += "tempI ON Server.ID = tempI.ID";
+//            statement.execute("DROP TABLE IF EXISTS tempI;");
+//            statement.execute(table);
+            query += "Impression ON Server.ID = Impression.ID";
 
             if(map.size()!=0) {
                 if (map.containsKey("times")) {
@@ -150,12 +150,12 @@ public class Calculation {
     public int calConversion(){
         int count = 0;
         String query = "SELECT count(*) FROM Server INNER JOIN ";
-        String table = "CREATE TEMPORARY TABLE tempImp AS SELECT * FROM Impression ";
+//        String table = "CREATE TEMPORARY TABLE tempImp AS SELECT * FROM Impression ";
 
         try{
-            statement.execute("DROP TABLE IF EXISTS tempImp;");
-            statement.execute(table);
-            query += "tempImp ON Server.ID = tempImp.ID ";
+//            statement.execute("DROP TABLE IF EXISTS tempImp;");
+//            statement.execute(table);
+            query += "Impression ON Server.ID = Impression.ID ";
             query += whereClause();
             query = query.replaceFirst(";", "");
             query += " AND Conversion = \"Yes\"";
