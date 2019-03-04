@@ -1,5 +1,7 @@
 package View;
 
+import Model.Calculation;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -26,22 +28,31 @@ public class DataPanel extends JPanel {
     }
 
     private void init(){
+        Calculation cal = dashboardPanel.getWindow().getControl().getModel().getCal();
+        numImpressions = cal.calImpression();
+        numClicks = cal.calClicks();
+        numUniques = cal.calUnique();
+        numConvos = 1;
+        numBounces = 1;
+        bounceRate = 1;
+        totalCost = 1;
+        CPA = totalCost/numConvos;
+        CPC = cal.calClickCost()/numClicks;
+        CPM = totalCost/(1000*numImpressions);
+        CTR = numClicks/numImpressions;
 
-        numImpressions = dashboardPanel.getWindow().getControl().getModel().getCal().calImpression();
-        System.out.println(numImpressions);
-        numClicks = dashboardPanel.getWindow().getControl().getModel().getCal().calClicks();
-        System.out.println(numClicks);
-        numUniques = dashboardPanel.getWindow().getControl().getModel().getCal().calUnique();
-        System.out.println(numUniques);
-        numConvos = dashboardPanel.getWindow().getControl().getModel().getCal().calConversion();
-        System.out.println(numConvos);
-        numBounces = dashboardPanel.getWindow().getControl().getModel().getCal().calBounce();
-        bounceRate = dashboardPanel.getWindow().getControl().getModel().getCal().calBounceRate();
-        totalCost = dashboardPanel.getWindow().getControl().getModel().getCal().calTotal();
-        CPA = dashboardPanel.getWindow().getControl().getModel().getCal().calCPA();
-        CPC = dashboardPanel.getWindow().getControl().getModel().getCal().calCPC();
-        CPM = dashboardPanel.getWindow().getControl().getModel().getCal().calCPM();
-        CTR = dashboardPanel.getWindow().getControl().getModel().getCal().calCTR();
+//        System.out.println(numClicks);
+
+//        System.out.println(numUniques);
+//        numConvos = dashboardPanel.getWindow().getControl().getModel().getCal().calConversion();
+//        System.out.println(numConvos);
+//        numBounces = dashboardPanel.getWindow().getControl().getModel().getCal().calBounce();
+//        bounceRate = dashboardPanel.getWindow().getControl().getModel().getCal().calBounceRate();
+//        totalCost = dashboardPanel.getWindow().getControl().getModel().getCal().calTotal();
+//        CPA = dashboardPanel.getWindow().getControl().getModel().getCal().calCPA();
+//        CPC = dashboardPanel.getWindow().getControl().getModel().getCal().calCPC();
+//        CPM = dashboardPanel.getWindow().getControl().getModel().getCal().calCPM();
+//        CTR = dashboardPanel.getWindow().getControl().getModel().getCal().calCTR();
 
         //  ---- Creating components ----
         JLabel titleLabel = new JLabel("Key Metrics");

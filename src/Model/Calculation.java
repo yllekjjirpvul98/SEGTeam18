@@ -63,7 +63,7 @@ public class Calculation {
 
     public int calImpression(){
         int count = 0;
-        String query = "SELECT count(*) FROM Impression ";
+        String query = "SELECT count(*) FROM Impression";
         query += whereClause();
         try {
             ResultSet rs = statement.executeQuery(query);
