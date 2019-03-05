@@ -1,14 +1,15 @@
 import Model.Model;
+import View.View;
 
 public class Start {
 
     public static void main(String[] args) {
         Model model = new Model();
-        View.GuiFrame view = new View.GuiFrame("Ad Auction Monitor");
+        View view = new View("Ad Auction Monitor");
         Control.Controller control = new Control.Controller(view, model);
 
-        model.setControl(control);
-        view.setControl(control);
+        model.init(control);
+        view.init(control);
 
         if (!(view.isActive())){
             control.getModel().getDb().closeDatabase();

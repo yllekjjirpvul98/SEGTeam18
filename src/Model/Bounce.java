@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class Bounce {
 
-    int time = 5;
-    int numOfPageVisited = 2;
-    boolean timeSet = false;
-    boolean numPageSet = false;
+    private int time = 5;
+    private int numOfPageVisited = 2;
+    private boolean timeSet = false;
+    private boolean numPageSet = false;
 
     Bounce(boolean timeSet, boolean numPageSet){
         this.timeSet = timeSet;

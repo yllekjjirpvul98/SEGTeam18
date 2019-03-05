@@ -2,8 +2,8 @@ package Model;
 
 public class Settings {
 
-    boolean colorBlind = false;
-    boolean largeText = false;
+    private boolean colorBlind = false;
+    private boolean largeText = false;
 
     Settings(boolean colorBlind, boolean largeText) {
         this.colorBlind = colorBlind;
