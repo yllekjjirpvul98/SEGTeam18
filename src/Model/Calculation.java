@@ -64,7 +64,7 @@ public class Calculation {
 
     public int calImpression(){
         int count = 0;
-        String query = "SELECT count(*) FROM impression_new";
+        String query = "SELECT count(*) FROM impression_new ";
         query += whereClause();
         try {
             ResultSet rs = statement.executeQuery(query);
@@ -77,7 +77,7 @@ public class Calculation {
     }
 
     public int calClicks(){
-        String query = "SELECT count(*) FROM click_new INNER JOIN impression_new ON impression_new.ID = click_new.ID";
+        String query = "SELECT count(*) FROM click_new INNER JOIN impression_new ON impression_new.ID = click_new.ID ";
 //        String table = "CREATE TEMPORARY TABLE temp AS SELECT I FROM Impression ";
         int count = 0;
         try {
@@ -85,6 +85,7 @@ public class Calculation {
 //            statement.execute(table);
 //            query += "impression_new ON Click.ID = temp.ID ";
             query += whereClause();
+            System.out.println(query);
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
                 count = rs.getInt("count(*)");
@@ -97,7 +98,7 @@ public class Calculation {
     public int calUnique(){
         String query = "SELECT count(*) FROM temp2 INNER JOIN impression_new ON impression_new.ID = temp2.ID ";
         query += whereClause();
-        String table = "CREATE TEMPORARY TABLE temp2 AS SELECT DISTINCT ID FROM click_new";
+        String table = "CREATE TEMPORARY TABLE temp2 AS SELECT DISTINCT ID FROM click_new ";
         int count = 0;
         try {
             statement.execute("DROP TABLE IF EXISTS temp2;");
@@ -121,7 +122,7 @@ public class Calculation {
         try{
 //            statement.execute("DROP TABLE IF EXISTS tempI;");
 //            statement.execute(table);
-            query += "impression_new ON server_new.ID = impression_new.ID";
+            query += "impression_new ON server_new.ID = impression_new.ID ";
 
             if(map.size()!=0) {
                 if (map.containsKey("times")) {

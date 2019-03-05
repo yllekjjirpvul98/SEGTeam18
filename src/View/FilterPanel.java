@@ -284,9 +284,15 @@ public class FilterPanel extends JPanel {
                 String sDate = date1.getText();
                 String eDate = date2.getText();
 
-                if(fil.getDateRangeSelected()) {
+                String dateFormat = "([0-9]{4})-([0-9]{2})-([0-9]{2})";
+
+                if(eDate.matches(dateFormat) && sDate.matches(dateFormat)){
                     fil.setdateLowerRange(Date.valueOf(sDate));
                     fil.setDateUpperRange(Date.valueOf(eDate));
+                } else{
+                    System.out.println("Invalid Date Format");
+                    fil.setDateRangeSelected(false);
+                    dateRangeCB.setSelected(false);
                 }
 
                 dashboardPanel.getDataPanel().updateData();
@@ -294,7 +300,7 @@ public class FilterPanel extends JPanel {
                 System.out.println("-----Filter values-----");
                 if(fil.getDateRangeSelected()) {
                     System.out.println("Start Date: " + fil.getDateLowerRange());
-                    System.out.println("Start Date: " + fil.getDateUpperRange());
+                    System.out.println("End Date: " + fil.getDateUpperRange());
                 }
                 if(fil.getGenderSelected())
                     System.out.println("Gender: " + fil.getGender());
