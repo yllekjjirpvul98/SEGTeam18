@@ -5,32 +5,24 @@ import Control.Controller;
 import javax.swing.*;
 import java.awt.*;
 
-public class GuiFrame extends JFrame {
-
-    public Controller getControl() {
-        return control;
-    }
+public class View extends JFrame {
 
     private Controller control;
 
     private Container window;
-
     private LoginPanel loginPanel;
     private HelpPanel helpPanel;
     private DashboardPanel dashboardPanel;
 
 
-    public GuiFrame (String title) {
+    public View(String title) {
         super(title);
         window = this.getContentPane();
     }
 
-    public void setControl(Controller control){
+    public void init(Controller control){
         this.control = control;
-        init();
-    }
 
-    private void init() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -57,6 +49,10 @@ public class GuiFrame extends JFrame {
 
         this.pack();
         this.setSize(windowSize);
+    }
+
+    public Controller getControl() {
+        return control;
     }
 
 }

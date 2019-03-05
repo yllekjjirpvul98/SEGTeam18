@@ -1,26 +1,31 @@
 package Control;
 
 import Model.Model;
-import View.GuiFrame;
+import View.View;
 
 public class Controller {
 
-    public GuiFrame getView() {
-        return view;
+    private View view;
+    private Model model;
+
+    public Controller(View view, Model model){
+        this.model = model;
+        this.view = view;
     }
 
-    private GuiFrame view;
+    public View getView() {
+        return view;
+    }
 
     public Model getModel() {
         return model;
     }
 
-    private Model model;
 
-    public Controller(GuiFrame view, Model model){
-        this.model = model;
-        this.view = view;
-    }
+
+
+
+
 
 
 

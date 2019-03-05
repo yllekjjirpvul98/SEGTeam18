@@ -12,7 +12,7 @@ public class Database {
     public void connectToDatabase(){
         //method to create database AdAuction using sql
         try {
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/adauction?" + "user=root&password=Yy26535980");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/adauction?" + "user=root&password=Lukinator247");
             statement = connect.createStatement();
         }catch (Exception e){
             System.out.println(e.getMessage());

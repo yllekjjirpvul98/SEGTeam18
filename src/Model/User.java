@@ -1,9 +1,9 @@
 package Model;
 
 public class User {
-    String username;
-    String password;
-    Database database;
+    private String username;
+    private String password;
+    private Database database;
 
     public String getUsername() {
         return username;

@@ -2,39 +2,47 @@ package Model;
 
 import Control.Controller;
 
-import java.sql.Date;
-
-import static Model.Filter.Context.News;
-
 public class Model {
 
     private Controller control;
 
-    public void setControl(Controller control){
-        this.control = control;
-        init();
-    }
-
-    private Calculation cal;
     private Database db;
+    private Filter filter;
+    private Bounce bounce;
+    private Settings settings;
+    private Calculation cal;
+
+
+    public void init(Controller control){
+        this.control = control;
+        db = new Database();
+        db.connectToDatabase();
+
+        filter = new Filter(false, false, false, false, false);
+        bounce = new Bounce(false, false);
+        settings = new Settings(false, false);
+        cal = new Calculation(db, bounce, filter);
+    }
 
     public Database getDb() {
         return db;
     }
 
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public Bounce getBounce() {
+        return bounce;
+    }
+
+    public Settings getSettings(){
+        return settings;
+    }
+
     public Calculation getCal() {
         return cal;
     }
-
-    public void init(){
-        db = new Database();
-        db.connectToDatabase();
-        Filter filter = new Filter(false, false, false, false, false);
-        Bounce bounce = new Bounce(false, false);
-        Settings settings = new Settings(false, false);
-        cal = new Calculation(db, bounce, filter);
-    }
-    public Model(){};
 
 //
 //        filter.setAgeSelected(true);

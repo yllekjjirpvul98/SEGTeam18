@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ClickParser implements Parser{
-    Database db;
+    private Database db;
 
     ClickParser(Database db){
         this.db = db;
@@ -25,7 +25,7 @@ public class ClickParser implements Parser{
 
     @Override
     public void loadDatabase() {
-        String filename = "AdAuction/src/2_week_campaign_1/2_week_campaign_2/click_log.csv";
+        String filename = "click_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";

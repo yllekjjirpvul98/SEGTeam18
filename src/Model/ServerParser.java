@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ServerParser implements Parser {
-    Database db;
+    private Database db;
 
     ServerParser (Database db){
         this.db = db;
@@ -27,7 +27,7 @@ public class ServerParser implements Parser {
 
     @Override
     public void loadDatabase() {
-        String filename = "AdAuction/src/2_week_campaign_1/2_week_campaign_2/server_log.csv";
+        String filename = "server_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";

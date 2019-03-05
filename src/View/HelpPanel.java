@@ -5,9 +5,9 @@ import java.awt.*;
 
 public class HelpPanel extends JPanel {
 
-    private GuiFrame window;
+    private View window;
 
-    public HelpPanel(GuiFrame window){
+    public HelpPanel(View window){
         this.window = window;
         this.setLayout(new BorderLayout());
         this.init();

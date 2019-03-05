@@ -6,23 +6,23 @@ import java.awt.*;
 public class DashboardPanel extends JPanel {
 
 
-    private GuiFrame window;
+    private View window;
 
-    JPanel centrePanel;
-    JPanel northPanel;
+    private JPanel centrePanel;
+    private JPanel northPanel;
 
     private FilterPanel filterPanel;
     private DataPanel dataPanel;
     private GraphPanel graphPanel;
 
 
-    public DashboardPanel(GuiFrame window){
+    public DashboardPanel(View window){
         this.window = window;
         this.setLayout(new BorderLayout());
         this.init();
     }
 
-    public GuiFrame getWindow() {
+    public View getWindow() {
         return window;
     }
 
@@ -129,6 +129,10 @@ public class DashboardPanel extends JPanel {
         centrePanel.add(filterPanel);
         //centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(Box.createRigidArea(new Dimension(80,0)));
+    }
+
+    public DataPanel getDataPanel(){
+        return dataPanel;
     }
 
 

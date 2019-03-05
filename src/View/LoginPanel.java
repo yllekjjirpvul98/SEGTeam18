@@ -7,11 +7,11 @@ import java.awt.event.MouseEvent;
 
 public class LoginPanel extends JPanel {
 
-    private GuiFrame window;
+    private View window;
     private String username;
     private String password;
 
-    public LoginPanel(GuiFrame window){
+    public LoginPanel(View window){
         this.window = window;
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.init();

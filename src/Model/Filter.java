@@ -6,17 +6,17 @@ import java.util.Map;
 
 public class Filter {
 
-    Date dateUpperRange = null;
-    Date dateLowerRange = null;
-    String gender = null;
-    String age = null;
-    String income = null;
-    Context context = null;
-    Boolean dateRangeSelected = false;
-    Boolean genderSelected = false;
-    Boolean ageSelected = false;
-    Boolean incomeSelected = false;
-    Boolean contextSelected = false;
+    private Date dateUpperRange = null;
+    private Date dateLowerRange = null;
+    private String gender = null;
+    private String age = null;
+    private String income = null;
+    private Context context = null;
+    private Boolean dateRangeSelected = false;
+    private Boolean genderSelected = false;
+    private Boolean ageSelected = false;
+    private Boolean incomeSelected = false;
+    private Boolean contextSelected = false;
 
     Filter(boolean dateRangeSelected, boolean genderSelected, boolean ageSelected, boolean incomeSelected, boolean contextSelected){
         this.dateRangeSelected = dateRangeSelected;
@@ -26,7 +26,7 @@ public class Filter {
         this.contextSelected = contextSelected;
     }
 
-    enum Context {
+    public enum Context {
         News,
         Blog,
         Hobbies,
