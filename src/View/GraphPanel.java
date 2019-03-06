@@ -13,7 +13,7 @@ public class GraphPanel extends JPanel {
     public GraphPanel(DashboardPanel dashboardPanel) {
         this.graph = new Graph();
         this.dashboardPanel = dashboardPanel;
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.setLayout(new BorderLayout());
         this.init();
     }
 
@@ -22,163 +22,127 @@ public class GraphPanel extends JPanel {
         //   ---- Creating components ----
 
         JLabel timeLab = new JLabel("Time Granularity: ");
-        timeLab.setFont(new Font("Courier", Font.PLAIN, 15));
+        timeLab.setFont(dashboardPanel.getWindow().getTextFont());
 
         JSlider timeSlide = new JSlider();
         timeSlide.setMinimum(0);
         timeSlide.setMaximum(99);
         timeSlide.setMaximumSize(new Dimension(200,30));
 
-        JButton lineBut = new JButton("Line Graph");
-        lineBut.setFont(new Font( "Courier", Font.BOLD, 15));
-        lineBut.setBackground(new Color(0x76B8FF));
-
-        JButton histBut = new JButton("Histogram");
-        histBut.setFont(new Font( "Courier", Font.BOLD, 15));
-        histBut.setBackground(Color.lightGray);
-
-        lineBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lineBut.setBackground(new Color(0x76B8FF));
-                histBut.setBackground(Color.lightGray);
-            }
-        });
-        histBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                histBut.setBackground(new Color(0x76B8FF));
-                lineBut.setBackground(Color.lightGray);
-            }
-        });
-
 
         // Metric Buttons
         JButton impressionsBut = new JButton("Impressions");
-        impressionsBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        impressionsBut.setBackground(Color.lightGray);
+        impressionsBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        impressionsBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton clicksBut = new JButton("Clicks");
-        clicksBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        clicksBut.setBackground(Color.lightGray);
+        clicksBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        clicksBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton uniquesBut = new JButton("Uniques");
-        uniquesBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        uniquesBut.setBackground(Color.lightGray);
+        uniquesBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        uniquesBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton convoBut = new JButton("Conversations");
-        convoBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        convoBut.setBackground(Color.lightGray);
+        convoBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        convoBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton bounceBut = new JButton("Bounces");
-        bounceBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        bounceBut.setBackground(Color.lightGray);
+        bounceBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        bounceBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton bounceRateBut = new JButton("Bounce Rate");
-        bounceRateBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        bounceRateBut.setBackground(Color.lightGray);
+        bounceRateBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        bounceRateBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton totalCostBut = new JButton("Total Cost");
-        totalCostBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        totalCostBut.setBackground(Color.lightGray);
+        totalCostBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        totalCostBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton cpaBut = new JButton("CPA");
-        cpaBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        cpaBut.setBackground(Color.lightGray);
+        cpaBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        cpaBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton cpcBut = new JButton("CPC");
-        cpcBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        cpcBut.setBackground(Color.lightGray);
+        cpcBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        cpcBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton cpmBut = new JButton("CPM");
-        cpmBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        cpmBut.setBackground(Color.lightGray);
+        cpmBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        cpmBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
         JButton ctaBut = new JButton("CTA");
-        ctaBut.setFont(new Font( "Courier", Font.PLAIN, 15));
-        ctaBut.setBackground(Color.lightGray);
+        ctaBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
+        ctaBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
 
 
         JButton addBut = new JButton("ADD");
-        addBut.setFont(new Font( "Courier", Font.BOLD, 15));
+        addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());;
         addBut.setBackground(new Color(0x9CFFAD));
 
         JButton deleteBut = new JButton("DEL");
-        deleteBut.setFont(new Font( "Courier", Font.BOLD, 15));
+        deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
         deleteBut.setBackground(new Color(0xFF8976));
 
 
 
 
         //  ---- Layout ----
-
-        JPanel row1 = new JPanel();
-        row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
-
-        row1.add(Box.createRigidArea(new Dimension(25,0)));
-        row1.add(timeLab);
-        row1.add(Box.createRigidArea(new Dimension(25, 0)));
-        row1.add(timeSlide);
-        row1.add(Box.createHorizontalGlue());
-        row1.add(lineBut);
-        row1.add(Box.createRigidArea(new Dimension(25,0)));
-        row1.add(histBut);
-        row1.add(Box.createRigidArea(new Dimension(25,0)));
-
-
-        JPanel row2 = new JPanel();
-        row2.setLayout(new BoxLayout(row2, BoxLayout.LINE_AXIS));
+        JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.LINE_AXIS));
 
         JPanel col1 = new JPanel();
         col1.setLayout(new BoxLayout(col1, BoxLayout.PAGE_AXIS));
 
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
         col1.add(impressionsBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(clicksBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(uniquesBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(convoBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(bounceBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(bounceRateBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(totalCostBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(cpaBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(cpcBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(cpmBut);
-        col1.add(Box.createRigidArea(new Dimension(0,10)));
+        col1.add(Box.createVerticalGlue());
         col1.add(ctaBut);
         col1.add(Box.createVerticalGlue());
 
-        JPanel col2 = new JPanel();
-        col2.setLayout(new BorderLayout());
-        col2.add(graph, BorderLayout.CENTER);
+        eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+        eastPanel.add(Box.createHorizontalGlue());
+        eastPanel.add(col1);
+        eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
-        row2.add(Box.createRigidArea(new Dimension(25,0)));
-        row2.add(col1);
-        row2.add(Box.createHorizontalGlue());
-        row2.add(col2);
+        JPanel centrePanel = new JPanel();
+        centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
+
+        JPanel row1 = new JPanel();
+        row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
+
+        row1.add(timeLab);
+        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+        row1.add(timeSlide);
+        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+        row1.add(Box.createHorizontalGlue());
+        row1.add(addBut);
+        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+        row1.add(deleteBut);
+        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+
+        centrePanel.add(row1);
+        centrePanel.add(graph);
 
 
-        JPanel row4 = new JPanel();
-        row4.setLayout(new BoxLayout(row4, BoxLayout.LINE_AXIS));
-
-        row4.add(Box.createRigidArea(new Dimension(25,0)));
-        row4.add(addBut);
-        row4.add(Box.createRigidArea(new Dimension(25,0)));
-        row4.add(deleteBut);
-        row4.add(Box.createHorizontalGlue());
-
-
-        this.add(row1);
-        this.add(row2);
-        this.add(row4);
-        this.add(Box.createRigidArea(new Dimension(0,50)));
+        this.add(centrePanel, BorderLayout.CENTER);
+        this.add(eastPanel, BorderLayout.EAST);
     }
 }

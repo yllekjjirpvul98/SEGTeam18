@@ -18,18 +18,18 @@ public class LoginPanel extends JPanel {
     }
 
     private void init(){
-        username = " Username                                         ";
-        password = " password                 ";
+        username = " Username";
+        password = " password";
 
         //  ---- Creating components ----
 
         JLabel title = new JLabel("Ad Auction Monitor");
-        title.setFont(new Font("Courier", Font.BOLD, 75));
-        title.setForeground(new Color(0x2865E1));
+        title.setFont(window.getTitleFont());
+        title.setForeground(window.getHeadingColour());
 
         JTextField usernameField = new JTextField(username);
-        usernameField.setFont(new Font("Courier", Font.PLAIN, 15));
-        usernameField.setMaximumSize(new Dimension(400,30));
+        usernameField.setFont(window.getTextFont());
+        usernameField.setMaximumSize(window.getHightBorderDim());
 
         usernameField.addMouseListener(new MouseAdapter() {
             @Override
@@ -39,8 +39,8 @@ public class LoginPanel extends JPanel {
         });
 
         JPasswordField passwordField = new JPasswordField(password);
-        passwordField.setFont(new Font("Courier", Font.PLAIN, 15));
-        passwordField.setMaximumSize(new Dimension(400,30));
+        passwordField.setFont(window.getTextFont());
+        passwordField.setMaximumSize(window.getHightBorderDim());
 
         passwordField.addMouseListener(new MouseAdapter() {
             @Override
@@ -49,16 +49,16 @@ public class LoginPanel extends JPanel {
             }
         });
 
-        JButton loginBut = new JButton("     Login     ");
-        loginBut.setFont(new Font ("Courier", Font.BOLD, 20));
-        loginBut.setMaximumSize(new Dimension(200,50));
-        loginBut.setBackground(new Color(0x76B8FF));
+        JButton loginBut = new JButton("   Login   ");
+        loginBut.setFont(window.getButtonTitleFont());
+        //loginBut.setMaximumSize(new Dimension(200,50));
+        loginBut.setBackground(window.getHighlightColor());
 
         loginBut.addActionListener(e -> window.changePanel("dashboardPanel"));
 
         JButton helpBut = new JButton("?");
-        helpBut.setFont(new Font( "Courier", Font.BOLD, 20));
-        helpBut.setBackground(Color.lightGray);
+        helpBut.setFont(window.getButtonBigFont());
+        helpBut.setBackground(window.getUnhighlightColor());
 
         helpBut.addActionListener(e -> window.changePanel("helpPanel"));
 
@@ -92,19 +92,19 @@ public class LoginPanel extends JPanel {
         row5.setLayout(new BoxLayout(row5, BoxLayout.LINE_AXIS));
         row5.add(Box.createHorizontalGlue());
         row5.add(helpBut);
-        row5.add(Box.createRigidArea(new Dimension(20,0)));
+        row5.add(Box.createRigidArea(window.getWidthBorderDim()));
 
-        this.add(Box.createRigidArea(new Dimension(0,100)));
+        this.add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 4)));  // 100 at 1440p
         this.add(row1);
-        this.add(Box.createRigidArea(new Dimension(0,150)));
+        this.add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 6)));  // 150 at 1440p
         this.add(row2);
-        this.add(Box.createRigidArea(new Dimension(0,25)));
+        this.add(Box.createRigidArea(window.getHightBorderDim()));
         this.add(row3);
-        this.add(Box.createRigidArea(new Dimension(0,100)));
+        this.add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 4)));  // 100 at 1440p
         this.add(row4);
         this.add(Box.createVerticalGlue());
         this.add(row5);
-        this.add(Box.createRigidArea(new Dimension(0,20)));
+        this.add(Box.createRigidArea(window.getHightBorderDim()));
 
 
     }

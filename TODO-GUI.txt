@@ -2,9 +2,7 @@ Selection Buttons - add listeners to change colour
 
 -- Past Increment 1 --
 
-Add variables that for font, size, colour that when changed are applied thoughout the interface
 Add settings panel
 Add campaign control panel
 Create histogram graph
-Make all dimensions relative
 Create a file that saves user settings to be loaded in at login stage
