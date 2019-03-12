@@ -1,10 +1,15 @@
-Selection Buttons - add listeners to change colour
+Graph to load in filtered data and split on time granularity value
+Selection Buttons - add listeners to change colour and data displayed on graph
+Time granularity adaptable
 
--- Past Increment 1 --
+Readjust dashboard layout to look less clutted - Data View in a tabel
 
-Add variables that for font, size, colour that when changed are applied thoughout the interface
-Add settings panel
-Add campaign control panel
+Change login screen to campaign select with file navigation to local database files (update logout to campaign select)
+
+Add settings panel - ability to change colour and size + accesibility settings (Greg)
+
 Create histogram graph
-Make all dimensions relative
+
+---- After Inc 2 ----
+
 Create a file that saves user settings to be loaded in at login stage
