@@ -9,6 +9,7 @@ public class HelpPanel extends JPanel {
 
     public HelpPanel(View window){
         this.window = window;
+        this.setBackground(window.getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
     }
@@ -24,8 +25,8 @@ public class HelpPanel extends JPanel {
         JLabel infoLabel1 = new JLabel("What is Ad Auction Monitor?");
         infoLabel1.setFont(window.getSubHeadingFont());
 
-
         JTextArea infoArea1 = new JTextArea("Ad Auction Monitor is a system which allows you\nto view performance of your advertising campaigns.\nThrough the use of editable filter you can apply to\nyour campaign data.");
+        infoArea1.setBackground(window.getBackgoundColor());
         infoArea1.setFont(window.getTextFont());
         infoArea1.setBackground(this.window.getBackground());
         infoArea1.setEditable(false);
@@ -34,6 +35,7 @@ public class HelpPanel extends JPanel {
         infoLabel2.setFont(window.getSubHeadingFont());
 
         JTextArea infoArea2 = new JTextArea("You can use Ad Auction monitor by..........");
+        infoArea2.setBackground(window.getBackgoundColor());
         infoArea2.setFont(window.getTextFont());
         infoArea2.setBackground(this.window.getBackground());
         infoArea2.setEditable(false);
@@ -42,6 +44,7 @@ public class HelpPanel extends JPanel {
         infoLabel3.setFont(window.getSubHeadingFont());
 
         JTextArea infoArea3 = new JTextArea("Word 1 - Description dsklfj sdkfjlsdk jslkd klsdf lks\nWord 2 - Description dfsdjf  sdjfls dkljf skjsdklj\nsdkj fskdj lskjlk djsflkjsd kf slkdjflks jf");
+        infoArea3.setBackground(window.getBackgoundColor());
         infoArea3.setFont(window.getTextFont());
         infoArea3.setBackground(this.window.getBackground());
         infoArea3.setEditable(false);
@@ -57,15 +60,18 @@ public class HelpPanel extends JPanel {
 
         // North Panel - Contains title and back
         JPanel northPanel = new JPanel();
+        northPanel.setBackground(window.getBackgoundColor());
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.PAGE_AXIS));
 
         JPanel row1n = new JPanel();
+        row1n.setBackground(window.getBackgoundColor());
         row1n.setLayout(new BoxLayout(row1n, BoxLayout.LINE_AXIS));
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
         row1n.add(backBut);
         row1n.add(Box.createHorizontalGlue());
 
         JPanel row2n = new JPanel();
+        row2n.setBackground(window.getBackgoundColor());
         row2n.setLayout(new BoxLayout(row2n, BoxLayout.LINE_AXIS));
         row2n.add(Box.createHorizontalGlue());
         row2n.add(title);
@@ -79,27 +85,32 @@ public class HelpPanel extends JPanel {
 
         // West Panel - Contains info1 and 2, then info3 and 4.
         JPanel westPanel = new JPanel();
+        westPanel.setBackground(window.getBackgoundColor());
         westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.PAGE_AXIS));
 
         JPanel row1w = new JPanel();
+        row1w.setBackground(window.getBackgoundColor());
         row1w.setLayout(new BoxLayout(row1w, BoxLayout.LINE_AXIS));
         row1w.add(Box.createRigidArea(new Dimension(window.getButtonTitleFont().getSize() * 3, 0)));  // 75 at 1440p
         row1w.add(infoLabel1);
         row1w.add(Box.createHorizontalGlue());
 
         JPanel row2w = new JPanel();
+        row2w.setBackground(window.getBackgoundColor());
         row2w.setLayout(new BoxLayout(row2w, BoxLayout.LINE_AXIS));
         row2w.add(Box.createRigidArea(new Dimension(window.getButtonTitleFont().getSize() * 3, 0)));  // 75 at 1440p
         row2w.add(infoArea1);
         row2w.add(Box.createHorizontalGlue());
 
         JPanel row3w = new JPanel();
+        row3w.setBackground(window.getBackgoundColor());
         row3w.setLayout(new BoxLayout(row3w, BoxLayout.LINE_AXIS));
         row3w.add(Box.createRigidArea(new Dimension(window.getButtonTitleFont().getSize() * 3, 0)));  // 75 at 1440p
         row3w.add(infoLabel2);
         row3w.add(Box.createHorizontalGlue());
 
         JPanel row4w = new JPanel();
+        row4w.setBackground(window.getBackgoundColor());
         row4w.setLayout(new BoxLayout(row4w, BoxLayout.LINE_AXIS));
         row4w.add(Box.createRigidArea(new Dimension(window.getButtonTitleFont().getSize() * 3, 0)));  // 75 at 1440p
         row4w.add(infoArea2);
@@ -116,9 +127,11 @@ public class HelpPanel extends JPanel {
 
         // East Panel - Contains info5 and 6.
         JPanel eastPanel = new JPanel();
+        eastPanel.setBackground(window.getBackgoundColor());
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
 
         JPanel row1e = new JPanel();
+        row1e.setBackground(window.getBackgoundColor());
         row1e.setLayout(new BoxLayout(row1e, BoxLayout.LINE_AXIS));
         row1e.add(Box.createHorizontalGlue());
         row1e.add(Box.createRigidArea(new Dimension(window.getButtonTitleFont().getSize() * 4, 0)));  // 100 at 1440p
@@ -126,6 +139,7 @@ public class HelpPanel extends JPanel {
         row1e.add(Box.createRigidArea(new Dimension(window.getButtonTitleFont().getSize() * 3, 0)));  // 75 at 1440p
 
         JPanel row2e = new JPanel();
+        row2e.setBackground(window.getBackgoundColor());
         row2e.setLayout(new BoxLayout(row2e, BoxLayout.LINE_AXIS));
         row2e.add(Box.createHorizontalGlue());
         row2e.add(Box.createRigidArea(new Dimension(window.getButtonTitleFont().getSize() * 4, 0)));  // 100 at 1440p

@@ -14,6 +14,12 @@ public class View extends JFrame {
     private Dimension widthBorderDim;
     private Dimension hightBorderDim;
 
+    private int textSizeXL;
+    private int textSizeL;
+    private int textSizeM;
+    private int textSizeS;
+    private int textSizeXS;
+
     private Font titleFont;
     private Font headingFont;
     private Font subHeadingFont;
@@ -23,12 +29,8 @@ public class View extends JFrame {
     private Font buttonBigFont;
     private Font buttonSmallFont;
 
-    private int textSizeXL;
-    private int textSizeL;
-    private int textSizeM;
-    private int textSizeS;
-    private int textSizeXS;
-
+    private Color backgoundColor;
+    private Color filterColor;
     private Color headingColour;
     private Color highlightColor;
     private Color unhighlightColor;
@@ -37,34 +39,38 @@ public class View extends JFrame {
     private LoginPanel loginPanel;
     private HelpPanel helpPanel;
     private DashboardPanel dashboardPanel;
+    private SettingsPanel settingsPanel;
+
 
     public View(String title) {
         super(title);
         screenDim = Toolkit.getDefaultToolkit().getScreenSize();
         windowDim = new Dimension(3 * ((screenDim.width)/4), 3 * ((screenDim.height)/4));
 
-        textSizeXL = (int) Math.round(screenDim.getHeight()/18); //80 at 1440p
-        textSizeL = (int) Math.round((textSizeXL/8)*5);          //50 at 1440p
-        textSizeM = (int) Math.round((textSizeXL/8)*3);          //30 at 1440p
-        textSizeS = (int) Math.round((textSizeXL/16)*5);         //25 at 1440p
-        textSizeXS = (int) Math.round((textSizeXL/16)*3);        //15 at 1440p
+        int textSizeXL = ((int) Math.round(screenDim.getHeight()/18)) + 2; //80 at 1440p
+        int textSizeL = ((int) Math.round((textSizeXL/8)*5)) + 2;          //50 at 1440p
+        int textSizeM = ((int) Math.round((textSizeXL/8)*3)) + 2;          //30 at 1440p
+        int textSizeS = ((int) Math.round((textSizeXL/16)*5)) + 2;         //25 at 1440p
+        int textSizeXS = ((int) Math.round((textSizeXL/16)*3)) + 2;        //15 at 1440p
 
         widthBorderDim = new Dimension(textSizeS,0);
         hightBorderDim = new Dimension(0, textSizeS);
 
 
-        titleFont = new Font("Courier", Font.BOLD, textSizeXL);
-        headingFont = new Font("Courier", Font.BOLD, textSizeL);
-        subHeadingFont = new Font("Courier", Font.PLAIN, textSizeM);
-        textFont = new Font("Courier", Font.PLAIN, textSizeXS);
-        textFontBold = new Font("Courier", Font.BOLD, textSizeXS);
-        buttonTitleFont = new Font("Courier", Font.BOLD, textSizeS);
-        buttonBigFont = new Font("Courier", Font.BOLD, textSizeXS);
-        buttonSmallFont = new Font("Courier", Font.PLAIN, textSizeXS);
+        titleFont = new Font("Verdana", Font.BOLD, textSizeXL);
+        headingFont = new Font("Verdana", Font.BOLD, textSizeL);
+        subHeadingFont = new Font("Verdana", Font.PLAIN, textSizeM);
+        textFont = new Font("Verdana", Font.PLAIN, textSizeXS);
+        textFontBold = new Font("Verdana", Font.BOLD, textSizeXS);
+        buttonTitleFont = new Font("Verdana", Font.BOLD, textSizeS);
+        buttonBigFont = new Font("Verdana", Font.BOLD, textSizeXS);
+        buttonSmallFont = new Font("Verdana", Font.PLAIN, textSizeXS);
 
-        headingColour = new Color(0x2865E1);
-        highlightColor = new Color(0x76B8FF);
-        unhighlightColor = Color.lightGray;
+        backgoundColor = new Color(0x8DABCF);
+        filterColor = new Color(0xEDB980);
+        headingColour = new Color(0xFBFBFB);
+        highlightColor = new Color(0x71B9FF);
+        unhighlightColor = new Color(0xF7F7F7);
     }
 
     public void init(Controller control){
@@ -77,8 +83,9 @@ public class View extends JFrame {
         loginPanel = new LoginPanel(this);
         helpPanel = new HelpPanel(this);
         dashboardPanel = new DashboardPanel(this);
+        settingsPanel = new SettingsPanel(this);
 
-        this.add(new SettingsPanel(this));
+        this.add(loginPanel);
         this.pack();
         this.setSize(windowDim);
     }
@@ -94,6 +101,8 @@ public class View extends JFrame {
             window.add(helpPanel);
         else if (panel.equals("dashboardPanel"))
             window.add(dashboardPanel);
+        else if (panel.equals("settingsPanel"))
+            window.add(settingsPanel);
 
         this.pack();
         this.setSize(windowSize);
@@ -109,6 +118,10 @@ public class View extends JFrame {
 
     public Dimension getWindowDim() {
         return windowDim;
+    }
+
+    public Color getBackgoundColor(){
+        return backgoundColor;
     }
 
     public Color getUnhighlightColor() {
@@ -163,6 +176,15 @@ public class View extends JFrame {
         return textFontBold;
     }
 
+    public void setHeadingColour(Color black) {
+    }
+
+    public void setHighlightColor(Color darkGray) {
+    }
+
+    public void setUnhighlightColor(Color gray) {
+    }
+
     public int getTextSizeXL() {
         return textSizeXL;
     }
@@ -203,15 +225,7 @@ public class View extends JFrame {
         this.textSizeXS = textSizeXS;
     }
 
-    public void setHeadingColour(Color headingColour) {
-        this.headingColour = headingColour;
-    }
-
-    public void setHighlightColor(Color highlightColor) {
-        this.highlightColor = highlightColor;
-    }
-
-    public void setUnhighlightColor(Color unhighlightColor) {
-        this.unhighlightColor = unhighlightColor;
+    public Color getFilterColor() {
+        return filterColor;
     }
 }

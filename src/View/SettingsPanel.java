@@ -94,7 +94,7 @@ public class SettingsPanel extends JPanel {
         backBut.setFont(new Font( "Courier", Font.BOLD, 20));
         backBut.setBackground(Color.lightGray);
 
-        backBut.addActionListener(e -> window.changePanel("loginPanel"));
+        backBut.addActionListener(e -> window.changePanel("dashboardPanel"));
 
         JPanel mainPanel = new JPanel();
 
