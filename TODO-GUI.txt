@@ -2,11 +2,12 @@ Graph to load in filtered data and split on time granularity value
 Selection Buttons - add listeners to change colour and data displayed on graph
 Time granularity adaptable
 
-Readjust dashboard layout to look less clutted - colours,boraders, drop down filter menu 
+
+Readjust dashboard layout to look less clutted - Data View in a tabel
 
 Change login screen to campaign select with file navigation to local database files (update logout to campaign select)
 
-Add settings panel - ability to change colour and size
+Add settings panel - ability to change colour and size + accesibility settings (Greg)
 
 Create histogram graph
 

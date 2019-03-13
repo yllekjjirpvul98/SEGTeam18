@@ -13,6 +13,7 @@ public class LoginPanel extends JPanel {
 
     public LoginPanel(View window){
         this.window = window;
+        this.setBackground(window.getBackgoundColor());
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.init();
     }
@@ -51,7 +52,6 @@ public class LoginPanel extends JPanel {
 
         JButton loginBut = new JButton("   Login   ");
         loginBut.setFont(window.getButtonTitleFont());
-        //loginBut.setMaximumSize(new Dimension(200,50));
         loginBut.setBackground(window.getHighlightColor());
 
         loginBut.addActionListener(e -> window.changePanel("dashboardPanel"));
@@ -65,30 +65,35 @@ public class LoginPanel extends JPanel {
         //  ---- Layout ----
 
         JPanel row1 = new JPanel();
+        row1.setBackground(window.getBackgoundColor());
         row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
         row1.add(Box.createHorizontalGlue());
         row1.add(title);
         row1.add(Box.createHorizontalGlue());
 
         JPanel row2 = new JPanel();
+        row2.setBackground(window.getBackgoundColor());
         row2.setLayout(new BoxLayout(row2, BoxLayout.LINE_AXIS));
         row2.add(Box.createHorizontalGlue());
         row2.add(usernameField);
         row2.add(Box.createHorizontalGlue());
 
         JPanel row3 = new JPanel();
+        row3.setBackground(window.getBackgoundColor());
         row3.setLayout(new BoxLayout(row3, BoxLayout.LINE_AXIS));
         row3.add(Box.createHorizontalGlue());
         row3.add(passwordField);
         row3.add(Box.createHorizontalGlue());
 
         JPanel row4 = new JPanel();
+        row4.setBackground(window.getBackgoundColor());
         row4.setLayout(new BoxLayout(row4, BoxLayout.LINE_AXIS));
         row4.add(Box.createHorizontalGlue());
         row4.add(loginBut);
         row4.add(Box.createHorizontalGlue());
 
         JPanel row5 = new JPanel();
+        row5.setBackground(window.getBackgoundColor());
         row5.setLayout(new BoxLayout(row5, BoxLayout.LINE_AXIS));
         row5.add(Box.createHorizontalGlue());
         row5.add(helpBut);

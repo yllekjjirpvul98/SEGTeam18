@@ -12,6 +12,7 @@ public class DashboardPanel extends JPanel {
 
     public DashboardPanel(View window){
         this.window = window;
+        this.setBackground(window.getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
     }
@@ -34,18 +35,30 @@ public class DashboardPanel extends JPanel {
         logoutBut.addActionListener(e -> window.changePanel("loginPanel"));
 
 
+        JButton settingsBut = new JButton("Settings");
+        settingsBut.setFont(window.getButtonBigFont());
+        settingsBut.setBackground(window.getUnhighlightColor());
+
+        settingsBut.addActionListener(e -> window.changePanel("settingsPanel"));
+
         // North Panel --- Logout & Title
         JPanel northPanel = new JPanel();
+        northPanel.setBackground(window.getBackgoundColor());
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.PAGE_AXIS));
 
         JPanel row1n = new JPanel();
+        row1n.setBackground(window.getBackgoundColor());
+
         row1n.setLayout(new BoxLayout(row1n, BoxLayout.LINE_AXIS));
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
         row1n.add(logoutBut);
         row1n.add(Box.createHorizontalGlue());
+        row1n.add(settingsBut);
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
 
         JPanel row2n = new JPanel();
+        row2n.setBackground(window.getBackgoundColor());
+
         row2n.setLayout(new BoxLayout(row2n, BoxLayout.LINE_AXIS));
         row2n.add(Box.createHorizontalGlue());
         row2n.add(title);

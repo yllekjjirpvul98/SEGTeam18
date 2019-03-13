@@ -1,5 +1,6 @@
 package Model;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,6 @@ public class Calculation {
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-
                 if(map.get("gender").size() == 1){
                     query += "Gender = \"" + map.get("gender").get(0) + "\"";
                 }
@@ -56,7 +56,6 @@ public class Calculation {
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-
                 if(map.get("age").size() == 1){
                     query += "Age = \"" + map.get("age").get(0) + "\"";
                 }
@@ -74,7 +73,6 @@ public class Calculation {
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-
                 if(map.get("income").size() == 1){
                     query += "Income = \"" + map.get("income").get(0) +"\"";
                 }
@@ -110,10 +108,7 @@ public class Calculation {
 
     public int calImpression(){
         int count = 0;
-
         String query = "SELECT count(ID) FROM Impression ";
-
-
         query += whereClause();
         try {
             ResultSet rs = statement.executeQuery(query);
@@ -200,6 +195,7 @@ public class Calculation {
 
     public int calConversion(){
         int count = 0;
+
         String query = "SELECT count(*) FROM Server INNER JOIN ";
 
         try{

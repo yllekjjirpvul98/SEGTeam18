@@ -14,7 +14,9 @@ public class FilterPanel extends JPanel {
 
     public FilterPanel(DashboardPanel dashboardPanel){
         this.dashboardPanel = dashboardPanel;
+        this.setBackground(dashboardPanel.getWindow().getFilterColor());
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        this.setBorder(BorderFactory.createRaisedBevelBorder());
         this.init();
     }
 
@@ -22,10 +24,8 @@ public class FilterPanel extends JPanel {
         Filter fil = dashboardPanel.getWindow().getControl().getModel().getFilter();
 
         //  ---- Creating components ----
-        JLabel titleLabel = new JLabel("Filters");
-        titleLabel.setFont(dashboardPanel.getWindow().getSubHeadingFont());
-
         JCheckBox dateRangeCB = new JCheckBox(" Date Range ");
+        dateRangeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         dateRangeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
         dateRangeCB.addActionListener(new ActionListener() {
@@ -37,6 +37,7 @@ public class FilterPanel extends JPanel {
         });
 
         JCheckBox genderCB = new JCheckBox(" Gender     ");
+        genderCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         genderCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
         genderCB.addActionListener(new ActionListener() {
@@ -48,6 +49,8 @@ public class FilterPanel extends JPanel {
         });
 
         JCheckBox ageCB = new JCheckBox(" Age        ");
+
+        ageCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
         ageCB.addActionListener(new ActionListener() {
@@ -59,6 +62,7 @@ public class FilterPanel extends JPanel {
         });
 
         JCheckBox incomeCB = new JCheckBox(" Income     ");
+        incomeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
         incomeCB.addActionListener(new ActionListener() {
@@ -70,6 +74,7 @@ public class FilterPanel extends JPanel {
         });
 
         JCheckBox contextCB = new JCheckBox(" Context    ");
+        contextCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         contextCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
         contextCB.addActionListener(new ActionListener() {
@@ -97,6 +102,7 @@ public class FilterPanel extends JPanel {
         ButtonGroup genGroup = new ButtonGroup();
 
         JRadioButton genRad1 = new JRadioButton("Male       ");
+        genRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         genRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
         genRad1.addActionListener(new ActionListener() {
@@ -107,6 +113,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton genRad2 = new JRadioButton("Female     ");
+        genRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         genRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
         genRad2.addActionListener(new ActionListener() {
@@ -123,6 +130,7 @@ public class FilterPanel extends JPanel {
         ButtonGroup ageGroup = new ButtonGroup();
 
         JRadioButton ageRad1 = new JRadioButton("< 25");
+        ageRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
         ageRad1.addActionListener(new ActionListener() {
@@ -133,6 +141,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton ageRad2 = new JRadioButton("25 - 34");
+        ageRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
         ageRad2.addActionListener(new ActionListener() {
@@ -143,6 +152,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton ageRad3 = new JRadioButton("35 - 44");
+        ageRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
         ageRad3.addActionListener(new ActionListener() {
@@ -153,6 +163,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton ageRad4 = new JRadioButton("45 - 54");
+        ageRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad4.setFont(dashboardPanel.getWindow().getTextFont());
 
         ageRad4.addActionListener(new ActionListener() {
@@ -163,6 +174,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton ageRad5 = new JRadioButton("> 54");
+        ageRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad5.setFont(dashboardPanel.getWindow().getTextFont());
 
         ageRad5.addActionListener(new ActionListener() {
@@ -182,6 +194,7 @@ public class FilterPanel extends JPanel {
         ButtonGroup incomeGroup = new ButtonGroup();
 
         JRadioButton incomeRad1 = new JRadioButton("Low");
+        incomeRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
         incomeRad1.addActionListener(new ActionListener() {
@@ -192,6 +205,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton incomeRad2 = new JRadioButton("Mid");
+        incomeRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
         incomeRad2.addActionListener(new ActionListener() {
@@ -202,6 +216,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton incomeRad3 = new JRadioButton("High");
+        incomeRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
         incomeRad3.addActionListener(new ActionListener() {
@@ -218,6 +233,7 @@ public class FilterPanel extends JPanel {
         ButtonGroup conGroup = new ButtonGroup();
 
         JRadioButton conRad1 = new JRadioButton("News");
+        conRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
         conRad1.addActionListener(new ActionListener() {
@@ -228,6 +244,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton conRad2 = new JRadioButton("Shopping");
+        conRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
         conRad2.addActionListener(new ActionListener() {
@@ -238,6 +255,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton conRad3 = new JRadioButton("Social Media");
+        conRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
         conRad3.addActionListener(new ActionListener() {
@@ -248,6 +266,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton conRad4 = new JRadioButton("Blog");
+        conRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad4.setFont(dashboardPanel.getWindow().getTextFont());
 
         conRad4.addActionListener(new ActionListener() {
@@ -258,6 +277,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton conRad5 = new JRadioButton("Hobbies");
+        conRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad5.setFont(dashboardPanel.getWindow().getTextFont());
 
         conRad5.addActionListener(new ActionListener() {
@@ -268,6 +288,7 @@ public class FilterPanel extends JPanel {
         });
 
         JRadioButton conRad6 = new JRadioButton("Travel");
+        conRad6.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad6.setFont(dashboardPanel.getWindow().getTextFont());
 
         conRad6.addActionListener(new ActionListener() {
@@ -328,9 +349,11 @@ public class FilterPanel extends JPanel {
 
         //  ---- Layout ----
         JPanel col1 = new JPanel();
+        col1.setBackground(dashboardPanel.getWindow().getFilterColor());
         col1.setLayout(new BoxLayout(col1, BoxLayout.PAGE_AXIS));
 
         JPanel c1r1 = new JPanel();
+        c1r1.setBackground(dashboardPanel.getWindow().getFilterColor());
         c1r1.setLayout(new BoxLayout(c1r1, BoxLayout.LINE_AXIS));
 
         c1r1.add(date1);
@@ -338,6 +361,7 @@ public class FilterPanel extends JPanel {
         c1r1.add(date1Label);
 
         JPanel c1r2 = new JPanel();
+        c1r2.setBackground(dashboardPanel.getWindow().getFilterColor());
         c1r2.setLayout(new BoxLayout(c1r2, BoxLayout.LINE_AXIS));
 
         c1r2.add(date2);
@@ -354,6 +378,7 @@ public class FilterPanel extends JPanel {
 
 
         JPanel col2 = new JPanel();
+        col2.setBackground(dashboardPanel.getWindow().getFilterColor());
         col2.setLayout(new BoxLayout(col2, BoxLayout.PAGE_AXIS));
 
         col2.add(Box.createVerticalGlue());
@@ -366,9 +391,11 @@ public class FilterPanel extends JPanel {
 
 
         JPanel col3 = new JPanel();
+        col3.setBackground(dashboardPanel.getWindow().getFilterColor());
         col3.setLayout(new BoxLayout(col3, BoxLayout.PAGE_AXIS));
 
         JPanel c3r1 = new JPanel();
+        c3r1.setBackground(dashboardPanel.getWindow().getFilterColor());
         c3r1.setLayout(new BoxLayout(c3r1, BoxLayout.LINE_AXIS));
 
         c3r1.add(ageRad1);
@@ -376,6 +403,7 @@ public class FilterPanel extends JPanel {
         c3r1.add(ageRad2);
 
         JPanel c3r2 = new JPanel();
+        c3r2.setBackground(dashboardPanel.getWindow().getFilterColor());
         c3r2.setLayout(new BoxLayout(c3r2, BoxLayout.LINE_AXIS));
 
         c3r2.add(ageRad3);
@@ -383,6 +411,7 @@ public class FilterPanel extends JPanel {
         c3r2.add(ageRad4);
 
         JPanel c3r3 = new JPanel();
+        c3r3.setBackground(dashboardPanel.getWindow().getFilterColor());
         c3r3.setLayout(new BoxLayout(c3r3, BoxLayout.LINE_AXIS));
 
         c3r3.add(ageRad5);
@@ -400,6 +429,7 @@ public class FilterPanel extends JPanel {
 
 
         JPanel col4 = new JPanel();
+        col4.setBackground(dashboardPanel.getWindow().getFilterColor());
         col4.setLayout(new BoxLayout(col4, BoxLayout.PAGE_AXIS));
 
         col4.add(Box.createVerticalGlue());
@@ -413,9 +443,11 @@ public class FilterPanel extends JPanel {
         col4.add(Box.createVerticalGlue());
 
         JPanel col5 = new JPanel();
+        col5.setBackground(dashboardPanel.getWindow().getFilterColor());
         col5.setLayout(new BoxLayout(col5, BoxLayout.PAGE_AXIS));
 
         JPanel c5r1 = new JPanel();
+        c5r1.setBackground(dashboardPanel.getWindow().getFilterColor());
         c5r1.setLayout(new BoxLayout(c5r1, BoxLayout.LINE_AXIS));
 
         c5r1.add(conRad1);
@@ -423,6 +455,7 @@ public class FilterPanel extends JPanel {
         c5r1.add(conRad2);
 
         JPanel c5r2 = new JPanel();
+        c5r2.setBackground(dashboardPanel.getWindow().getFilterColor());
         c5r2.setLayout(new BoxLayout(c5r2, BoxLayout.LINE_AXIS));
 
         c5r2.add(conRad3);
@@ -430,6 +463,7 @@ public class FilterPanel extends JPanel {
         c5r2.add(conRad4);
 
         JPanel c5r3 = new JPanel();
+        c5r3.setBackground(dashboardPanel.getWindow().getFilterColor());
         c5r3.setLayout(new BoxLayout(c5r3, BoxLayout.LINE_AXIS));
 
         c5r3.add(conRad5);
@@ -447,6 +481,7 @@ public class FilterPanel extends JPanel {
         col5.add(Box.createVerticalGlue());
 
         JPanel col6 = new JPanel();
+        col6.setBackground(dashboardPanel.getWindow().getFilterColor());
         col6.setLayout(new BoxLayout(col6, BoxLayout.PAGE_AXIS));
 
         col6.add(Box.createVerticalGlue());

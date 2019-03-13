@@ -1,47 +1,43 @@
 package View;
 
 import javax.swing.*;
-import javax.swing.SwingUtilities;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+import java.awt.*;
+import java.util.Date;
+import java.util.HashMap;
 
 public class Graph extends JPanel {
 
-    private String yAxisVar;
+    private GraphPanel graphPanel;
+    private String metric = "Impressions";  // Can be any of the metrics (selected via button pressed)
+    private String timeSplit = "Min";  // Can be Day, Hour, Min (selected by time granularity slider)
 
-    public Graph() {
+    public Graph(GraphPanel graphPanel) {
+        this.graphPanel = graphPanel;
+        this.setBackground(graphPanel.getDashboardPanel().getWindow().getBackgoundColor());
+        this.setLayout(new BorderLayout());
 
-        // Create dataset
-        DefaultCategoryDataset dataset = createDataset();
-        // Create chart
-        JFreeChart chart = ChartFactory.createLineChart(
-                "Ad Auction Campaign", // Chart title
-                "Date", // X-Axis Label
-                "Number of Clicks", // Y-Axis Label
-                dataset
-        );
+        DefaultCategoryDataset dataset = createDataset(metric, timeSplit);
+        JFreeChart chart = ChartFactory.createLineChart("", "Time" , metric, dataset);
+        chart.setBackgroundPaint(null);
 
-        ChartPanel panel = new ChartPanel(chart);
-        this.add(panel);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setBackground(graphPanel.getDashboardPanel().getWindow().getBackgoundColor());
+
+        this.add(chartPanel, BorderLayout.CENTER);
     }
 
-    private DefaultCategoryDataset createDataset() {
-
-        yAxisVar = "Number of clicks";
-        String series1 = yAxisVar;
-
+    private DefaultCategoryDataset createDataset(String metric, String timeSplit) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        dataset.addValue(200, series1, "2016-12-19");
-        dataset.addValue(150, series1, "2016-12-20");
-        dataset.addValue(100, series1, "2016-12-21");
-        dataset.addValue(210, series1, "2016-12-22");
-        dataset.addValue(240, series1, "2016-12-23");
-        dataset.addValue(195, series1, "2016-12-24");
-        dataset.addValue(245, series1, "2016-12-25");
+        HashMap<Double, Date> currentGraphData = new HashMap<>(); // Method call to Model to get HashMap<Double, Date>
+
+        for(Double d : currentGraphData.keySet()) {
+            dataset.addValue(d, this.metric, currentGraphData.get(d));
+        }
 
         return dataset;
     }
