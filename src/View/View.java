@@ -19,7 +19,6 @@ public class View extends JFrame {
     private int textSizeM;
     private int textSizeS;
     private int textSizeXS;
-
     private Font titleFont;
     private Font headingFont;
     private Font subHeadingFont;
@@ -28,7 +27,6 @@ public class View extends JFrame {
     private Font buttonTitleFont;
     private Font buttonBigFont;
     private Font buttonSmallFont;
-
     private Color backgoundColor;
     private Color filterColor;
     private Color headingColour;
@@ -55,7 +53,6 @@ public class View extends JFrame {
 
         widthBorderDim = new Dimension(textSizeS,0);
         hightBorderDim = new Dimension(0, textSizeS);
-
 
         titleFont = new Font("Verdana", Font.BOLD, textSizeXL);
         headingFont = new Font("Verdana", Font.BOLD, textSizeL);

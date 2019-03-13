@@ -36,53 +36,6 @@ public class GraphPanel extends JPanel {
         metricSelect.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         metricSelect.setFont(dashboardPanel.getWindow().getTextFont());
 
-
-        // Metric Buttons
-//        JButton impressionsBut = new JButton("Impressions");
-//        impressionsBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        impressionsBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton clicksBut = new JButton("Clicks");
-//        clicksBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        clicksBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton uniquesBut = new JButton("Uniques");
-//        uniquesBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        uniquesBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton convoBut = new JButton("Conversations");
-//        convoBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        convoBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton bounceBut = new JButton("Bounces");
-//        bounceBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        bounceBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton bounceRateBut = new JButton("Bounce Rate");
-//        bounceRateBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        bounceRateBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton totalCostBut = new JButton("Total Cost");
-//        totalCostBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        totalCostBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton cpaBut = new JButton("CPA");
-//        cpaBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        cpaBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton cpcBut = new JButton("CPC");
-//        cpcBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        cpcBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton cpmBut = new JButton("CPM");
-//        cpmBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        cpmBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//
-//        JButton ctaBut = new JButton("CTA");
-//        ctaBut.setFont(dashboardPanel.getWindow().getButtonSmallFont());
-//        ctaBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-
-
         JButton addBut = new JButton("ADD");
         addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());;
         addBut.setBackground(new Color(0x9CFFAD));
@@ -97,37 +50,7 @@ public class GraphPanel extends JPanel {
         eastPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.LINE_AXIS));
 
-//        JPanel col1 = new JPanel();
-//        col1.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-//        col1.setLayout(new BoxLayout(col1, BoxLayout.PAGE_AXIS));
-//
-//        col1.add(impressionsBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(clicksBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(uniquesBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(convoBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(bounceBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(bounceRateBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(totalCostBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(cpaBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(cpcBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(cpmBut);
-//        col1.add(Box.createVerticalGlue());
-//        col1.add(ctaBut);
-//        col1.add(Box.createVerticalGlue());
-
         eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-//        eastPanel.add(Box.createHorizontalGlue());
-//        eastPanel.add(col1);
-//        eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
         JPanel centrePanel = new JPanel();
         centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
@@ -144,6 +67,7 @@ public class GraphPanel extends JPanel {
         row1.add(Box.createHorizontalGlue());
         row1.add(metricSelect);
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+
         row1.add(addBut);
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
         row1.add(deleteBut);

@@ -7,6 +7,7 @@ import java.awt.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+
 public class DataPanel extends JPanel {
 
     private DashboardPanel dashboardPanel;
@@ -91,46 +92,55 @@ public class DataPanel extends JPanel {
 
         JLabel metricLabel3 = new JLabel("Number of Uniques:");
         metricLabel3.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue3 = new JLabel();
         metricValue3.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel4 = new JLabel("Number of Conversations:");
         metricLabel4.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue4 = new JLabel();
         metricValue4.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel5 = new JLabel("Number of Bounces:");
         metricLabel5.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue5 = new JLabel();
         metricValue5.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel6 = new JLabel("Bounce Rate:");
         metricLabel6.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue6 = new JLabel();
         metricValue6.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel7 = new JLabel("Total Cost:");
         metricLabel7.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue7 = new JLabel();
         metricValue7.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel8 = new JLabel("Cost per Acquisition:");
         metricLabel8.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue8 = new JLabel();
         metricValue8.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel9 = new JLabel("Cost per Click:");
         metricLabel9.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue9 = new JLabel();
         metricValue9.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel10 = new JLabel("Cost per 1000 Impressions:");
         metricLabel10.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue10 = new JLabel();
         metricValue10.setFont(dashboardPanel.getWindow().getTextFont());
 
         JLabel metricLabel11 = new JLabel("Click Through Rate:");
         metricLabel11.setFont(dashboardPanel.getWindow().getTextFont());
+
         metricValue11 = new JLabel();
         metricValue11.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -168,6 +178,7 @@ public class DataPanel extends JPanel {
 
 
         JPanel rightPanel = new JPanel();
+
         rightPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
 

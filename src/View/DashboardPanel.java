@@ -34,6 +34,7 @@ public class DashboardPanel extends JPanel {
 
         logoutBut.addActionListener(e -> window.changePanel("loginPanel"));
 
+
         JButton settingsBut = new JButton("Settings");
         settingsBut.setFont(window.getButtonBigFont());
         settingsBut.setBackground(window.getUnhighlightColor());
@@ -47,6 +48,7 @@ public class DashboardPanel extends JPanel {
 
         JPanel row1n = new JPanel();
         row1n.setBackground(window.getBackgoundColor());
+
         row1n.setLayout(new BoxLayout(row1n, BoxLayout.LINE_AXIS));
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
         row1n.add(logoutBut);
@@ -56,6 +58,7 @@ public class DashboardPanel extends JPanel {
 
         JPanel row2n = new JPanel();
         row2n.setBackground(window.getBackgoundColor());
+
         row2n.setLayout(new BoxLayout(row2n, BoxLayout.LINE_AXIS));
         row2n.add(Box.createHorizontalGlue());
         row2n.add(title);

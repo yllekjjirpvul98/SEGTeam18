@@ -49,6 +49,7 @@ public class FilterPanel extends JPanel {
         });
 
         JCheckBox ageCB = new JCheckBox(" Age        ");
+
         ageCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 

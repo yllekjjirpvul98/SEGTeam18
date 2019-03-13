@@ -1,10 +1,12 @@
 package Model;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+
+import static Model.Filter.Context.News;
 
 public class Calculation {
 
@@ -24,52 +26,94 @@ public class Calculation {
 
     //apply filter
     public String whereClause(){
-        Map<String, String> map = filter.getFilterArray();
+        Map<String, ArrayList<String>> map = filter.getFilterArray();
         String query = "";
         if (map.size() != 0){
             query += "WHERE ";
             if (map.containsKey("dateRange")){
-                String[] two = map.get("dateRange").split("\\+");
+                String[] two = map.get("dateRange").get(0).split("\\+");
                 query += "ImpressionDate between '" + two[0] + " 00:00:00' and '" + two[1] + " 23:59:00'";
             }
             if (map.containsKey("gender")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Gender = \"" + map.get("gender") + "\"";
+                if(map.get("gender").size() == 1){
+                    query += "Gender = \"" + map.get("gender").get(0) + "\"";
+                }
+                if(map.get("gender").size() != 1){
+                    query += "(";
+                    query += "Gender = \"" + map.get("gender").get(0) + "\"";
+
+                    map.get("gender").remove(0);
+                    for(String g : map.get("gender")){
+                        query += " OR Gender = \"" + g + "\"";
+                    } query += ") ";
+                }
             }
 
             if (map.containsKey("age")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Age = \"" + map.get("age") + "\"";
+                if(map.get("age").size() == 1){
+                    query += "Age = \"" + map.get("age").get(0) + "\"";
+                }
+                if(map.get("age").size() != 1){
+                    query += "(" ;
+                    query += "Age = \"" + map.get("age").get(0) + "\"";
+                    map.get("age").remove(0);
+                    for(String a : map.get("age")){
+                        query += " OR Age = \"" + a + "\"";
+                    }query += ") ";
+                }
             }
 
             if (map.containsKey("income")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Income = \"" + map.get("income") +"\"";
+                if(map.get("income").size() == 1){
+                    query += "Income = \"" + map.get("income").get(0) +"\"";
+                }
+                if(map.get("income").size() > 1){
+                    query += "(";
+                    query += "Income = \"" + map.get("income").get(0) +"\"";
+                    map.get("income").remove(0);
+                    for(String in : map.get("income")){
+                        query += " OR Age = \"" + in + "\"";
+                    }query += ") ";
+                }
             }
             if (map.containsKey("context")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Context = \"" + map.get("context") + "\"";
+                if(map.get("context").size() == 1){
+                    query += "Context = \"" + map.get("context").get(0) + "\"";
+                }
+                if(map.get("context").size() > 1){
+                    query += "(";
+                    query += "Context = \"" + map.get("context").get(0) + "\"";
+                    map.get("context").remove(0);
+                    for(String context : map.get("context")){
+                        query += " OR context = \"" + context + "\"";
+                    }query += ") ";
+                }
             }
             query += ";";
-        }return query;
+        }
+        return query;
     }
 
     public int calImpression(){
         int count = 0;
-        String query = "SELECT count(*) FROM impression_new ";
+        String query = "SELECT count(ID) FROM Impression ";
         query += whereClause();
         try {
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
-                count = rs.getInt("count(*)");
+                count = rs.getInt("count(ID)");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,18 +121,16 @@ public class Calculation {
     }
 
     public int calClicks(){
-        String query = "SELECT count(*) FROM click_new INNER JOIN impression_new ON impression_new.ID = click_new.ID ";
-//        String table = "CREATE TEMPORARY TABLE temp AS SELECT I FROM Impression ";
+
+        String query = "SELECT count(Click.ID) FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
+
         int count = 0;
         try {
-//            statement.execute("DROP TABLE IF EXISTS temp;");
-//            statement.execute(table);
-//            query += "impression_new ON Click.ID = temp.ID ";
             query += whereClause();
-            System.out.println(query);
+
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
-                count = rs.getInt("count(*)");
+                count = rs.getInt("count(Click.ID)");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,13 +138,16 @@ public class Calculation {
     }
 
     public int calUnique(){
-        String query = "SELECT count(*) FROM temp2 INNER JOIN impression_new ON impression_new.ID = temp2.ID ";
+
+        String query = "SELECT count(*) FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
         query += whereClause();
-        String table = "CREATE TEMPORARY TABLE temp2 AS SELECT DISTINCT ID FROM click_new ";
+        query = query.substring(0, query.length()-1);
+        query +=  " group by Click.ID;";
+
         int count = 0;
         try {
-            statement.execute("DROP TABLE IF EXISTS temp2;");
-            statement.execute(table);
+//            statement.execute("DROP TABLE IF EXISTS temp2;");
+//            statement.execute(table);
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
                 count = rs.getInt("count(*)");
@@ -116,21 +161,20 @@ public class Calculation {
         Map<String, Integer> map = bounce.getBounceSettings();
 
         int count = 0;
-        String query = "SELECT count(*) FROM server_new INNER JOIN ";
-//        String table = "CREATE TEMPORARY TABLE tempI AS SELECT * FROM impression_new";
+
+        String query = "SELECT count(*) FROM Server INNER JOIN ";
 
         try{
-//            statement.execute("DROP TABLE IF EXISTS tempI;");
-//            statement.execute(table);
-            query += "impression_new ON server_new.ID = impression_new.ID ";
+
+            query += "Impression ON Server.ID = Impression.ID ";
 
             if(map.size()!=0) {
                 if (map.containsKey("times")) {
                     String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, TIME_TO_SEC(DATEDIFF(EntryDate, ExitDate)) =  "
-                            + map.get("times") + " FROM server_new";
+                            + map.get("times") + " FROM Server";
                     statement.execute("DROP TABLE IF EXISTS tempTime;");
                     statement.execute(tableB);
-                    query += " INNER JOIN tempTime ON server_new.ID = tempTime.ID";
+                    query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
                 }
             }
             query += " " + whereClause();
@@ -151,13 +195,12 @@ public class Calculation {
 
     public int calConversion(){
         int count = 0;
-        String query = "SELECT count(*) FROM server_new INNER JOIN ";
-//        String table = "CREATE TEMPORARY TABLE tempImp AS SELECT * FROM impression_new ";
+
+        String query = "SELECT count(*) FROM Server INNER JOIN ";
 
         try{
-//            statement.execute("DROP TABLE IF EXISTS tempImp;");
-//            statement.execute(table);
-            query += "impression_new ON server_new.ID = impression_new.ID ";
+            query += "Impression ON Server.ID = Impression.ID ";
+
             query += whereClause();
             query = query.replaceFirst(";", "");
             query += " AND Conversion = \"Yes\"";
@@ -173,63 +216,301 @@ public class Calculation {
         return count;
     }
 
-    public float calClickCost(){
+    public float calClickCost() {
         float clickCost = 0;
-        String clickQuery = "SELECT sum(clickCost) FROM click_new INNER JOIN ";
-        String table = "CREATE TEMPORARY TABLE tempImpression AS SELECT * FROM impression_new ";
 
-        try{
-            statement.execute("DROP TABLE IF EXISTS tempImpression;");
-            statement.execute(table);
-            clickQuery += "tempImpression ON click_new.ID = tempImpression.ID ";
-            clickQuery += whereClause();
+        String clickQuery = "SELECT sum(clickCost) FROM Click INNER JOIN ";
 
-            ResultSet rs = statement.executeQuery(clickQuery);
-            while(rs.next()){
-                clickCost = rs.getInt("sum(clickCost)");
+        try {
+            clickQuery += "Impression ON Click.ID = Impression.id ";
+                clickQuery += whereClause();
+
+                ResultSet rs = statement.executeQuery(clickQuery);
+                while (rs.next()) {
+                    clickCost = rs.getInt("sum(clickCost)");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        }catch (SQLException e){
-            e.printStackTrace();
+
+            return clickCost;
+    }
+
+
+        public float calTotal(){
+            float impressionCost = 0;
+
+            String impQuery = "SELECT sum(ImpressionCost) FROM Impression ";
+            impQuery += whereClause();
+
+            try{
+                ResultSet rsi = statement.executeQuery(impQuery);
+                while(rsi.next()){
+                    impressionCost = rsi.getInt("sum(ImpressionCost)");
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            return calClickCost()+impressionCost;
         }
 
-        return clickCost;
-    }
-
-    public float calTotal(){
-        float impressionCost = 0;
-
-        String impQuery = "SELECT sum(ImpressionCost) FROM impression_new ";
-        impQuery += whereClause();
-
-        try{
-            ResultSet rsi = statement.executeQuery(impQuery);
-            while(rsi.next()){
-                impressionCost = rsi.getInt("sum(ImpressionCost)");
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
+        public double calCTR(){
+            return calClicks()/calImpression();
         }
 
-        return calClickCost()+impressionCost;
+        public double calCPA(){
+            return calTotal()/calConversion();
+        }
+
+        public double calCPC(){
+            return calClickCost()/calClicks();
+        }
+
+        public double calCPM(){
+            return calTotal()/(1000*calImpression());
+        }
+
+        public double calBounceRate(){
+            return calBounce()/calClicks();
+        }
+
+    public Map<String, Integer> getTimeG (String metric, String timeG){
+        Map<String, Integer> granularity = new HashMap<String, Integer>();
+
+        /*
+            timeG : year => return String in the format "2019", "2020" ...
+            timeG : month => return String in the format "1", "2" ...
+            timeG : date => return String in the format "2015-01-01"...
+            timeG : week => return String in the format "0", "1" ... representing week of the year
+            timeG : hour => return String in the format "2015-01-02 8", "2015-01-02 7" representing hour of the day
+         */
+
+
+        if(metric.equals("Impression")){
+                String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Impression ";
+                query += whereClause();
+                query = query.replaceFirst(";", "");
+                query += " GROUP BY Granularity ORDER BY Granularity";
+                if (timeG.equals("hour")) {
+                    query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+                }
+            try {
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    String date = rs.getString("Granularity");
+                    int datapoint = rs.getInt("count(*)");
+                    granularity.put(date, datapoint);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if(metric.equals("Clicks")){
+            String query = "SELECT count(Click.ID), " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
+
+            try {
+                query += whereClause();
+                query = query.replaceFirst(";", "");
+                query += " GROUP BY Granularity ORDER BY Granularity";
+                if (timeG.equals("hour")) {
+                    query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+                }
+
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    String date = rs.getString("Granularity");
+                    int datapoint = rs.getInt("count(Click.ID)");
+                    granularity.put(date, datapoint);
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(metric.equals("Unique")){
+            String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
+            query += whereClause();
+            query = query.substring(0, query.length()-1);
+            query = query.replaceFirst(";", "");
+            query +=  " group by Click.ID, Granularity ORDER BY Granularity";
+            if (timeG.equals("hour")) {
+                query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+            }
+            try {
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    String date = rs.getString("Granularity");
+                    int datapoint = rs.getInt("count(*)");
+                    granularity.put(date, datapoint);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(metric.equals("Bounce")){
+            Map<String, Integer> map = bounce.getBounceSettings();
+
+            String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Server INNER JOIN ";
+
+            try{
+
+                query += "Impression ON Server.ID = Impression.ID ";
+
+                if(map.size()!=0) {
+                    if (map.containsKey("times")) {
+                        String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, TIME_TO_SEC(DATEDIFF(EntryDate, ExitDate)) =  "
+                                + map.get("times") + " FROM Server";
+                        statement.execute("DROP TABLE IF EXISTS tempTime;");
+                        statement.execute(tableB);
+                        query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
+                    }
+                }
+                query += " " + whereClause();
+                if (map.containsKey("numPage")){
+                    query = query.replaceFirst(";", "");
+                    query += " AND PageViewed = \"" + map.get("numPage");
+                }
+                query += " GROUP BY Granularity ORDER BY Granularity";
+                if (timeG.equals("hour")) {
+                    query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+                }
+
+
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    String date = rs.getString("Granularity");
+                    int datapoint = rs.getInt("count(*)");
+                    granularity.put(date, datapoint);
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+
+        if(metric.equals("Conversion")){
+            String query = "SELECT count(*) " + timeG + "(ImpressionDate) AS Granularity FROM Server INNER JOIN ";
+
+            try{
+                query += "Impression ON Server.ID = Impression.ID ";
+
+                query += whereClause();
+                query = query.replaceFirst(";", "");
+                query += " AND Conversion = \"Yes\"";
+
+                query += " GROUP BY Granularity ORDER BY Granularity";
+                if (timeG.equals("hour")) {
+                    query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+                }
+
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    String date = rs.getString("Granularity");
+                    int datapoint = rs.getInt("count(*)");
+                    granularity.put(date, datapoint);
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+
+        if(metric.equals("TotalCost")){
+
+            String totalQuery = "SELECT sum(clickCost)+sum(ImpressionCost), " +timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN ";
+
+            try {
+                totalQuery += "Impression ON Click.ID = Impression.ID ";
+                totalQuery += whereClause();
+
+                totalQuery = totalQuery.replaceFirst(";", "");
+                totalQuery += " GROUP BY Granularity ORDER BY Granularity";
+                if (timeG.equals("hour")) {
+                    totalQuery = totalQuery.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+                }
+
+                ResultSet rs = statement.executeQuery(totalQuery);
+
+                while (rs.next()) {
+                    String date = rs.getString("Granularity");
+                    int datapoint = rs.getInt("sum(clickCost)+sum(ImpressionCost)");
+                    granularity.put(date, datapoint);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return granularity;
     }
 
-    public double calCTR(){
-        return calClicks()/calImpression();
-    }
-
-    public double calCPA(){
-        return calTotal()/calConversion();
-    }
-
-    public double calCPC(){
-        return calClickCost()/calClicks();
-    }
-
-    public double calCPM(){
-        return calTotal()/(1000*calImpression());
-    }
-
-    public double calBounceRate(){
-        return calBounce()/calClicks();
-    }
+//    public static void main(String[] args){
+//            Database db = new Database();
+//            db.connectToDatabase();
+//
+//            Filter filter = new Filter(false, false, false, false, false);
+//            Bounce bounce = new Bounce(false, false);
+//            Settings settings = new Settings(false, false);
+//            Calculation cal = new Calculation(db, bounce, filter);
+//            filter.setAgeSelected(true);
+//            filter.setAge("<25");
+//            filter.setContextSelected(true);
+//            filter.setContext(News);
+//            filter.setGenderSelected(true);
+//            filter.setGender("Female");
+//            filter.setGender("Male");
+//            filter.setDateRangeSelected(true);
+//            filter.setdateLowerRange(Date.valueOf("2015-01-01"));
+//            filter.setDateUpperRange(Date.valueOf("2015-01-02"));
+//            filter.setIncomeSelected(true);
+//            filter.setIncome("High");
+//            bounce.setTimeSet(true);
+//            bounce.setNumPageSet(true);
+//            bounce.setTime(30);
+//            bounce.setNumOfPageVisited(4);
+//
+////            float starttime = System.nanoTime();
+////            float time = System.nanoTime();
+////            System.out.println(cal.calImpression());
+////            float time_diff = System.nanoTime() - time;
+////            time = System.nanoTime();
+////            System.out.println("calImpression():" + time_diff/1_000_000_000);
+////
+////            System.out.println(cal.calClicks());
+////            time_diff = System.nanoTime() - time;
+////            time = System.nanoTime();
+////            System.out.println("calClicks():" + time_diff/1_000_000_000);
+////
+////            System.out.println(cal.calUnique());
+////            time_diff = System.nanoTime() - time;
+////            time = System.nanoTime();
+////            System.out.println("calUnique():" + time_diff/1_000_000_000);
+////
+////            System.out.println(cal.calBounce());
+////            time_diff = System.nanoTime() - time;
+////            time = System.nanoTime();
+////            System.out.println("calBounce():" + time_diff/1_000_000_000);
+////
+////            System.out.println(cal.calConversion());
+////            time_diff = System.nanoTime() - time;
+////            time = System.nanoTime();
+////            System.out.println("calConversion():" + time_diff/1_000_000_000);
+////
+////            System.out.println(cal.calTotal());
+////            time_diff = System.nanoTime() - time;
+////            time = System.nanoTime();
+////            System.out.println("calTotal():" + time_diff/1_000_000_000);
+////            double endtime = System.nanoTime()-starttime;
+////            System.out.println("Total time : " + endtime/1_000_000_000);
+//
+//            Map<String, Integer> map = cal.getTimeG("Impression", "hour");
+//            for (String d : map.keySet()){
+//                System.out.println(d);
+//                System.out.println(map.get(d));
+//            }
+//        }
 }

@@ -2,6 +2,7 @@ Graph to load in filtered data and split on time granularity value
 Selection Buttons - add listeners to change colour and data displayed on graph
 Time granularity adaptable
 
+
 Readjust dashboard layout to look less clutted - Data View in a tabel
 
 Change login screen to campaign select with file navigation to local database files (update logout to campaign select)

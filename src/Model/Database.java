@@ -21,6 +21,9 @@ public class Database {
 
     public void closeDatabase(){
         try {
+            statement.execute("DROP Table Click");
+            statement.execute("DROP Table Server");
+            statement.execute("DROP TABLE Impression");
             connect.close();
         }catch(SQLException e){
             e.printStackTrace();
