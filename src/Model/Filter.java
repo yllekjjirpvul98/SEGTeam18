@@ -1,5 +1,5 @@
 package Model;
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,10 +8,10 @@ public class Filter {
 
     private Date dateUpperRange = null;
     private Date dateLowerRange = null;
-    private String gender = null;
-    private String age = null;
-    private String income = null;
-    private Context context = null;
+    private ArrayList<String> gender = new ArrayList<String>();
+    private ArrayList<String> age = new ArrayList<String>();
+    private ArrayList<String> income = new ArrayList<String>();
+    private ArrayList<Context> context = new ArrayList<Context>();
     private Boolean dateRangeSelected = false;
     private Boolean genderSelected = false;
     private Boolean ageSelected = false;
@@ -35,10 +35,12 @@ public class Filter {
         Travel
     }
 
-    public Map<String, String> getFilterArray() {
-        Map<String, String> map = new HashMap<String, String>();
+    public Map<String, ArrayList<String>> getFilterArray() {
+        Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         if (dateRangeSelected){
-            map.put("dateRange" , getDateLowerRange() + "+" + getDateUpperRange());
+            ArrayList<String> date = new ArrayList<String>();
+            date.add(getDateLowerRange() + "+" + getDateUpperRange());
+            map.put("dateRange" , date);
         }
         if (genderSelected){
             map.put("gender", getGender());
@@ -50,20 +52,25 @@ public class Filter {
             map.put("income", getIncome());
         }
         if (contextSelected) {
-            map.put("context", String.valueOf(getContext()));
+            ArrayList<String> c = new ArrayList<String>();
+            for(Context ct : context){
+                c.add(String.valueOf(ct));
+            }
+            map.put("context", c);
         }return map;
     }
 
-    public Context getContext() {
+    public ArrayList<Context> getContext() {
         return context;
     }
 
     public void setAge(String age) {
-        this.age = age;
+
+        this.age.add(age);
     }
 
     public void setContext(Context context) {
-        this.context = context;
+        this.context.add(context);
     }
 
     public Boolean getAgeSelected() {
@@ -91,7 +98,7 @@ public class Filter {
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        this.gender.add(gender);
     }
 
     public void setGenderSelected(Boolean genderSelected) {
@@ -99,7 +106,7 @@ public class Filter {
     }
 
     public void setIncome(String income) {
-        this.income = income;
+        this.income.add(income);
     }
 
     public void setIncomeSelected(Boolean incomeSelected) {
@@ -130,15 +137,15 @@ public class Filter {
         return dateUpperRange.toString();
     }
 
-    public String getAge() {
+    public ArrayList<String> getAge() {
         return age;
     }
 
-    public String getGender() {
+    public ArrayList<String> getGender() {
         return gender;
     }
 
-    public String getIncome() {
+    public ArrayList<String> getIncome() {
         return income;
     }
 

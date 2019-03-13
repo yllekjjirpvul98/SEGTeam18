@@ -1,6 +1,7 @@
 package Model;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static Model.Filter.Context.News;
@@ -23,42 +24,83 @@ public class Calculation {
 
     //apply filter
     public String whereClause(){
-        Map<String, String> map = filter.getFilterArray();
+        Map<String, ArrayList<String>> map = filter.getFilterArray();
         String query = "";
         if (map.size() != 0){
             query += "WHERE ";
             if (map.containsKey("dateRange")){
-                String[] two = map.get("dateRange").split("\\+");
+                String[] two = map.get("dateRange").get(0).split("\\+");
                 query += "ImpressionDate between '" + two[0] + " 00:00:00' and '" + two[1] + " 23:59:00'";
             }
             if (map.containsKey("gender")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Gender = \"" + map.get("gender") + "\"";
+
+                if(map.get("gender").size() == 1){
+                    query += "Gender = \"" + map.get("gender").get(0) + "\"";
+                }
+                if(map.get("gender").size() != 1){
+                    query += "Gender = \"" + map.get("gender").get(0) + "\"";
+
+                    map.get("gender").remove(0);
+                    for(String g : map.get("gender")){
+                        query += " OR Gender = \"" + g + "\"";
+                    }
+                }
             }
 
             if (map.containsKey("age")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Age = \"" + map.get("age") + "\"";
+
+                if(map.get("age").size() == 1){
+                    query += "Age = \"" + map.get("age").get(0) + "\"";
+                }
+                if(map.get("age").size() != 1){
+                    query += "Age = \"" + map.get("age").get(0) + "\"";
+                    map.get("age").remove(0);
+                    for(String a : map.get("age")){
+                        query += " OR Age = \"" + a + "\"";
+                    }
+                }
             }
 
             if (map.containsKey("income")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Income = \"" + map.get("income") +"\"";
+
+                if(map.get("income").size() == 1){
+                    query += "Income = \"" + map.get("income").get(0) +"\"";
+                }
+                if(map.get("income").size() > 1){
+                    query += "Income = \"" + map.get("income").get(0) +"\"";
+                    map.get("income").remove(0);
+                    for(String in : map.get("income")){
+                        query += " OR Age = \"" + in + "\"";
+                    }
+                }
             }
             if (map.containsKey("context")){
                 if (!query.endsWith("WHERE ")){
                     query += " AND ";
                 }
-                query += "Context = \"" + map.get("context") + "\"";
+                if(map.get("context").size() == 1){
+                    query += "Context = \"" + map.get("context").get(0) + "\"";
+                }
+                if(map.get("context").size() > 1){
+                    query += "Context = \"" + map.get("context").get(0) + "\"";
+                    map.get("context").remove(0);
+                    for(String context : map.get("context")){
+                        query += " OR context = \"" + context + "\"";
+                    }
+                }
             }
             query += ";";
-        }return query;
+        }
+        return query;
     }
 
     public int calImpression(){
@@ -66,7 +108,6 @@ public class Calculation {
 
         String query = "SELECT count(ID) FROM Impression ";
 
-//        String query = "SELECT count(*) FROM Impression ";
 
         query += whereClause();
         try {
@@ -82,21 +123,10 @@ public class Calculation {
     public int calClicks(){
 
         String query = "SELECT count(Click.ID) FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
-//        String query = "SELECT count(*) FROM click_new INNER JOIN Impression ON Impression.ID = click_new.ID ";
 
-//        String table = "CREATE TEMPORARY TABLE temp AS SELECT I FROM Impression ";
         int count = 0;
         try {
-//            statement.execute("DROP TABLE IF EXISTS temp;");
-//            statement.execute(table);
-
-//            query += "Impression ON Click.ID = temp.ID ";
             query += whereClause();
-//            System.out.println(query);
-
-//            query += "Impression ON Click.ID = temp.ID ";
-            query += whereClause();
-            System.out.println(query);
 
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
@@ -113,11 +143,6 @@ public class Calculation {
         query += whereClause();
         query = query.substring(0, query.length()-1);
         query +=  " group by Click.ID;";
-//        String table = "CREATE TEMPORARY TABLE temp2 AS SELECT DISTINCT ID FROM Click ";
-
-//        String query = "SELECT count(*) FROM temp2 INNER JOIN Impression ON Impression.ID = temp2.ID ";
-        query += whereClause();
-        String table = "CREATE TEMPORARY TABLE temp2 AS SELECT DISTINCT ID FROM click_new ";
 
         int count = 0;
         try {
@@ -138,28 +163,18 @@ public class Calculation {
         int count = 0;
 
         String query = "SELECT count(*) FROM Server INNER JOIN ";
-//        String table = "CREATE TEMPORARY TABLE tempI AS SELECT * FROM Impression";
-
-//        String query = "SELECT count(*) FROM server_new INNER JOIN ";
-//        String table = "CREATE TEMPORARY TABLE tempI AS SELECT * FROM Impression";
-
 
         try{
-//            statement.execute("DROP TABLE IF EXISTS tempI;");
-//            statement.execute(table);
 
             query += "Impression ON Server.ID = Impression.ID ";
-
-            query += "Impression ON server_new.ID = Impression.ID ";
-
 
             if(map.size()!=0) {
                 if (map.containsKey("times")) {
                     String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, TIME_TO_SEC(DATEDIFF(EntryDate, ExitDate)) =  "
-                            + map.get("times") + " FROM server_new";
+                            + map.get("times") + " FROM Server";
                     statement.execute("DROP TABLE IF EXISTS tempTime;");
                     statement.execute(tableB);
-                    query += " INNER JOIN tempTime ON server_new.ID = tempTime.ID";
+                    query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
                 }
             }
             query += " " + whereClause();
@@ -181,19 +196,9 @@ public class Calculation {
     public int calConversion(){
         int count = 0;
         String query = "SELECT count(*) FROM Server INNER JOIN ";
-//        String table = "CREATE TEMPORARY TABLE tempImp AS SELECT * FROM Impression ";
-
-//        String query = "SELECT count(*) FROM server_new INNER JOIN ";
-//        String table = "CREATE TEMPORARY TABLE tempImp AS SELECT * FROM Impression ";
-
 
         try{
-//            statement.execute("DROP TABLE IF EXISTS tempImp;");
-//            statement.execute(table);
-
             query += "Impression ON Server.ID = Impression.ID ";
-
-            query += "Impression ON server_new.ID = Impression.ID ";
 
             query += whereClause();
             query = query.replaceFirst(";", "");
@@ -217,13 +222,6 @@ public class Calculation {
 
         try {
             clickQuery += "Impression ON Click.ID = Impression.id ";
-
-//        String clickQuery = "SELECT sum(clickCost) FROM click_new INNER JOIN ";
-            String table = "CREATE TEMPORARY TABLE tempImpression AS SELECT * FROM Impression ";
-                statement.execute("DROP TABLE IF EXISTS tempImpression;");
-                statement.execute(table);
-                clickQuery += "tempImpression ON Click.ID = tempImpression.ID ";
-
                 clickQuery += whereClause();
 
                 ResultSet rs = statement.executeQuery(clickQuery);
@@ -275,6 +273,7 @@ public class Calculation {
             return calBounce()/calClicks();
         }
 
+
         public static void main(String[] args){
             Database db = new Database();
             db.connectToDatabase();
@@ -289,6 +288,7 @@ public class Calculation {
             filter.setContext(News);
             filter.setGenderSelected(true);
             filter.setGender("Female");
+            filter.setGender("Male");
             filter.setDateRangeSelected(true);
             filter.setdateLowerRange(Date.valueOf("2015-01-01"));
             filter.setDateUpperRange(Date.valueOf("2015-01-02"));
