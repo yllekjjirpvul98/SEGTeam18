@@ -34,17 +34,24 @@ public class ImpressionParser implements Parser{
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";
+            int count = 0;
             r.readLine(); //the firstline is not needed because it is the attributes
+            db.getStatement().execute("START TRANSACTION ");
+            String query = "INSERT ignore into Impression (ImpressionDate, ID, Gender, Age, Income, Context, ImpressionCost) VALUES ";
             while ((line = r.readLine()) != null){
+                count += 1;
                 String[] array = line.split(",");
-                PreparedStatement ps = db.getConnect().prepareStatement("INSERT ignore into Impression (ImpressionDate, ID, Gender, Age, Income, Context, ImpressionCost)" +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)");
-                for (int i = 0; i < array.length; i++){
-                    ps.setString(i+1, array[i]);
+                if (count == 1000){
+                    query = query.substring(0, query.length()-3) + ";";
+                    db.getStatement().execute(query);
+                    count = 1;
+                    query = "INSERT ignore into Impression (ImpressionDate, ID, Gender, Age, Income, Context, ImpressionCost) VALUES ";
                 }
-                ps.execute();
-                ps.clearParameters();
+                query += "(\'" + array[0] + "\', " + array[1] + ", \'"  + array[2] + "\', \'" + array[3] + "\', \'" + array[4] + "\', \'" + array[5] + "\', " + array[6] + "), \n" ;
             }
+            query = query.substring(0, query.length()-3) + ";";
+            db.getStatement().execute(query);
+            db.getStatement().execute("COMMIT");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

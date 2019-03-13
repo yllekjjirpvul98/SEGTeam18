@@ -32,18 +32,28 @@ public class ServerParser implements Parser {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";
             r.readLine(); //the firstline is not needed because it is the attributes
+            db.getStatement().execute("START TRANSACTION ");
+            String query = "";
+            int count = 0;
             while ((line = r.readLine()) != null) {
+                if (count == 0){
+                    query += "INSERT into Server (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
+                }
+                count += 1;
                 String[] array = line.split(",");
+                if (count == 1000){
+                    query = query.substring(0, query.length()-3) + ";";
+                    db.getStatement().execute(query);
+                    count = 1;
+                    query = "INSERT into Server (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
+                }
                 if (!array[2].equals("n/a")) {
-                    PreparedStatement ps = db.getConnect().prepareStatement("INSERT into Server (EntryDate, ID, ExitDate, PageViewed, Conversion)" +
-                            "VALUES (?, ?, ?, ?, ?)");
-                    for (int i = 0; i < array.length; i++) {
-                        ps.setString(i + 1, array[i]);
-                    }
-                    ps.execute();
-                    ps.clearParameters();
-                }else continue;
+                    query += "(\'" + array[0] + "\', " + array[1] + ", \'"  + array[2] + "\', " + array[3] + ", \'" + array[4] + "\'), \n" ;
+                } else continue;
             }
+            query = query.substring(0, query.length()-3) + ";";
+            db.getStatement().execute(query);
+            db.getStatement().execute("COMMIT");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
