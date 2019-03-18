@@ -30,19 +30,13 @@ public class GraphPanel extends JPanel {
         timeSlide.setMaximum(99);
         timeSlide.setMaximumSize(new Dimension(200,30));
 
-        String[] metrics = { "Impressions","Clicks","Uniques","Conversations", "Bounces", "Bounce Rate", "Total Cost", "CPA", "CPC", "CPM", "CTR"};
+        String[] metrics = { "Impressions","Clicks","Uniques","Conversions", "Bounces", "Bounce Rate", "Total Cost", "CPA", "CPC", "CPM", "CTR"};
         JComboBox<String> metricSelect = new JComboBox<String>(metrics);
         metricSelect.setVisible(true);
         metricSelect.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         metricSelect.setFont(dashboardPanel.getWindow().getTextFont());
 
-        JButton addBut = new JButton("ADD");
-        addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());;
-        addBut.setBackground(new Color(0x9CFFAD));
 
-        JButton deleteBut = new JButton("DEL");
-        deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
-        deleteBut.setBackground(new Color(0xFF8976));
 
 
         //  ---- Layout ----
@@ -66,11 +60,6 @@ public class GraphPanel extends JPanel {
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
         row1.add(Box.createHorizontalGlue());
         row1.add(metricSelect);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-
-        row1.add(addBut);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-        row1.add(deleteBut);
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
         centrePanel.add(row1);
