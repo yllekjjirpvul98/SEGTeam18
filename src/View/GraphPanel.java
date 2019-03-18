@@ -46,7 +46,7 @@ public class GraphPanel extends JPanel {
 
         });
 
-        String[] TimeScales = {"hour","day","week","month","year"};
+        String[] TimeScales = {"Hour","Day","Week","Month","Year"};
         JComboBox<String> timeSlide = new JComboBox<String>(TimeScales);
         metricSelect.setVisible(true);
         timeSlide.setFont(dashboardPanel.getWindow().getTextFont());
@@ -57,7 +57,9 @@ public class GraphPanel extends JPanel {
 
                 JComboBox timeSlide = (JComboBox) event.getSource();
 
-                time = timeSlide.getSelectedItem().toString();
+                String timeUpper = timeSlide.getSelectedItem().toString();
+
+                time = timeUpper.toLowerCase();
                 graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metric, time));
                 graph.getChartPanel().repaint();
                 repaint();

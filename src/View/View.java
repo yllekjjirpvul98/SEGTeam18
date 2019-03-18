@@ -68,7 +68,7 @@ public class View extends JFrame {
         filterColor = new Color(0xEDB980);
         filterColor2 = new Color(0xEDB980);
         headingColour = new Color(0xFBFBFB);
-        highlightColor = new Color(0xEDB980);
+        highlightColor = new Color(0xFFFFFF);
         unhighlightColor = new Color(0xF7F7F7);
     }
 
