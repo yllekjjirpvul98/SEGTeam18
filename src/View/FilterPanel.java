@@ -446,7 +446,7 @@ public class FilterPanel extends JPanel {
 
         JButton applyBut = new JButton("Apply");
         applyBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
-        applyBut.setBackground(dashboardPanel.getWindow().getHighlightColor());
+        applyBut.setBackground(dashboardPanel.getWindow().getBackgoundColor());
 
         applyBut.addActionListener(new ActionListener() {
             @Override

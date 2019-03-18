@@ -106,7 +106,7 @@ public class DataPanel extends JPanel {
         table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
         table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
         table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
-        //table.setBackground(dashboardPanel.getWindow().getFilterColor());
+        table.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         table.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
 
 
@@ -120,7 +120,7 @@ public class DataPanel extends JPanel {
         graphList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         graphList.setLayoutOrientation(JList.VERTICAL);
         graphList.setVisibleRowCount(-1);
-        //graphList.setBackground(dashboardPanel.getWindow().getFilterColor());
+        graphList.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.WHITE,2,true));
 
 

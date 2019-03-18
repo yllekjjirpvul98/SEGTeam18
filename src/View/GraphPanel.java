@@ -30,7 +30,7 @@ public class GraphPanel extends JPanel {
         metricSelect.setVisible(true);
         metricSelect.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         metricSelect.setFont(dashboardPanel.getWindow().getTextFont());
-        //metricSelect.setMaximumSize(new Dimension(,metricSelect.getFont().getSize() * 2));
+        metricSelect.setMaximumSize(new Dimension(0,dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
         metricSelect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
@@ -51,7 +51,7 @@ public class GraphPanel extends JPanel {
         metricSelect.setVisible(true);
         timeSlide.setFont(dashboardPanel.getWindow().getTextFont());
         timeSlide.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        //timeSlide.setMaximumSize(new Dimension(200,timeSlide.getFont().getSize()));
+        timeSlide.setMaximumSize(new Dimension(0, dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
         timeSlide.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 

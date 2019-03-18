@@ -82,7 +82,7 @@ public class HelpPanel extends JPanel {
         northPanel.add(row2n);
         northPanel.add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 4)));  // 100 at 1440p
 
-
+        
         // West Panel - Contains info1 and 2, then info3 and 4.
         JPanel westPanel = new JPanel();
         westPanel.setBackground(window.getBackgoundColor());

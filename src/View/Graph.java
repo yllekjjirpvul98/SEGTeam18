@@ -40,8 +40,7 @@ public class Graph extends JPanel {
 
         for(String i : currentGraphData.keySet()) {
             System.out.println(i + " " + currentGraphData.get(i));
-//            dataset.addValue(i, graphPanel.getMetric(), currentGraphData.get(i));
-
+            dataset.addValue(currentGraphData.get(i), graphPanel.getMetric(), i);
         }
 
         return dataset;
