@@ -36,7 +36,7 @@ public class Graph2 extends JPanel {
     public DefaultCategoryDataset createDataset(String metric, String timeSplit) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<String, Integer> currentGraphData = calc.getTimeG(metric, timeSplit); // Method call to Model to get HashMap<Double, Date>
+        Map<String, Double> currentGraphData = calc.getTimeG(metric, timeSplit); // Method call to Model to get HashMap<Double, Date>
 
         for (String i : currentGraphData.keySet()) {
             System.out.println(i + " " + currentGraphData.get(i));

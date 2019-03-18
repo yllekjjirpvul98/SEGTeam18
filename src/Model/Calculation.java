@@ -140,10 +140,8 @@ public class Calculation {
 
     public int calUnique(){
 
-        String query = "SELECT count(*) FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
+        String query = "SELECT COUNT(DISTINCT ID) AS id_count FROM Click ";
         query += whereClause();
-        query = query.substring(0, query.length()-1);
-        query +=  " group by Click.ID;";
 
         int count = 0;
         try {
@@ -151,7 +149,7 @@ public class Calculation {
 //            statement.execute(table);
             ResultSet rs = statement.executeQuery(query);
             while(rs.next()){
-                count = rs.getInt("count(*)");
+                count = rs.getInt("id_count");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -168,20 +166,23 @@ public class Calculation {
         try{
 
             query += "Impression ON Server.ID = Impression.ID ";
+            query += whereClause();
 
             if(map.size()!=0) {
                 if (map.containsKey("times")) {
-                    String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, TIME_TO_SEC(DATEDIFF(EntryDate, ExitDate)) =  "
-                            + map.get("times") + " FROM Server";
-                    statement.execute("DROP TABLE IF EXISTS tempTime;");
-                    statement.execute(tableB);
-                    query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
+//                    String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, (DATEDIFF('second',EntryDate, ExitDate)) =  "
+//                            + map.get("times") + " FROM Server";
+//                    statement.execute("DROP TABLE IF EXISTS tempTime;");
+//                    statement.execute(tableB);
+//                    query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
+                    query = query.replaceFirst(";", "");
+                    String tableB = "AND EntryDate < ExitDate - INTERVAL '" + map.get("times") + "' SECOND";
+                    query += tableB;
                 }
             }
-            query += " " + whereClause();
+
             if (map.containsKey("numPage")){
-                query = query.replaceFirst(";", "");
-                query += " AND PageViewed = '" + map.get("numPage") + "';";
+                query += " AND PageViewed = " + map.get("numPage") + ";";
             }
 
             ResultSet rs = statement.executeQuery(query);
@@ -275,8 +276,8 @@ public class Calculation {
         return calBounce()/calClicks();
     }
 
-    public Map<String, Integer> getTimeG (String metric, String timeG){
-        Map<String,Integer> granularity = new LinkedHashMap<>();
+    public Map<String, Double> getTimeG (String metric, String timeG){
+        Map<String, Double> granularity = new LinkedHashMap<>();
 
         /*
             timeG : year => return String in the format "2019", "2020" ...
@@ -299,7 +300,7 @@ public class Calculation {
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
                     String date = rs.getString("Granularity");
-                    int datapoint = rs.getInt("count(*)");
+                    double datapoint = rs.getInt("count(*)");
                     granularity.put(date, datapoint);
                 }
 
@@ -323,7 +324,7 @@ public class Calculation {
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
                     String date = rs.getString("Granularity");
-                    int datapoint = rs.getInt("count(Click.ID)");
+                    double datapoint = rs.getInt("count(Click.ID)");
                     granularity.put(date, datapoint);
 
                 }
@@ -333,11 +334,11 @@ public class Calculation {
         }
 
         if(metric.equals("Unique")){
-            String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
+            String query = "SELECT COUNT(DISTINCT Click.ID) AS id_count, " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
             query += whereClause();
             query = query.substring(0, query.length()-1);
             query = query.replaceFirst(";", "");
-            query +=  " group by Click.ID, Granularity ORDER BY Granularity";
+            query +=  " group by Granularity ORDER BY Granularity";
             if (timeG.equals("hour")) {
                 query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
             }
@@ -345,7 +346,7 @@ public class Calculation {
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
                     String date = rs.getString("Granularity");
-                    int datapoint = rs.getInt("count(*)");
+                    double datapoint = rs.getInt("id_count");
                     granularity.put(date, datapoint);
                 }
             } catch (SQLException e) {
@@ -361,31 +362,34 @@ public class Calculation {
             try{
 
                 query += "Impression ON Server.ID = Impression.ID ";
+                query += whereClause();
 
                 if(map.size()!=0) {
                     if (map.containsKey("times")) {
-                        String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, TIME_TO_SEC(DATEDIFF(EntryDate, ExitDate)) =  "
-                                + map.get("times") + " FROM Server";
-                        statement.execute("DROP TABLE IF EXISTS tempTime;");
-                        statement.execute(tableB);
-                        query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
+//                        String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, (DATEDIFF('second',EntryDate, ExitDate)) =  "
+//                                + map.get("times") + " FROM Server";
+//                        statement.execute("DROP TABLE IF EXISTS tempTime;");
+//                        statement.execute(tableB);
+//                        query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
+                        query = query.replaceFirst(";", "");
+                        String tableB = " AND EntryDate < ExitDate - INTERVAL '" + map.get("times") + "' SECOND";
+                        query += tableB;
                     }
                 }
-                query += " " + whereClause();
+
                 if (map.containsKey("numPage")){
-                    query = query.replaceFirst(";", "");
-                    query += " AND PageViewed = '" + map.get("numPage");
+
+                    query += " AND PageViewed = " + map.get("numPage");
                 }
                 query += " GROUP BY Granularity ORDER BY Granularity";
                 if (timeG.equals("hour")) {
                     query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
 
-
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
                     String date = rs.getString("Granularity");
-                    int datapoint = rs.getInt("count(*)");
+                    double datapoint = rs.getInt("count(*)");
                     granularity.put(date, datapoint);
                 }
             }catch (SQLException e){
@@ -405,14 +409,14 @@ public class Calculation {
 
                 query += " GROUP BY Granularity ORDER BY Granularity";
                 if (timeG.equals("hour")) {
-                    query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\" \", hour(ImpressionDate))");
+                    query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
                 System.out.println(query);
 
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
                     String date = rs.getString("Granularity");
-                    int datapoint = rs.getInt("count(*)");
+                    double datapoint = rs.getInt("count(*)");
                     granularity.put(date, datapoint);
                 }
                 System.out.println(granularity);
@@ -423,7 +427,7 @@ public class Calculation {
 
         if(metric.equals("TotalCost")){
 
-            String totalQuery = "SELECT sum(clickCost)+sum(ImpressionCost), " +timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN ";
+            String totalQuery = "SELECT (sum(clickCost)+sum(ImpressionCost)) AS sums, " +timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN ";
 
             try {
                 totalQuery += "Impression ON Click.ID = Impression.ID ";
@@ -439,7 +443,7 @@ public class Calculation {
 
                 while (rs.next()) {
                     String date = rs.getString("Granularity");
-                    int datapoint = rs.getInt("sum(clickCost)+sum(ImpressionCost)");
+                    double datapoint = rs.getInt("sums");
                     granularity.put(date, datapoint);
                 }
 
@@ -447,6 +451,102 @@ public class Calculation {
                 e.printStackTrace();
             }
         }
+
+        if(metric.equals("clickCost")){
+            String clickQuery = "SELECT sum(clickCost), " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN ";
+
+            try {
+                clickQuery += "Impression ON Click.ID = Impression.id ";
+                clickQuery += whereClause();
+
+                clickQuery = clickQuery.replaceFirst(";", "");
+                clickQuery += " GROUP BY Granularity ORDER BY Granularity";
+
+                ResultSet rs = statement.executeQuery(clickQuery);
+                while (rs.next()) {
+                    String date = rs.getString("Granularity");
+                    double datapoint = rs.getInt("sum(clickCost)");
+                    granularity.put(date, datapoint);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(metric.equals("CTR")){
+            Map<String, Double> clicks = getTimeG("Clicks", timeG);
+            Map<String, Double> impression = getTimeG("Impression", timeG);
+
+            for(Map.Entry<String, Double> entry: impression.entrySet()){
+
+                if(clicks.containsKey(entry.getKey())) {
+                    double c = clicks.get(entry.getKey());
+                    double d = entry.getValue();
+                    granularity.put(entry.getKey(), c/d);
+                }
+            }
+
+        }
+        if(metric.equals("CPA")){
+            Map<String, Double> total = getTimeG("TotalCost", timeG);
+            Map<String, Double> conversion = getTimeG("Conversion", timeG);
+
+            for(Map.Entry<String, Double> entry: conversion.entrySet()){
+
+                if(total.containsKey(entry.getKey())) {
+                    double c = total.get(entry.getKey());
+                    double d = entry.getValue();
+                    granularity.put(entry.getKey(), c/d);
+                }
+            }
+
+        }
+        if(metric.equals("CPC")){
+
+            Map<String, Double> clicks = getTimeG("Clicks", timeG);
+            Map<String, Double> clickCost = getTimeG("clickCost", timeG);
+
+            for(Map.Entry<String, Double> entry: clickCost.entrySet()){
+
+                if(clicks.containsKey(entry.getKey())) {
+                    double c = clicks.get(entry.getKey());
+                    double d = entry.getValue();
+                    granularity.put(entry.getKey(), c/d);
+                }
+            }
+
+        }
+
+        if(metric.equals("CPM")){
+            Map<String, Double> total = getTimeG("TotalCost", timeG);
+            Map<String, Double> impression = getTimeG("Impression", timeG);
+
+            for(Map.Entry<String, Double> entry: impression.entrySet()){
+
+                if(total.containsKey(entry.getKey())) {
+                    double c = total.get(entry.getKey());
+                    double d = entry.getValue();
+                    granularity.put(entry.getKey(), c/(d*1000));
+                }
+            }
+
+        }
+
+        if(metric.equals("BounceRate")){
+            Map<String, Double> bounce = getTimeG("Bounce", timeG);
+            Map<String, Double> clicks = getTimeG("Clicks", timeG);
+
+            for(Map.Entry<String, Double> entry: clicks.entrySet()){
+
+                if(bounce.containsKey(entry.getKey())) {
+                    double c = bounce.get(entry.getKey());
+                    double d = entry.getValue();
+                    granularity.put(entry.getKey(), c/d);
+                }
+            }
+
+        }
+
 
         return granularity;
     }
@@ -461,6 +561,7 @@ public class Calculation {
             Calculation cal = new Calculation(db, bounce, filter);
             filter.setAgeSelected(true);
             filter.setAge("<25");
+
 //            filter.setContextSelected(true);
 //            filter.setContext(News);
 //            filter.setGenderSelected(true);
@@ -510,7 +611,7 @@ public class Calculation {
 //            double endtime = System.nanoTime()-starttime;
 //            System.out.println("Total time : " + endtime/1_000_000_000);
 
-            Map<String, Integer> map = cal.getTimeG("Impression", "hour");
+            Map<String, Double> map = cal.getTimeG("CPC", "hour");
             for (String d : map.keySet()){
                 System.out.println(d);
                 System.out.println(map.get(d));

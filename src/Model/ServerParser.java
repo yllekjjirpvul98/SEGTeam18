@@ -19,6 +19,8 @@ public class ServerParser implements Parser {
                     "Conversion varchar(255)," +
                     "primary key (ConversionID)" +
                     ");");
+            db.getStatement().execute("CREATE INDEX timediff" +
+                    "ON Server (EntryDate, ExitDate)");
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }
