@@ -1,10 +1,7 @@
 package Model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ImpressionParser implements Parser{
@@ -36,7 +33,7 @@ public class ImpressionParser implements Parser{
             String line = "";
             int count = 0;
             r.readLine(); //the firstline is not needed because it is the attributes
-            db.getStatement().execute("START TRANSACTION ");
+            db.getStatement().execute("BEGIN TRANSACTION ");
             String query = "INSERT ignore into Impression (ImpressionDate, ID, Gender, Age, Income, Context, ImpressionCost) VALUES ";
             while ((line = r.readLine()) != null){
                 count += 1;
@@ -56,4 +53,14 @@ public class ImpressionParser implements Parser{
             System.out.println(e.getMessage());
         }
     }
+
+
+    @Override
+    public void run() {
+        float start = System.nanoTime();
+        loadDatabase();
+        System.out.println("Impression takes " + (System.nanoTime() - start)/1_000_000_000 + "s to load");
+    }
+
+
 }

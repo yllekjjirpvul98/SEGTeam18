@@ -1,15 +1,14 @@
 package View;
 
-import javax.swing.*;
-
 import Model.Calculation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.List;
-import java.util.*;
+import java.util.Map;
 
 public class Graph extends JPanel {
 
@@ -37,11 +36,11 @@ public class Graph extends JPanel {
     public DefaultCategoryDataset createDataset(String metric, String timeSplit) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        Map<Integer, String> currentGraphData = calc.getTimeG(metric, timeSplit); // Method call to Model to get HashMap<Double, Date>
+        Map<String, Integer> currentGraphData = calc.getTimeG(metric, timeSplit); // Method call to Model to get HashMap<Double, Date>
 
-        for(Integer i : currentGraphData.keySet()) {
+        for(String i : currentGraphData.keySet()) {
             System.out.println(i + " " + currentGraphData.get(i));
-            dataset.addValue(i, graphPanel.getMetric(), currentGraphData.get(i));
+//            dataset.addValue(i, graphPanel.getMetric(), currentGraphData.get(i));
 
         }
 

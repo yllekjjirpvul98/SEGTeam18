@@ -2,7 +2,6 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ServerParser implements Parser {
@@ -11,7 +10,7 @@ public class ServerParser implements Parser {
     ServerParser (Database db){
         this.db = db;
         try {
-            db.getStatement().execute("CREATE TABLE Server(" +
+            db.getStatement().execute("CREATE TABLE ServerTest(" +
                     "ConversionID int NOT NULL AUTO_INCREMENT,"+
                     "EntryDate datetime," +
                     "ID bigint," +
@@ -32,12 +31,12 @@ public class ServerParser implements Parser {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";
             r.readLine(); //the firstline is not needed because it is the attributes
-            db.getStatement().execute("START TRANSACTION ");
+            db.getStatement().execute("BEGIN TRANSACTION ");
             String query = "";
             int count = 0;
             while ((line = r.readLine()) != null) {
                 if (count == 0){
-                    query += "INSERT into Server (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
+                    query += "INSERT into ServerTest (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
                 }
                 count += 1;
                 String[] array = line.split(",");
@@ -45,7 +44,7 @@ public class ServerParser implements Parser {
                     query = query.substring(0, query.length()-3) + ";";
                     db.getStatement().execute(query);
                     count = 1;
-                    query = "INSERT into Server (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
+                    query = "INSERT into ServerTest (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
                 }
                 if (!array[2].equals("n/a")) {
                     query += "(\'" + array[0] + "\', " + array[1] + ", \'"  + array[2] + "\', " + array[3] + ", \'" + array[4] + "\'), \n" ;
@@ -58,5 +57,12 @@ public class ServerParser implements Parser {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    @Override
+    public void run() {
+        float start = System.nanoTime();
+        loadDatabase();
+        System.out.println("Server takes " + (System.nanoTime() - start)/1_000_000_000 + "s to load");
     }
 }
