@@ -10,7 +10,7 @@ public class ClickParser implements Parser{
     ClickParser(Database db){
         this.db = db;
         try {
-            db.getStatement().execute("CREATE TABLE ClickTest(" +
+            db.getStatement().execute("CREATE TABLE Click(" +
                     "ClickID int NOT NULL AUTO_INCREMENT," +
                     "Date datetime," +
                     "ID bigint," +
@@ -31,7 +31,7 @@ public class ClickParser implements Parser{
             int count = 0;
             r.readLine(); //the firstline is not needed because it is the attributes
             db.getStatement().execute("BEGIN TRANSACTION ");
-            String query = "INSERT into ClickTest (Date, ID, ClickCost) VALUES ";
+            String query = "INSERT into Click (Date, ID, ClickCost) VALUES ";
             while ((line = r.readLine()) != null){
                 count += 1;
                 String[] array = line.split(",");
@@ -39,7 +39,7 @@ public class ClickParser implements Parser{
                     query = query.substring(0, query.length()-3) + ";";
                     db.getStatement().execute(query);
                     count = 1;
-                    query = "INSERT into ClickTest (Date, ID, ClickCost) VALUES ";
+                    query = "INSERT into Click (Date, ID, ClickCost) VALUES ";
                 }
                 query += "(\'" + array[0] + "\', " + array[1] + ", "  + array[2] + "), \n" ;
             }                    query = query.substring(0, query.length()-3) + ";";

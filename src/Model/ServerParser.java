@@ -10,7 +10,7 @@ public class ServerParser implements Parser {
     ServerParser (Database db){
         this.db = db;
         try {
-            db.getStatement().execute("CREATE TABLE ServerTest(" +
+            db.getStatement().execute("CREATE TABLE Server(" +
                     "ConversionID int NOT NULL AUTO_INCREMENT,"+
                     "EntryDate datetime," +
                     "ID bigint," +
@@ -36,7 +36,7 @@ public class ServerParser implements Parser {
             int count = 0;
             while ((line = r.readLine()) != null) {
                 if (count == 0){
-                    query += "INSERT into ServerTest (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
+                    query += "INSERT into Server (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
                 }
                 count += 1;
                 String[] array = line.split(",");
@@ -44,7 +44,7 @@ public class ServerParser implements Parser {
                     query = query.substring(0, query.length()-3) + ";";
                     db.getStatement().execute(query);
                     count = 1;
-                    query = "INSERT into ServerTest (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
+                    query = "INSERT into Server (EntryDate, ID, ExitDate, PageViewed, Conversion) VALUES ";
                 }
                 if (!array[2].equals("n/a")) {
                     query += "(\'" + array[0] + "\', " + array[1] + ", \'"  + array[2] + "\', " + array[3] + ", \'" + array[4] + "\'), \n" ;
