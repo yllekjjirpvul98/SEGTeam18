@@ -1,16 +1,21 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class SettingsPanel extends JPanel {
 
     private View window;
+    private Model.Bounce bounce;
 
     public SettingsPanel(View window){
 
+        bounce = new Model.Bounce(false, false);
         this.window = window;
         this.setLayout(new BorderLayout());
         this.init();
@@ -78,17 +83,53 @@ public class SettingsPanel extends JPanel {
 
         JCheckBox minWebsiteTime = new JCheckBox("Minimum Time on website(seconds)");
         minWebsiteTime.setFont(new Font("Courier", Font.PLAIN, 20));
+        minWebsiteTime.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                bounce.setTimeSet(minWebsiteTime.isSelected());
+
+            }
+
+        });
 
         JCheckBox minPagesVisited = new JCheckBox("Minimum pages visited");
         largeText.setFont(new Font("Courier", Font.PLAIN, 20));
+        minPagesVisited.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                bounce.setTimeSet(minPagesVisited.isSelected());
+
+            }
+
+        });
 
         JSpinner webTimeSpinner = new JSpinner();
         webTimeSpinner.setValue(3);
         webTimeSpinner.setFont(new Font("Courier", Font.PLAIN, 20));
+        webTimeSpinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                bounce.setTime((int) webTimeSpinner.getValue());
+
+            }
+        });
 
         JSpinner webPagesSpinner = new JSpinner();
         webPagesSpinner.setValue(3);
         webPagesSpinner.setFont(new Font("Courier", Font.PLAIN, 20));
+        webTimeSpinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                bounce.setTime((int) webPagesSpinner.getValue());
+
+            }
+        });
 
         JButton backBut = new JButton("Back");
         backBut.setFont(new Font( "Courier", Font.BOLD, 20));

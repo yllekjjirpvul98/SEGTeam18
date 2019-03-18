@@ -10,7 +10,7 @@ public class Bounce {
     private boolean timeSet = false;
     private boolean numPageSet = false;
 
-    Bounce(boolean timeSet, boolean numPageSet){
+    public Bounce(boolean timeSet, boolean numPageSet){
         this.timeSet = timeSet;
         this.numPageSet = numPageSet;
     }

@@ -507,6 +507,9 @@ public class FilterPanel extends JPanel {
                 System.out.println("----------------------");
 
                 dashboardPanel.getDataPanel().updateData();
+                dashboardPanel.getGraphPanel().getGraph().getChart().getCategoryPlot().setDataset(dashboardPanel.getGraphPanel().getGraph().createDataset(dashboardPanel.getGraphPanel().getMetric(), dashboardPanel.getGraphPanel().getTime()));
+                dashboardPanel.getGraphPanel().getGraph().getChartPanel().repaint();
+                repaint();
 
             }
         });

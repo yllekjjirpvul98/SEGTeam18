@@ -83,4 +83,8 @@ public class DashboardPanel extends JPanel {
     public DataPanel getDataPanel(){
         return dataPanel;
     }
+
+    public GraphPanel getGraphPanel() {
+        return graphPanel;
+    }
 }

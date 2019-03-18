@@ -223,59 +223,59 @@ public class Calculation {
 
         try {
             clickQuery += "Impression ON Click.ID = Impression.id ";
-                clickQuery += whereClause();
+            clickQuery += whereClause();
 
-                ResultSet rs = statement.executeQuery(clickQuery);
-                while (rs.next()) {
-                    clickCost = rs.getInt("sum(clickCost)");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            ResultSet rs = statement.executeQuery(clickQuery);
+            while (rs.next()) {
+                clickCost = rs.getInt("sum(clickCost)");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-            return clickCost;
+        return clickCost;
     }
 
 
-        public float calTotal(){
-            float impressionCost = 0;
+    public float calTotal(){
+        float impressionCost = 0;
 
-            String impQuery = "SELECT sum(ImpressionCost) FROM Impression ";
-            impQuery += whereClause();
+        String impQuery = "SELECT sum(ImpressionCost) FROM Impression ";
+        impQuery += whereClause();
 
-            try{
-                ResultSet rsi = statement.executeQuery(impQuery);
-                while(rsi.next()){
-                    impressionCost = rsi.getInt("sum(ImpressionCost)");
-                }
-            }catch (SQLException e){
-                e.printStackTrace();
+        try{
+            ResultSet rsi = statement.executeQuery(impQuery);
+            while(rsi.next()){
+                impressionCost = rsi.getInt("sum(ImpressionCost)");
             }
-            return calClickCost()+impressionCost;
+        }catch (SQLException e){
+            e.printStackTrace();
         }
+        return calClickCost()+impressionCost;
+    }
 
-        public double calCTR(){
-            return calClicks()/calImpression();
-        }
+    public double calCTR(){
+        return calClicks()/calImpression();
+    }
 
-        public double calCPA(){
-            return calTotal()/calConversion();
-        }
+    public double calCPA(){
+        return calTotal()/calConversion();
+    }
 
-        public double calCPC(){
-            return calClickCost()/calClicks();
-        }
+    public double calCPC(){
+        return calClickCost()/calClicks();
+    }
 
-        public double calCPM(){
-            return calTotal()/(1000*calImpression());
-        }
+    public double calCPM(){
+        return calTotal()/(1000*calImpression());
+    }
 
-        public double calBounceRate(){
-            return calBounce()/calClicks();
-        }
+    public double calBounceRate(){
+        return calBounce()/calClicks();
+    }
 
-    public Map<String, Integer> getTimeG (String metric, String timeG){
-        Map<String, Integer> granularity = new HashMap<String, Integer>();
+    public Map<Integer, String> getTimeG (String metric, String timeG){
+        Map<Integer, String> granularity = new HashMap<Integer, String>();
 
         /*
             timeG : year => return String in the format "2019", "2020" ...
@@ -287,19 +287,19 @@ public class Calculation {
 
 
         if(metric.equals("Impression")){
-                String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Impression ";
-                query += whereClause();
-                query = query.replaceFirst(";", "");
-                query += " GROUP BY Granularity ORDER BY Granularity";
-                if (timeG.equals("hour")) {
-                    query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
-                }
+            String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Impression ";
+            query += whereClause();
+            query = query.replaceFirst(";", "");
+            query += " GROUP BY Granularity ORDER BY Granularity";
+            if (timeG.equals("hour")) {
+                query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+            }
             try {
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
                     String date = rs.getString("Granularity");
                     int datapoint = rs.getInt("count(*)");
-                    granularity.put(date, datapoint);
+                    granularity.put(datapoint, date);
                 }
 
             } catch (SQLException e) {
@@ -323,7 +323,7 @@ public class Calculation {
                 while(rs.next()){
                     String date = rs.getString("Granularity");
                     int datapoint = rs.getInt("count(Click.ID)");
-                    granularity.put(date, datapoint);
+                    granularity.put(datapoint, date);
 
                 }
             } catch (SQLException e) {
@@ -345,7 +345,7 @@ public class Calculation {
                 while(rs.next()){
                     String date = rs.getString("Granularity");
                     int datapoint = rs.getInt("count(*)");
-                    granularity.put(date, datapoint);
+                    granularity.put(datapoint, date);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -385,7 +385,7 @@ public class Calculation {
                 while(rs.next()){
                     String date = rs.getString("Granularity");
                     int datapoint = rs.getInt("count(*)");
-                    granularity.put(date, datapoint);
+                    granularity.put(datapoint, date);
                 }
             }catch (SQLException e){
                 e.printStackTrace();
@@ -411,7 +411,7 @@ public class Calculation {
                 while(rs.next()){
                     String date = rs.getString("Granularity");
                     int datapoint = rs.getInt("count(*)");
-                    granularity.put(date, datapoint);
+                    granularity.put(datapoint, date);
                 }
             }catch (SQLException e){
                 e.printStackTrace();
@@ -437,7 +437,7 @@ public class Calculation {
                 while (rs.next()) {
                     String date = rs.getString("Granularity");
                     int datapoint = rs.getInt("sum(clickCost)+sum(ImpressionCost)");
-                    granularity.put(date, datapoint);
+                    granularity.put(datapoint, date);
                 }
 
             } catch (SQLException e) {
