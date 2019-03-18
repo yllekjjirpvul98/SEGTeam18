@@ -275,7 +275,7 @@ public class Calculation {
     }
 
     public Map<Integer, String> getTimeG (String metric, String timeG){
-        Map<Integer, String> granularity = new HashMap<Integer, String>();
+        Map<Integer, String> granularity = new HashMap<>();
 
         /*
             timeG : year => return String in the format "2019", "2020" ...

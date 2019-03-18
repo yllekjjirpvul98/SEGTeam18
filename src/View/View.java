@@ -175,13 +175,24 @@ public class View extends JFrame {
         return textFontBold;
     }
 
-    public void setHeadingColour(Color black) {
+    public void setHeadingColour(Color color) {
+        headingColour = color;
     }
 
-    public void setHighlightColor(Color darkGray) {
+    public void setHighlightColor(Color color) {
+        highlightColor = color;
     }
 
-    public void setUnhighlightColor(Color gray) {
+    public void setUnhighlightColor(Color color) {
+        unhighlightColor = color;
+    }
+
+    public void setBackgoundColor(Color color){
+        backgoundColor = color;
+    }
+
+    public void setFilterColor(Color color) {
+        filterColor = color;
     }
 
     public int getTextSizeXL() {

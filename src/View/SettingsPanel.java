@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class SettingsPanel extends JPanel {
 
@@ -17,6 +16,7 @@ public class SettingsPanel extends JPanel {
 
         bounce = new Model.Bounce(false, false);
         this.window = window;
+        this.setBackground(window.getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
 
@@ -27,32 +27,37 @@ public class SettingsPanel extends JPanel {
         //  ---- Creating components ----
 
         JLabel title = new JLabel("Settings");
-        title.setFont(new Font("Courier", Font.BOLD, 60));
-        title.setForeground(new Color(0x2865E1));
+        title.setFont(window.getHeadingFont());
+        title.setForeground(window.getHeadingColour());
 
         JLabel infoLabel1 = new JLabel("Accessibility");
-        infoLabel1.setFont(new Font("Courier", Font.BOLD, 30));
+        infoLabel1.setFont(window.getSubHeadingFont());
 
         JCheckBox colourBlind = new JCheckBox("Colour Blind Mode");
-        colourBlind.setFont(new Font("Courier", Font.PLAIN, 20));
+        colourBlind.setFont(window.getTextFont());
         colourBlind.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(colourBlind.isEnabled() == true) {
+                    window.setFilterColor(Color.lightGray);
+                    window.setBackgoundColor(Color.white);
                     window.setHeadingColour(Color.BLACK);
                     window.setHighlightColor(Color.DARK_GRAY);
                     window.setUnhighlightColor(Color.GRAY);
                 } else {
-                    window.setHeadingColour(new Color(0x2865E1));
+                    window.setHeadingColour(new Color(0xFBFBFB));
                     window.setHighlightColor(new Color(0x76B8FF));
-                    window.setUnhighlightColor(Color.lightGray);
+                    window.setUnhighlightColor(new Color(0xF7F7F7));
+                    window.setBackgoundColor(new Color(0x8DABCF));
+                    window.setFilterColor(new Color(0xEDB980));
                 }
+                repaint();
             }
 
         });
 
         JCheckBox largeText = new JCheckBox("Large Text");
-        largeText.setFont(new Font("Courier", Font.PLAIN, 20));
+        largeText.setFont(window.getTextFont());
         largeText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,16 +78,16 @@ public class SettingsPanel extends JPanel {
                     window.setTextSizeM((int) Math.round(window.getTextSizeM() / 1.5));
                     window.setTextSizeS((int) Math.round(window.getTextSizeS() / 1.5));
                     window.setTextSizeXS((int) Math.round(window.getTextSizeXS() / 1.5));
-
                 }
+                repaint();
             }
         });
 
         JLabel bounceDefinition = new JLabel("Bounce Definition");
-        bounceDefinition.setFont(new Font("Courier", Font.BOLD, 30));
+        bounceDefinition.setFont(window.getSubHeadingFont());
 
         JCheckBox minWebsiteTime = new JCheckBox("Minimum Time on website(seconds)");
-        minWebsiteTime.setFont(new Font("Courier", Font.PLAIN, 20));
+        minWebsiteTime.setFont(window.getTextFont());
         minWebsiteTime.addActionListener(new ActionListener() {
 
             @Override
@@ -95,7 +100,7 @@ public class SettingsPanel extends JPanel {
         });
 
         JCheckBox minPagesVisited = new JCheckBox("Minimum pages visited");
-        largeText.setFont(new Font("Courier", Font.PLAIN, 20));
+        largeText.setFont(window.getTextFont());
         minPagesVisited.addActionListener(new ActionListener() {
 
             @Override
@@ -109,7 +114,7 @@ public class SettingsPanel extends JPanel {
 
         JSpinner webTimeSpinner = new JSpinner();
         webTimeSpinner.setValue(3);
-        webTimeSpinner.setFont(new Font("Courier", Font.PLAIN, 20));
+        webTimeSpinner.setFont(window.getTextFont());
         webTimeSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -121,7 +126,7 @@ public class SettingsPanel extends JPanel {
 
         JSpinner webPagesSpinner = new JSpinner();
         webPagesSpinner.setValue(3);
-        webPagesSpinner.setFont(new Font("Courier", Font.PLAIN, 20));
+        webPagesSpinner.setFont(window.getTextFont());
         webTimeSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -132,7 +137,7 @@ public class SettingsPanel extends JPanel {
         });
 
         JButton backBut = new JButton("Back");
-        backBut.setFont(new Font( "Courier", Font.BOLD, 20));
+        backBut.setFont(window.getButtonBigFont());
         backBut.setBackground(Color.lightGray);
 
         backBut.addActionListener(e -> window.changePanel("dashboardPanel"));

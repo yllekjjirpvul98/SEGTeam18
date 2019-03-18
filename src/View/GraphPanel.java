@@ -36,10 +36,11 @@ public class GraphPanel extends JPanel {
 
                 JComboBox metricSelect = (JComboBox) event.getSource();
 
-                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metricSelect.getSelectedItem().toString(), graph.getTimeSplit()));
+                metric = metricSelect.getSelectedItem().toString();
+                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metric, time));
                 graph.getChartPanel().repaint();
                 repaint();
-                metric = metricSelect.getSelectedItem().toString();
+
 
             }
 
@@ -56,12 +57,10 @@ public class GraphPanel extends JPanel {
 
                 JComboBox timeSlide = (JComboBox) event.getSource();
 
-                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metricSelect.getSelectedItem().toString(), timeSlide.getSelectedItem().toString()));
+                time = timeSlide.getSelectedItem().toString();
+                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metric, time));
                 graph.getChartPanel().repaint();
                 repaint();
-                metric = metricSelect.getSelectedItem().toString();
-                time = timeSlide.getSelectedItem().toString();
-
             }
 
         });
@@ -91,7 +90,14 @@ public class GraphPanel extends JPanel {
         centrePanel.add(row1);
         centrePanel.add(graph);
 
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
+        southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
 
+        southPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
+
+
+        this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(eastPanel, BorderLayout.EAST);
     }
