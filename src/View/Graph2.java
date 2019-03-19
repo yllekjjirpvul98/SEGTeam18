@@ -1,66 +1,105 @@
 package View;
 
 import Model.Calculation;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 
-import javax.swing.*;
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 
-public class Graph2 extends JPanel {
+public class Graph2 extends JFXPanel {
 
     private GraphPanel graphPanel;
     private Calculation calc;
-    private JFreeChart chart;
-    private ChartPanel chartPanel;
+    private LineChart lineChart;
+    private ArrayList<XYChart.Series> savedSeries;
+
+    private XYChart.Series series;
 
     public Graph2(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
         this.calc = graphPanel.getDashboardPanel().getWindow().getControl().getModel().getCal();
-        this.setBackground(graphPanel.getDashboardPanel().getWindow().getBackgoundColor());
-        this.setLayout(new BorderLayout());
+        this.savedSeries = new ArrayList<>();
 
-        DefaultCategoryDataset dataset = createDataset(graphPanel.getMetric(), graphPanel.getTime());
-        chart = ChartFactory.createLineChart("", "Time", "Metric", dataset);
-        chart.setBackgroundPaint(null);
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
 
-        chartPanel = new ChartPanel(chart);
-        chartPanel.setBackground(graphPanel.getDashboardPanel().getWindow().getBackgoundColor());
+        lineChart = new LineChart(xAxis, yAxis);
+        createSeries();
 
-        this.add(chartPanel, BorderLayout.CENTER);
+        Platform.runLater(() -> {
+            Scene scene = new Scene(lineChart);
+            this.setScene(scene);
+        });
+
     }
 
-    public DefaultCategoryDataset createDataset(String metric, String timeSplit) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    public void createSeries(){
+        series = new XYChart.Series();
+        series.setName(graphPanel.getMetric());
 
-        Map<String, Double> currentGraphData = calc.getTimeG(metric, timeSplit); // Method call to Model to get HashMap<Double, Date>
+        Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
+        System.out.println(currentGraphData.size());
 
         for (String i : currentGraphData.keySet()) {
-            System.out.println(i + " " + currentGraphData.get(i));
-            dataset.addValue(currentGraphData.get(i), graphPanel.getMetric(), i);
+            series.getData().add(new XYChart.Data(i, currentGraphData.get(i)));
         }
 
-        return dataset;
+        lineChart.getData().add(series);
+    }
 
+    public void updateSeries(){
+
+        Platform.runLater(() -> {
+            Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
+
+            series.getData().clear();
+            lineChart.getData().removeAll();
+            lineChart.getData().clear();
+
+            series = new XYChart.Series();
+
+            for (String i : currentGraphData.keySet()) {
+                series.getData().add(new XYChart.Data(i, currentGraphData.get(i)));
+            }
+
+            series.setName(graphPanel.getMetric());
+
+            lineChart.getData().add(series);
+        });
+    }
+
+    public void addGraph(){
+        Platform.runLater(() -> {
+            XYChart.Series copy = new XYChart.Series();
+
+            Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
+
+            for (String i : currentGraphData.keySet()) {
+                copy.getData().add(new XYChart.Data(i, currentGraphData.get(i)));
+            }
+
+            copy.setName(graphPanel.getMetric());
+
+            savedSeries.add(copy);
+        });
     }
 
 
-    public JFreeChart getChart() {
-        return chart;
+    public LineChart getLineChart(){
+        return lineChart;
     }
 
-    public void setChart(JFreeChart chart) {
-        this.chart = chart;
+    public ArrayList<XYChart.Series> getSavedSeries() {
+        return savedSeries;
     }
 
-    public ChartPanel getChartPanel() {
-        return chartPanel;
-    }
-
-    public void setChartPanel(ChartPanel chartPanel) {
-        this.chartPanel = chartPanel;
+    public XYChart.Series getSeries() {
+        return series;
     }
 }

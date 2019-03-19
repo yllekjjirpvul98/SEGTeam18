@@ -1,11 +1,14 @@
 package View;
 
 import Model.Calculation;
+import javafx.scene.chart.XYChart;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -127,6 +130,13 @@ public class DataPanel extends JPanel {
         JButton addBut = new JButton("ADD");
         addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());;
         addBut.setBackground(new Color(0x9CFFAD));
+
+        addBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dashboardPanel.getGraphPanel().getGraph().addGraph();
+            }
+        });
 
         JButton deleteBut = new JButton("DEL");
         deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());

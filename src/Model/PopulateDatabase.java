@@ -18,7 +18,7 @@ public class PopulateDatabase {
         c.start();
 
         while (tg.activeCount() != 0) {
-            System.out.println("Loading...");
+            //System.out.println("Loading...");
         }
         float elapsedTime = (System.nanoTime() - start) / 1_000_000_000;
         System.out.println("It takes " + elapsedTime + "s to load all the data");

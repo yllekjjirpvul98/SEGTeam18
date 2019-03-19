@@ -10,13 +10,13 @@ import java.awt.event.ActionListener;
 public class GraphPanel extends JPanel {
 
     private DashboardPanel dashboardPanel;
-    private Graph graph;
+    private Graph2 graph;
     private String metric = "Impression";
-    private String time = "hour";
+    private String time = "day";
 
     public GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
-        this.graph = new Graph(this);
+        this.graph = new Graph2(this);
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
@@ -30,39 +30,34 @@ public class GraphPanel extends JPanel {
         metricSelect.setVisible(true);
         metricSelect.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         metricSelect.setFont(dashboardPanel.getWindow().getTextFont());
-        metricSelect.setMaximumSize(new Dimension(0,dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
+        metricSelect.setMaximumSize(new Dimension(dashboardPanel.getWindow().getButtonBigFont().getSize() * 10,dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
         metricSelect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
                 JComboBox metricSelect = (JComboBox) event.getSource();
-
                 metric = metricSelect.getSelectedItem().toString();
-                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metric, time));
-                graph.getChartPanel().repaint();
-                repaint();
 
-
+                graph.updateSeries();
             }
 
         });
 
         String[] TimeScales = {"Hour","Day","Week","Month","Year"};
         JComboBox<String> timeSlide = new JComboBox<String>(TimeScales);
-        metricSelect.setVisible(true);
+        timeSlide.setSelectedIndex(1); // TO START ON DAY
         timeSlide.setFont(dashboardPanel.getWindow().getTextFont());
         timeSlide.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        timeSlide.setMaximumSize(new Dimension(0, dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
+        timeSlide.setMaximumSize(new Dimension(dashboardPanel.getWindow().getButtonBigFont().getSize() * 10, dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
         timeSlide.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
                 JComboBox timeSlide = (JComboBox) event.getSource();
 
                 String timeUpper = timeSlide.getSelectedItem().toString();
-
                 time = timeUpper.toLowerCase();
-                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metric, time));
-                graph.getChartPanel().repaint();
-                repaint();
+
+                graph.updateSeries();
+
             }
 
         });
@@ -108,7 +103,7 @@ public class GraphPanel extends JPanel {
         return dashboardPanel;
     }
 
-    public Graph getGraph(){
+    public Graph2 getGraph(){
         return graph;
     }
 

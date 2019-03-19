@@ -39,12 +39,11 @@ public class Graph extends JPanel {
         Map<String, Double> currentGraphData = calc.getTimeG(metric, timeSplit); // Method call to Model to get HashMap<Double, Date>
 
         for(String i : currentGraphData.keySet()) {
-            System.out.println(i + " " + currentGraphData.get(i));
+            //System.out.println(i + " " + currentGraphData.get(i));
             dataset.addValue(currentGraphData.get(i), graphPanel.getMetric(), i);
         }
 
         return dataset;
-
     }
 
 
