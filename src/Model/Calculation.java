@@ -140,7 +140,7 @@ public class Calculation {
 
     public int calUnique(){
 
-        String query = "SELECT COUNT(DISTINCT ID) AS id_count FROM Click ";
+        String query = "SELECT COUNT(DISTINCT Click.ID) AS id_count FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
         query += whereClause();
 
         int count = 0;
