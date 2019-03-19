@@ -10,21 +10,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-public class Graph extends JPanel {
+public class Graph2 extends JPanel {
 
     private GraphPanel graphPanel;
     private Calculation calc;
     private JFreeChart chart;
     private ChartPanel chartPanel;
 
-    public Graph(GraphPanel graphPanel) {
+    public Graph2(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
         this.calc = graphPanel.getDashboardPanel().getWindow().getControl().getModel().getCal();
         this.setBackground(graphPanel.getDashboardPanel().getWindow().getBackgoundColor());
         this.setLayout(new BorderLayout());
 
         DefaultCategoryDataset dataset = createDataset(graphPanel.getMetric(), graphPanel.getTime());
-        chart = ChartFactory.createLineChart("", "Time" , "Metric", dataset);
+        chart = ChartFactory.createLineChart("", "Time", "Metric", dataset);
         chart.setBackgroundPaint(null);
 
         chartPanel = new ChartPanel(chart);
@@ -38,7 +38,7 @@ public class Graph extends JPanel {
 
         Map<String, Double> currentGraphData = calc.getTimeG(metric, timeSplit); // Method call to Model to get HashMap<Double, Date>
 
-        for(String i : currentGraphData.keySet()) {
+        for (String i : currentGraphData.keySet()) {
             System.out.println(i + " " + currentGraphData.get(i));
             dataset.addValue(currentGraphData.get(i), graphPanel.getMetric(), i);
         }

@@ -29,6 +29,7 @@ public class View extends JFrame {
     private Font buttonSmallFont;
     private Color backgoundColor;
     private Color filterColor;
+    private Color filterColor2;
     private Color headingColour;
     private Color highlightColor;
     private Color unhighlightColor;
@@ -46,10 +47,10 @@ public class View extends JFrame {
         windowDim = new Dimension(3 * ((screenDim.width)/4), 3 * ((screenDim.height)/4));
 
         int textSizeXL = ((int) Math.round(screenDim.getHeight()/18)) + 2; //80 at 1440p
-        int textSizeL = ((int) Math.round((textSizeXL/8)*5)) + 2;          //50 at 1440p
-        int textSizeM = ((int) Math.round((textSizeXL/8)*3)) + 2;          //30 at 1440p
-        int textSizeS = ((int) Math.round((textSizeXL/16)*5)) + 2;         //25 at 1440p
-        int textSizeXS = ((int) Math.round((textSizeXL/16)*3)) + 2;        //15 at 1440p
+        int textSizeL = (Math.round((textSizeXL/8)*5)) + 2;          //50 at 1440p
+        int textSizeM = (Math.round((textSizeXL/8)*3)) + 2;          //30 at 1440p
+        int textSizeS = (Math.round((textSizeXL/16)*5)) + 2;         //25 at 1440p
+        int textSizeXS = (Math.round((textSizeXL/16)*3)) + 2;        //15 at 1440p
 
         widthBorderDim = new Dimension(textSizeS,0);
         hightBorderDim = new Dimension(0, textSizeS);
@@ -65,8 +66,9 @@ public class View extends JFrame {
 
         backgoundColor = new Color(0x8DABCF);
         filterColor = new Color(0xEDB980);
+        filterColor2 = new Color(0xEDB980);
         headingColour = new Color(0xFBFBFB);
-        highlightColor = new Color(0x71B9FF);
+        highlightColor = new Color(0xFFFFFF);
         unhighlightColor = new Color(0xF7F7F7);
     }
 
@@ -173,13 +175,24 @@ public class View extends JFrame {
         return textFontBold;
     }
 
-    public void setHeadingColour(Color black) {
+    public void setHeadingColour(Color color) {
+        headingColour = color;
     }
 
-    public void setHighlightColor(Color darkGray) {
+    public void setHighlightColor(Color color) {
+        highlightColor = color;
     }
 
-    public void setUnhighlightColor(Color gray) {
+    public void setUnhighlightColor(Color color) {
+        unhighlightColor = color;
+    }
+
+    public void setBackgoundColor(Color color){
+        backgoundColor = color;
+    }
+
+    public void setFilterColor(Color color) {
+        filterColor = color;
     }
 
     public int getTextSizeXL() {
@@ -224,5 +237,9 @@ public class View extends JFrame {
 
     public Color getFilterColor() {
         return filterColor;
+    }
+
+    public Color getFilterColor2() {
+        return filterColor2;
     }
 }

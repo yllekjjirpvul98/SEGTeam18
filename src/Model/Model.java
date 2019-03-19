@@ -17,9 +17,9 @@ public class Model {
         this.control = control;
         db = new Database();
         db.connectToDatabase();
-      
+        PopulateDatabase pd = new PopulateDatabase(db);
         filter = new Filter(false, false, false, false, false);
-        bounce = new Bounce(false, false);
+        bounce = new Bounce(true, true);
         settings = new Settings(false, false);
         cal = new Calculation(db, bounce, filter);
     }

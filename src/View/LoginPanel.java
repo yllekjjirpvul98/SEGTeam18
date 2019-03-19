@@ -1,60 +1,118 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class LoginPanel extends JPanel {
 
     private View window;
-    private String username;
-    private String password;
+    private File currentCamp;
 
     public LoginPanel(View window){
         this.window = window;
         this.setBackground(window.getBackgoundColor());
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        currentCamp = null;
         this.init();
     }
 
     private void init(){
-        username = " Username";
-        password = " password";
 
         //  ---- Creating components ----
 
-        JLabel title = new JLabel("Ad Auction Monitor");
-        title.setFont(window.getTitleFont());
+        JLabel title = new JLabel("Campaign Select");
+        title.setFont(window.getHeadingFont());
         title.setForeground(window.getHeadingColour());
 
-        JTextField usernameField = new JTextField(username);
-        usernameField.setFont(window.getTextFont());
-        usernameField.setMaximumSize(window.getHightBorderDim());
+        JButton loadBut = new JButton("Load Data");
+        loadBut.setFont(window.getButtonBigFont());
+        loadBut.setBackground(window.getHighlightColor());
 
-        usernameField.addMouseListener(new MouseAdapter() {
+        loadBut.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                usernameField.setText("");
+            public void actionPerformed(ActionEvent e) {
+
+                if(currentCamp != null)
+                    window.changePanel("dashboardPanel");
+                    System.out.println("Campaign Selected: " + currentCamp);
             }
         });
 
-        JPasswordField passwordField = new JPasswordField(password);
-        passwordField.setFont(window.getTextFont());
-        passwordField.setMaximumSize(window.getHightBorderDim());
+        ListModel listModel = new DefaultListModel();
 
-        passwordField.addMouseListener(new MouseAdapter() {
+        JList campList = new JList(listModel);
+        JScrollPane scrollPane = new JScrollPane(campList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        campList.setFont(window.getTextFont());
+        campList.setFixedCellWidth(window.getButtonTitleFont().getSize() * 20);
+        campList.setPreferredSize(new Dimension(window.getButtonTitleFont().getSize() * 15, window.getButtonTitleFont().getSize() * 15));
+        campList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        campList.setLayoutOrientation(JList.VERTICAL);
+        campList.setVisibleRowCount(-1);
+
+        campList.addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                passwordField.setText("");
+            public void valueChanged(ListSelectionEvent e) {
+                int index = campList.getSelectedIndex();
+
+                if(index >= 0){
+                    currentCamp = (File) ((DefaultListModel) listModel).getElementAt(index);
+                }
             }
         });
 
-        JButton loginBut = new JButton("   Login   ");
-        loginBut.setFont(window.getButtonTitleFont());
-        loginBut.setBackground(window.getHighlightColor());
+        JButton delBut = new JButton("DEL");
+        delBut.setFont(window.getButtonBigFont());
+        delBut.setBackground(new Color(0xFF8976));
 
-        loginBut.addActionListener(e -> window.changePanel("dashboardPanel"));
+        delBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = campList.getSelectedIndex();
+
+                if(index >= 0) {
+                    ((DefaultListModel) listModel).remove(index);
+
+                    if (index > 0) {
+                        index--;
+                        campList.setSelectedIndex(index);
+                        campList.ensureIndexIsVisible(index);
+                        currentCamp = (File) ((DefaultListModel) listModel).getElementAt(index);
+                    }
+                    else{
+                        currentCamp = null;
+                    }
+                }
+            }
+        });
+
+        JButton addbut = new JButton("ADD");
+        addbut.setFont(window.getButtonBigFont());
+        addbut.setBackground(new Color(0x9CFFAD));
+
+        addbut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Select Campaign Folder");
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+                int choice = fileChooser.showOpenDialog(window);
+
+                if(choice != JFileChooser.APPROVE_OPTION)
+                    return;
+
+                File chosenFile = fileChooser.getSelectedFile();
+                ((DefaultListModel) listModel).addElement(chosenFile);
+            }
+        });
 
         JButton helpBut = new JButton("?");
         helpBut.setFont(window.getButtonBigFont());
@@ -75,21 +133,23 @@ public class LoginPanel extends JPanel {
         row2.setBackground(window.getBackgoundColor());
         row2.setLayout(new BoxLayout(row2, BoxLayout.LINE_AXIS));
         row2.add(Box.createHorizontalGlue());
-        row2.add(usernameField);
+        row2.add(scrollPane);
         row2.add(Box.createHorizontalGlue());
 
         JPanel row3 = new JPanel();
         row3.setBackground(window.getBackgoundColor());
         row3.setLayout(new BoxLayout(row3, BoxLayout.LINE_AXIS));
         row3.add(Box.createHorizontalGlue());
-        row3.add(passwordField);
+        row3.add(addbut);
+        row3.add(Box.createRigidArea(window.getWidthBorderDim()));
+        row3.add(delBut);
         row3.add(Box.createHorizontalGlue());
 
         JPanel row4 = new JPanel();
         row4.setBackground(window.getBackgoundColor());
         row4.setLayout(new BoxLayout(row4, BoxLayout.LINE_AXIS));
         row4.add(Box.createHorizontalGlue());
-        row4.add(loginBut);
+        row4.add(loadBut);
         row4.add(Box.createHorizontalGlue());
 
         JPanel row5 = new JPanel();

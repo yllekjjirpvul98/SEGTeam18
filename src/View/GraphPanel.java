@@ -1,5 +1,7 @@
 package View;
 
+import org.jfree.chart.ChartFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +11,8 @@ public class GraphPanel extends JPanel {
 
     private DashboardPanel dashboardPanel;
     private Graph graph;
+    private String metric = "Impression";
+    private String time = "hour";
 
     public GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
@@ -21,28 +25,47 @@ public class GraphPanel extends JPanel {
     private void init() {
 
         //   ---- Creating components ----
-        JLabel timeLab = new JLabel("Time Granularity: ");
-        timeLab.setFont(dashboardPanel.getWindow().getTextFontBold());
-
-        JSlider timeSlide = new JSlider();
-        timeSlide.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        timeSlide.setMinimum(0);
-        timeSlide.setMaximum(99);
-        timeSlide.setMaximumSize(new Dimension(200,30));
-
-        String[] metrics = { "Impressions","Clicks","Uniques","Conversations", "Bounces", "Bounce Rate", "Total Cost", "CPA", "CPC", "CPM", "CTR"};
+        String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
         JComboBox<String> metricSelect = new JComboBox<String>(metrics);
         metricSelect.setVisible(true);
         metricSelect.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         metricSelect.setFont(dashboardPanel.getWindow().getTextFont());
+        metricSelect.setMaximumSize(new Dimension(0,dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
+        metricSelect.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
 
-        JButton addBut = new JButton("ADD");
-        addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());;
-        addBut.setBackground(new Color(0x9CFFAD));
+                JComboBox metricSelect = (JComboBox) event.getSource();
 
-        JButton deleteBut = new JButton("DEL");
-        deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
-        deleteBut.setBackground(new Color(0xFF8976));
+                metric = metricSelect.getSelectedItem().toString();
+                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metric, time));
+                graph.getChartPanel().repaint();
+                repaint();
+
+
+            }
+
+        });
+
+        String[] TimeScales = {"Hour","Day","Week","Month","Year"};
+        JComboBox<String> timeSlide = new JComboBox<String>(TimeScales);
+        metricSelect.setVisible(true);
+        timeSlide.setFont(dashboardPanel.getWindow().getTextFont());
+        timeSlide.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        timeSlide.setMaximumSize(new Dimension(0, dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
+        timeSlide.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+
+                JComboBox timeSlide = (JComboBox) event.getSource();
+
+                String timeUpper = timeSlide.getSelectedItem().toString();
+
+                time = timeUpper.toLowerCase();
+                graph.getChart().getCategoryPlot().setDataset(graph.createDataset(metric, time));
+                graph.getChartPanel().repaint();
+                repaint();
+            }
+
+        });
 
 
         //  ---- Layout ----
@@ -60,28 +83,48 @@ public class GraphPanel extends JPanel {
         row1.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
 
-        row1.add(timeLab);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-        row1.add(timeSlide);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
         row1.add(Box.createHorizontalGlue());
         row1.add(metricSelect);
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-
-        row1.add(addBut);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-        row1.add(deleteBut);
+        row1.add(timeSlide);
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
         centrePanel.add(row1);
         centrePanel.add(graph);
 
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
+        southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
 
+        southPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
+
+
+        this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(eastPanel, BorderLayout.EAST);
     }
 
     public DashboardPanel getDashboardPanel(){
         return dashboardPanel;
+    }
+
+    public Graph getGraph(){
+        return graph;
+    }
+
+    public String getMetric() {
+        return metric;
+    }
+
+    public void setMetric(String metric) {
+        this.metric = metric;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

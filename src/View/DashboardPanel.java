@@ -28,7 +28,7 @@ public class DashboardPanel extends JPanel {
         title.setFont(window.getHeadingFont());
         title.setForeground(window.getHeadingColour());
 
-        JButton logoutBut = new JButton("Logout");
+        JButton logoutBut = new JButton("Campaign Select");
         logoutBut.setFont(window.getButtonBigFont());
         logoutBut.setBackground(window.getUnhighlightColor());
 
@@ -82,5 +82,9 @@ public class DashboardPanel extends JPanel {
 
     public DataPanel getDataPanel(){
         return dataPanel;
+    }
+
+    public GraphPanel getGraphPanel() {
+        return graphPanel;
     }
 }
