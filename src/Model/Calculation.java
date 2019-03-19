@@ -461,7 +461,9 @@ public class Calculation {
 
                 clickQuery = clickQuery.replaceFirst(";", "");
                 clickQuery += " GROUP BY Granularity ORDER BY Granularity";
-
+                if (timeG.equals("hour")) {
+                    clickQuery = clickQuery.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+                }
                 ResultSet rs = statement.executeQuery(clickQuery);
                 while (rs.next()) {
                     String date = rs.getString("Granularity");
@@ -511,7 +513,11 @@ public class Calculation {
                 if(clicks.containsKey(entry.getKey())) {
                     double c = clicks.get(entry.getKey());
                     double d = entry.getValue();
-                    granularity.put(entry.getKey(), c/d);
+                    double ans = c/d;
+                    if (d == 0) {
+                        ans = 0;
+                    }
+                    granularity.put(entry.getKey(), ans);
                 }
             }
 
