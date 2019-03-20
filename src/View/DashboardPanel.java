@@ -2,6 +2,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DashboardPanel extends JPanel {
 
@@ -41,6 +43,43 @@ public class DashboardPanel extends JPanel {
 
         settingsBut.addActionListener(e -> window.changePanel("settingsPanel"));
 
+        String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
+        JComboBox<String> metricSelect = new JComboBox<String>(metrics);
+        metricSelect.setVisible(true);
+        metricSelect.setBackground(window.getUnhighlightColor());
+        metricSelect.setFont(window.getTextFont());
+        metricSelect.setMaximumSize(new Dimension(window.getButtonBigFont().getSize() * 10,window.getButtonBigFont().getSize() * 3));
+        metricSelect.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+
+                JComboBox metricSelect = (JComboBox) event.getSource();
+                graphPanel.setMetric(metricSelect.getSelectedItem().toString());
+
+                graphPanel.getGraph().updateSeries();
+            }
+
+        });
+
+        String[] TimeScales = {"Hour","Day","Week","Month","Year"};
+        JComboBox<String> timeSlide = new JComboBox<String>(TimeScales);
+        timeSlide.setSelectedIndex(1); // TO START ON DAY
+        timeSlide.setFont(window.getTextFont());
+        timeSlide.setBackground(window.getUnhighlightColor());
+        timeSlide.setMaximumSize(new Dimension(window.getButtonBigFont().getSize() * 10, window.getButtonBigFont().getSize() * 3));
+        timeSlide.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+
+                JComboBox timeSlide = (JComboBox) event.getSource();
+
+                String timeUpper = timeSlide.getSelectedItem().toString();
+                graphPanel.setTime(timeUpper.toLowerCase());
+
+                graphPanel.getGraph().updateSeries();
+
+            }
+
+        });
+
         // North Panel --- Logout & Title
         JPanel northPanel = new JPanel();
         northPanel.setBackground(window.getBackgoundColor());
@@ -64,10 +103,21 @@ public class DashboardPanel extends JPanel {
         row2n.add(title);
         row2n.add(Box.createHorizontalGlue());
 
+        JPanel row3n = new JPanel();
+        row3n.setBackground(window.getBackgoundColor());
+        row3n.setLayout(new BoxLayout(row3n, BoxLayout.LINE_AXIS));
+
+        row3n.add(Box.createHorizontalGlue());
+        row3n.add(metricSelect);
+        row3n.add(Box.createRigidArea(window.getWidthBorderDim()));
+        row3n.add(timeSlide);
+        row3n.add(Box.createRigidArea(window.getWidthBorderDim()));
+
         northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
         northPanel.add(row1n);
         northPanel.add(row2n);
-        northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
+        northPanel.add(row3n);
+        northPanel.add(Box.createRigidArea(new Dimension(0,window.getButtonBigFont().getSize())));
 
 
         this.add(northPanel, BorderLayout.NORTH);

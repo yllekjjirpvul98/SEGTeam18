@@ -17,14 +17,16 @@ public class Graph2 extends JFXPanel {
     private GraphPanel graphPanel;
     private Calculation calc;
     private LineChart lineChart;
-    private ArrayList<XYChart.Series> savedSeries;
+    private ArrayList<Map<String, Double>> savedDataMaps;
+    private ArrayList<String> savedDataLables;
 
     private XYChart.Series series;
 
     public Graph2(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
         this.calc = graphPanel.getDashboardPanel().getWindow().getControl().getModel().getCal();
-        this.savedSeries = new ArrayList<>();
+        this.savedDataMaps = new ArrayList<>();
+        this.savedDataLables = new ArrayList<>();
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -44,10 +46,9 @@ public class Graph2 extends JFXPanel {
         series.setName(graphPanel.getMetric());
 
         Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
-        System.out.println(currentGraphData.size());
 
-        for (String i : currentGraphData.keySet()) {
-            series.getData().add(new XYChart.Data(i, currentGraphData.get(i)));
+        for (String date : currentGraphData.keySet()) {
+            series.getData().add(new XYChart.Data(date, currentGraphData.get(date)));
         }
 
         lineChart.getData().add(series);
@@ -58,36 +59,45 @@ public class Graph2 extends JFXPanel {
         Platform.runLater(() -> {
             Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
 
-            series.getData().clear();
             lineChart.getData().removeAll();
             lineChart.getData().clear();
 
             series = new XYChart.Series();
 
-            for (String i : currentGraphData.keySet()) {
-                series.getData().add(new XYChart.Data(i, currentGraphData.get(i)));
+            for (String date : currentGraphData.keySet()) {
+                series.getData().add(new XYChart.Data(date, currentGraphData.get(date)));
             }
 
             series.setName(graphPanel.getMetric());
 
             lineChart.getData().add(series);
+
+            for(int i = 0; i < savedDataMaps.size(); i++){
+                XYChart.Series savedSeries = new XYChart.Series();
+                Map<String, Double> savedDataMap = savedDataMaps.get(i);
+                String savedDataLable = savedDataLables.get(i);
+
+                for (String date : savedDataMap.keySet()) {
+                    savedSeries.getData().add(new XYChart.Data(date, savedDataMap.get(date)));
+                }
+
+                savedSeries.setName(savedDataLable);
+                lineChart.getData().add(savedSeries);
+
+            }
+
         });
     }
 
     public void addGraph(){
-        Platform.runLater(() -> {
-            XYChart.Series copy = new XYChart.Series();
+        Map<String, Double> copyData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
+        savedDataMaps.add(copyData);
+        savedDataLables.add(savedDataMaps.size() + " (" + graphPanel.getMetric() + ")");
+    }
 
-            Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
-
-            for (String i : currentGraphData.keySet()) {
-                copy.getData().add(new XYChart.Data(i, currentGraphData.get(i)));
-            }
-
-            copy.setName(graphPanel.getMetric());
-
-            savedSeries.add(copy);
-        });
+    public void deleteGraph(int position){
+        savedDataMaps.remove(position);
+        savedDataLables.remove(position);
     }
 
 
@@ -95,8 +105,8 @@ public class Graph2 extends JFXPanel {
         return lineChart;
     }
 
-    public ArrayList<XYChart.Series> getSavedSeries() {
-        return savedSeries;
+    public ArrayList<Map<String, Double>> getSavedDataMaps() {
+        return savedDataMaps;
     }
 
     public XYChart.Series getSeries() {

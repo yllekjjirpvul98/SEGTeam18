@@ -88,17 +88,17 @@ public class DataPanel extends JPanel {
 
         colNames = new String[] {"Metric", "Value"};
         tableData = new String[][] {
-                {"Number of Impressions", String.valueOf(df.format(numImpressions))},
-                {"Number of Clicks", String.valueOf(df.format(numClicks))},
-                {"Number of Uniques", String.valueOf(df.format(numUniques))},
-                {"Number of Conversions", String.valueOf(df.format(numConvos))},
-                {"Number of Bounces", String.valueOf(df.format(numBounces))},
-                {"Bounce Rate", String.valueOf(df.format(bounceRate))},
-                {"Total Cost", String.valueOf(df.format(totalCost))},
-                {"Cost per Acquisition", String.valueOf(df.format(CPA))},
-                {"Cost per Click", String.valueOf(df.format(CPC))},
-                {"Cost per 1000 Impressions", String.valueOf(df.format(CPM))},
-                {"Click Through Rate", String.valueOf(df.format(CTR))}
+                {" Number of Impressions", String.valueOf(df.format(numImpressions))},
+                {" Number of Clicks", String.valueOf(df.format(numClicks))},
+                {" Number of Uniques", String.valueOf(df.format(numUniques))},
+                {" Number of Conversions", String.valueOf(df.format(numConvos))},
+                {" Number of Bounces", String.valueOf(df.format(numBounces))},
+                {" Bounce Rate", String.valueOf(df.format(bounceRate))},
+                {" Total Cost", String.valueOf(df.format(totalCost))},
+                {" Cost per Acquisition", String.valueOf(df.format(CPA))},
+                {" Cost per Click", String.valueOf(df.format(CPC))},
+                {" Cost per 1000 Impressions", String.valueOf(df.format(CPM))},
+                {" Click Through Rate", String.valueOf(df.format(CTR))}
         };
 
         DefaultTableModel tableModel = new DefaultTableModel(tableData, colNames);
@@ -109,8 +109,8 @@ public class DataPanel extends JPanel {
         table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
         table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
         table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
-        table.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        table.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true));
+        table.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
+        table.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
 
 
         ListModel listModel = new DefaultListModel();
@@ -123,8 +123,8 @@ public class DataPanel extends JPanel {
         graphList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         graphList.setLayoutOrientation(JList.VERTICAL);
         graphList.setVisibleRowCount(-1);
-        graphList.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.WHITE,2,true));
+        graphList.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,false));
 
 
         JButton addBut = new JButton("ADD");
@@ -135,12 +135,31 @@ public class DataPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dashboardPanel.getGraphPanel().getGraph().addGraph();
+                dashboardPanel.getGraphPanel().getGraph().updateSeries();
+
+                ((DefaultListModel) listModel).addElement(" Graph " + (listModel.getSize()+1) + " ("+ dashboardPanel.getGraphPanel().getMetric() + ")");
+
             }
         });
 
         JButton deleteBut = new JButton("DEL");
         deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
         deleteBut.setBackground(new Color(0xFF8976));
+
+        deleteBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int index = graphList.getSelectedIndex();
+
+                if(index >= 0){
+                    ((DefaultListModel) listModel).remove(index);
+                    dashboardPanel.getGraphPanel().getGraph().deleteGraph(index);
+                    dashboardPanel.getGraphPanel().getGraph().updateSeries();
+                }
+
+            }
+        });
 
         // ----  Creating Layout  ----
         JPanel row1 = new JPanel();

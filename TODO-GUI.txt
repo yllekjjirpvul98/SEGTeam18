@@ -1,16 +1,12 @@
-Graph to load in filtered data and split on time granularity value
-Selection Buttons - add listeners to change colour and data displayed on graph
-Time granularity adaptable
-
-
-Readjust dashboard layout to look less clutted - Data View in a tabel
-
-Change login screen to campaign select with file navigation to local database files (update logout to campaign select)
-
-Add settings panel - ability to change colour and size + accesibility settings (Greg)
-
-Create histogram graph
-
 ---- After Inc 2 ----
 
-Create a file that saves user settings to be loaded in at login stage
+Update Maps for graph so all maps have same Date object to be comparable instead of String
+Create Histogram
+Make settings panel listeners work
+
+Make campaign select load in different folders
+
+General appearance overhaul
+
+Bug Fixing
+

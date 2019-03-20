@@ -23,7 +23,7 @@ public class FilterPanel extends JPanel {
         this.dashboardPanel = dashboardPanel;
         this.setBackground(dashboardPanel.getWindow().getFilterColor2());
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-        this.setBorder(BorderFactory.createRaisedBevelBorder());
+        this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, false));
         this.init();
     }
 
