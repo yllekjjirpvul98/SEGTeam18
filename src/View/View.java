@@ -98,13 +98,19 @@ public class View extends JFrame {
             window.add(loginPanel);
         else if (panel.equals("helpPanel"))
             window.add(helpPanel);
-        else if (panel.equals("dashboardPanel"))
+        else if (panel.equals("dashboardPanel")) {
+            dashboardPanel = new DashboardPanel(this);
             window.add(dashboardPanel);
+        }
         else if (panel.equals("settingsPanel"))
             window.add(settingsPanel);
 
         this.pack();
         this.setSize(windowSize);
+    }
+
+    public DashboardPanel getDashboardPanel() {
+        return dashboardPanel;
     }
 
     public Controller getControl() {

@@ -32,7 +32,7 @@ public class Graph2 extends JFXPanel {
         NumberAxis yAxis = new NumberAxis();
 
         lineChart = new LineChart(xAxis, yAxis);
-        createSeries();
+        updateSeries();
 
         Platform.runLater(() -> {
             Scene scene = new Scene(lineChart);
@@ -41,18 +41,18 @@ public class Graph2 extends JFXPanel {
 
     }
 
-    public void createSeries(){
-        series = new XYChart.Series();
-        series.setName(graphPanel.getMetric());
-
-        Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
-
-        for (String date : currentGraphData.keySet()) {
-            series.getData().add(new XYChart.Data(date, currentGraphData.get(date)));
-        }
-
-        lineChart.getData().add(series);
-    }
+//    public void createSeries(){
+//        series = new XYChart.Series();
+//        series.setName(graphPanel.getMetric());
+//
+//        Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
+//
+//        for (String date : currentGraphData.keySet()) {
+//            series.getData().add(new XYChart.Data(date, currentGraphData.get(date)));
+//        }
+//
+//        lineChart.getData().add(series);
+//    }
 
     public void updateSeries(){
 

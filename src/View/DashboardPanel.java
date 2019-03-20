@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class DashboardPanel extends JPanel {
 
     private View window;
-    private  FilterPanel filterPanel;
+    private FilterPanel filterPanel;
     private DataPanel dataPanel;
     private GraphPanel graphPanel;
 
@@ -122,9 +122,10 @@ public class DashboardPanel extends JPanel {
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(filterPanel, BorderLayout.SOUTH);
-        this.add(dataPanel, BorderLayout.WEST);
         this.add(graphPanel, BorderLayout.CENTER);
+        this.add(dataPanel, BorderLayout.WEST);
     }
+
 
     public View getWindow(){
         return window;

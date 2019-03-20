@@ -1,11 +1,7 @@
 package View;
 
-import org.jfree.chart.ChartFactory;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GraphPanel extends JPanel {
 
@@ -24,45 +20,6 @@ public class GraphPanel extends JPanel {
 
     private void init() {
 
-        //   ---- Creating components ----
-//        String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
-//        JComboBox<String> metricSelect = new JComboBox<String>(metrics);
-//        metricSelect.setVisible(true);
-//        metricSelect.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//        metricSelect.setFont(dashboardPanel.getWindow().getTextFont());
-//        metricSelect.setMaximumSize(new Dimension(dashboardPanel.getWindow().getButtonBigFont().getSize() * 10,dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
-//        metricSelect.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent event) {
-//
-//                JComboBox metricSelect = (JComboBox) event.getSource();
-//                metric = metricSelect.getSelectedItem().toString();
-//
-//                graph.updateSeries();
-//            }
-//
-//        });
-//
-//        String[] TimeScales = {"Hour","Day","Week","Month","Year"};
-//        JComboBox<String> timeSlide = new JComboBox<String>(TimeScales);
-//        timeSlide.setSelectedIndex(1); // TO START ON DAY
-//        timeSlide.setFont(dashboardPanel.getWindow().getTextFont());
-//        timeSlide.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//        timeSlide.setMaximumSize(new Dimension(dashboardPanel.getWindow().getButtonBigFont().getSize() * 10, dashboardPanel.getWindow().getButtonBigFont().getSize() * 3));
-//        timeSlide.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent event) {
-//
-//                JComboBox timeSlide = (JComboBox) event.getSource();
-//
-//                String timeUpper = timeSlide.getSelectedItem().toString();
-//                time = timeUpper.toLowerCase();
-//
-//                graph.updateSeries();
-//
-//            }
-//
-//        });
-
-
         //  ---- Layout ----
         JPanel eastPanel = new JPanel();
         eastPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
@@ -70,31 +27,18 @@ public class GraphPanel extends JPanel {
 
         eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
-        JPanel centrePanel = new JPanel();
-        centrePanel.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-        centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
-        centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
-
-//        JPanel row1 = new JPanel();
-//        row1.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-//        row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
-
-//        row1.add(Box.createHorizontalGlue());
-//        row1.add(metricSelect);
-//        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-//        row1.add(timeSlide);
-//        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-
-//        centrePanel.add(row1);
-//        centrePanel.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
-        centrePanel.add(graph);
-
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
         southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
 
         southPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
 
+        JPanel centrePanel = new JPanel();
+        centrePanel.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
+        centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
+        centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
+
+        centrePanel.add(graph);
 
         this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);

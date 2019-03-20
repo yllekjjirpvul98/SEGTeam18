@@ -107,7 +107,7 @@ public class SettingsPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                bounce.setTimeSet(minPagesVisited.isSelected());
+                bounce.setNumPageSet(minPagesVisited.isSelected());
             }
 
         });
@@ -116,29 +116,32 @@ public class SettingsPanel extends JPanel {
         webTimeSpinner.setFont(window.getTextFont());
         webTimeSpinner.setValue(3);
         webTimeSpinner.setMaximumSize(new Dimension ((int) ( window.getButtonBigFont().getSize() * 1.5),window.getButtonBigFont().getSize() * 2));
-        webTimeSpinner.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                bounce.setTime((int) webTimeSpinner.getValue());
-            }
-        });
 
         JSpinner webPagesSpinner = new JSpinner();
         webPagesSpinner.setFont(window.getTextFont());
         webPagesSpinner.setValue(3);
         webPagesSpinner.setMaximumSize(new Dimension((int) ( window.getButtonBigFont().getSize() * 1.5),window.getButtonBigFont().getSize() * 2));
-        webTimeSpinner.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                bounce.setTime((int) webPagesSpinner.getValue());
-            }
-        });
+
 
         JButton backBut = new JButton("Back");
         backBut.setFont(window.getButtonBigFont());
         backBut.setBackground(window.getUnhighlightColor());
 
-        backBut.addActionListener(e -> window.changePanel("dashboardPanel"));
+        backBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                bounce.setTime((int) webTimeSpinner.getValue());
+                bounce.setNumOfPageVisited((int) webPagesSpinner.getValue());
+                window.getDashboardPanel().getDataPanel().updateData();
+                window.getDashboardPanel().getGraphPanel().getGraph().updateSeries();
+
+
+                window.changePanel("dashboardPanel");
+            }
+
+        });
 
         //  ---- Layout ----
         JPanel northPanel = new JPanel();
