@@ -10,9 +10,5 @@ public class Start {
 
         model.init(control);
         view.init(control);
-
-        if (!(view.isActive())){
-            control.getModel().getDb().closeDatabase();
-        }
     };
 }

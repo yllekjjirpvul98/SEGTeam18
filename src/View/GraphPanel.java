@@ -57,13 +57,9 @@ public class GraphPanel extends JPanel {
         return metric;
     }
 
-    public void setMetric(String metric) {
-        this.metric = metric;
-    }
+    public void setMetric(String metric) { this.metric = metric; }
 
-    public String getTime() {
-        return time;
-    }
+    public String getTime() { return time; }
 
     public void setTime(String time) {
         this.time = time;

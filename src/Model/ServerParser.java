@@ -6,9 +6,12 @@ import java.sql.SQLException;
 
 public class ServerParser implements Parser {
     private Database db;
+    private String filepath;
 
-    ServerParser (Database db){
+    ServerParser (Database db, String filepath){
         this.db = db;
+        this.filepath = filepath;
+
         try {
             db.getStatement().execute("CREATE TABLE Server(" +
                     "ConversionID int NOT NULL AUTO_INCREMENT,"+
@@ -19,7 +22,7 @@ public class ServerParser implements Parser {
                     "Conversion varchar(255)," +
                     "primary key (ConversionID)" +
                     ");");
-            db.getStatement().execute("CREATE INDEX timediff" +
+            db.getStatement().execute("CREATE INDEX timediff " +
                     "ON Server (EntryDate, ExitDate)");
         }catch (SQLException e){
             System.out.println(e.getMessage());
@@ -28,7 +31,7 @@ public class ServerParser implements Parser {
 
     @Override
     public void loadDatabase() {
-        String filename = "server_log.csv";
+        String filename = filepath + "\\server_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";

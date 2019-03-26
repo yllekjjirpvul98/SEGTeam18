@@ -1,10 +1,8 @@
 package View;
 
 import Model.Calculation;
-import javafx.scene.chart.XYChart;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -78,7 +76,7 @@ public class DataPanel extends JPanel {
 
     }
 
-    private void init(){
+    public void init(){
 
         // ----  Creating Components  ----
         DecimalFormat df = new DecimalFormat("#.###");

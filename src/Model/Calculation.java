@@ -291,8 +291,8 @@ public class Calculation {
         if(metric.equals("Impression")){
             String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Impression ";
             query += whereClause();
-            query = query.replaceFirst(";", "");
-            query += " GROUP BY Granularity ORDER BY Granularity";
+            query = query.replaceFirst(";", " ");
+            query += "GROUP BY Granularity ORDER BY Granularity";
             if (timeG.equals("hour")) {
                 query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
             }
@@ -461,9 +461,7 @@ public class Calculation {
 
                 clickQuery = clickQuery.replaceFirst(";", "");
                 clickQuery += " GROUP BY Granularity ORDER BY Granularity";
-                if (timeG.equals("hour")) {
-                    clickQuery = clickQuery.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
-                }
+
                 ResultSet rs = statement.executeQuery(clickQuery);
                 while (rs.next()) {
                     String date = rs.getString("Granularity");
@@ -513,11 +511,7 @@ public class Calculation {
                 if(clicks.containsKey(entry.getKey())) {
                     double c = clicks.get(entry.getKey());
                     double d = entry.getValue();
-                    double ans = c/d;
-                    if (d == 0) {
-                        ans = 0;
-                    }
-                    granularity.put(entry.getKey(), ans);
+                    granularity.put(entry.getKey(), c/d);
                 }
             }
 
@@ -558,15 +552,15 @@ public class Calculation {
     }
 
     public static void main(String[] args){
-        Database db = new Database();
-        db.connectToDatabase();
+            Database db = new Database();
+            db.connectToDatabase();
 
-        Filter filter = new Filter(false, false, false, false, false);
-        Bounce bounce = new Bounce(false, false);
-        Settings settings = new Settings(false, false);
-        Calculation cal = new Calculation(db, bounce, filter);
-        filter.setAgeSelected(true);
-        filter.setAge("<25");
+            Filter filter = new Filter(false, false, false, false, false);
+            Bounce bounce = new Bounce(false, false);
+            Settings settings = new Settings(false, false);
+            Calculation cal = new Calculation(db, bounce, filter);
+            filter.setAgeSelected(true);
+            filter.setAge("<25");
 
 //            filter.setContextSelected(true);
 //            filter.setContext(News);
@@ -617,10 +611,10 @@ public class Calculation {
 //            double endtime = System.nanoTime()-starttime;
 //            System.out.println("Total time : " + endtime/1_000_000_000);
 
-        Map<String, Double> map = cal.getTimeG("CPC", "hour");
-        for (String d : map.keySet()){
-            System.out.println(d);
-            System.out.println(map.get(d));
+            Map<String, Double> map = cal.getTimeG("CPC", "hour");
+            for (String d : map.keySet()){
+                System.out.println(d);
+                System.out.println(map.get(d));
+            }
         }
-    }
 }

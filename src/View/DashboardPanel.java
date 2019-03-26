@@ -19,12 +19,11 @@ public class DashboardPanel extends JPanel {
         this.init();
     }
 
-    private void init() {
+    public void init() {
         //  ---- Creating Components ----
         filterPanel = new FilterPanel(this);
         dataPanel = new DataPanel(this);
         graphPanel = new GraphPanel(this);
-
 
         JLabel title = new JLabel("DashBoard");
         title.setFont(window.getHeadingFont());

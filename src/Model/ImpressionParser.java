@@ -6,9 +6,11 @@ import java.sql.SQLException;
 
 public class ImpressionParser implements Parser{
     private Database db;
+    private String filepath;
 
-    ImpressionParser (Database db){
+    ImpressionParser (Database db, String filepath){
         this.db = db;
+        this.filepath = filepath;
         //create a new table to store impression
         try {
             db.getStatement().execute("CREATE TABLE Impression(" +
@@ -27,7 +29,7 @@ public class ImpressionParser implements Parser{
     }
     @Override
     public void loadDatabase() {
-        String filename = "impression_log.csv";
+        String filename = filepath + "\\impression_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";

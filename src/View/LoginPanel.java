@@ -1,14 +1,11 @@
 package View;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 
 public class LoginPanel extends JPanel {
@@ -41,6 +38,8 @@ public class LoginPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 if(currentCamp != null)
+                    window.getControl().getModel().populateDatabase(currentCamp.toString());
+                    window.getDashboardPanel().init();
                     window.changePanel("dashboardPanel");
                     System.out.println("Campaign Selected: " + currentCamp);
             }
