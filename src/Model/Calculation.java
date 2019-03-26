@@ -381,11 +381,13 @@ public class Calculation {
 
                     query += " AND PageViewed = " + map.get("numPage");
                 }
-                query += " GROUP BY Granularity ORDER BY Granularity";
                 if (timeG.equals("hour")) {
                     query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
 
+                query = query.replaceFirst(";", "");
+                query += " GROUP BY Granularity ORDER BY Granularity;";
+                System.out.println(query);
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
                     String date = rs.getString("Granularity");

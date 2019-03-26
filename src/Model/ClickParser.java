@@ -26,7 +26,7 @@ public class ClickParser implements Parser{
 
     @Override
     public void loadDatabase() {
-        String filename = filepath + "\\click_log.csv";
+        String filename = filepath + "/click_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";

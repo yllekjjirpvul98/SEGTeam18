@@ -31,7 +31,7 @@ public class ServerParser implements Parser {
 
     @Override
     public void loadDatabase() {
-        String filename = filepath + "\\server_log.csv";
+        String filename = filepath + "/server_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";

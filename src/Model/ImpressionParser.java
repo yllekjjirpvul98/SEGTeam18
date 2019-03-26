@@ -29,7 +29,7 @@ public class ImpressionParser implements Parser{
     }
     @Override
     public void loadDatabase() {
-        String filename = filepath + "\\impression_log.csv";
+        String filename = filepath + "/impression_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";
