@@ -2,6 +2,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class GraphPanel extends JPanel {
 
@@ -9,16 +11,21 @@ public class GraphPanel extends JPanel {
     private Graph2 graph;
     private String metric = "Impression";
     private String time = "day";
+    private ArrayList<Map<String, Double>> savedDataMaps;
+    private ArrayList<String> savedDataLables;
+
 
     public GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
         this.graph = new Graph2(this);
+        this.savedDataMaps = new ArrayList<>();
+        this.savedDataLables = new ArrayList<>();
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
     }
 
-    private void init() {
+    public void init() {
 
         //  ---- Layout ----
         JPanel eastPanel = new JPanel();
@@ -43,6 +50,7 @@ public class GraphPanel extends JPanel {
         this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(eastPanel, BorderLayout.EAST);
+
     }
 
     public DashboardPanel getDashboardPanel(){
@@ -51,6 +59,12 @@ public class GraphPanel extends JPanel {
 
     public Graph2 getGraph(){
         return graph;
+    }
+
+    public void setGraph(Graph2 newGraph) {
+
+        graph = newGraph;
+
     }
 
     public String getMetric() {
@@ -63,5 +77,21 @@ public class GraphPanel extends JPanel {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public ArrayList<Map<String, Double>> getSavedDataMaps() {
+        return savedDataMaps;
+    }
+
+    public void setSavedDataMaps(ArrayList<Map<String, Double>> savedDataMaps) {
+        this.savedDataMaps = savedDataMaps;
+    }
+
+    public ArrayList<String> getSavedDataLables() {
+        return savedDataLables;
+    }
+
+    public void setSavedDataLables(ArrayList<String> savedDataLables) {
+        this.savedDataLables = savedDataLables;
     }
 }

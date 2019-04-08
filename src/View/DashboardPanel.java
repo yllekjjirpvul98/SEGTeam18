@@ -42,7 +42,7 @@ public class DashboardPanel extends JPanel {
 
         settingsBut.addActionListener(e -> window.changePanel("settingsPanel"));
 
-        String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
+        String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR", "Click Cost Frequency"};
         JComboBox<String> metricSelect = new JComboBox<String>(metrics);
         metricSelect.setVisible(true);
         metricSelect.setBackground(window.getUnhighlightColor());
@@ -54,7 +54,10 @@ public class DashboardPanel extends JPanel {
                 JComboBox metricSelect = (JComboBox) event.getSource();
                 graphPanel.setMetric(metricSelect.getSelectedItem().toString());
 
-                graphPanel.getGraph().updateSeries();
+                graphPanel.setGraph(new Graph2(graphPanel));
+                graphPanel.init();
+                //graphPanel.getGraph().updateSeries();
+                //graphPanel.repaint();
             }
 
         });
