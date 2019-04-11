@@ -17,7 +17,6 @@ public class Model {
         this.control = control;
         db = new Database();
         db.connectToDatabase();
-      
         filter = new Filter(false, false, false, false, false);
         bounce = new Bounce(false, false);
         settings = new Settings(false, false);
@@ -42,6 +41,10 @@ public class Model {
 
     public Calculation getCal() {
         return cal;
+    }
+
+    public void populateDatabase (String filepath){
+        PopulateDatabase pd = new PopulateDatabase(getDb(), filepath);
     }
 
 //

@@ -2,14 +2,16 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ServerParser implements Parser {
     private Database db;
+    private String filepath;
 
-    ServerParser (Database db){
+    ServerParser (Database db, String filepath){
         this.db = db;
+        this.filepath = filepath;
+
         try {
             db.getStatement().execute("CREATE TABLE Server(" +
                     "ConversionID int NOT NULL AUTO_INCREMENT,"+
@@ -20,6 +22,8 @@ public class ServerParser implements Parser {
                     "Conversion varchar(255)," +
                     "primary key (ConversionID)" +
                     ");");
+            db.getStatement().execute("CREATE INDEX timediff " +
+                    "ON Server (EntryDate, ExitDate)");
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }
@@ -27,12 +31,12 @@ public class ServerParser implements Parser {
 
     @Override
     public void loadDatabase() {
-        String filename = "server_log.csv";
+        String filename = filepath + "/server_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";
             r.readLine(); //the firstline is not needed because it is the attributes
-            db.getStatement().execute("START TRANSACTION ");
+            db.getStatement().execute("BEGIN TRANSACTION ");
             String query = "";
             int count = 0;
             while ((line = r.readLine()) != null) {
@@ -58,5 +62,12 @@ public class ServerParser implements Parser {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    @Override
+    public void run() {
+        float start = System.nanoTime();
+        loadDatabase();
+        System.out.println("Server takes " + (System.nanoTime() - start)/1_000_000_000 + "s to load");
     }
 }

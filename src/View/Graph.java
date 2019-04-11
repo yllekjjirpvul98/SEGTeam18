@@ -1,46 +1,64 @@
 package View;
 
-import javax.swing.*;
+import Model.Calculation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Map;
 
 public class Graph extends JPanel {
 
     private GraphPanel graphPanel;
-    private String metric = "Impressions";  // Can be any of the metrics (selected via button pressed)
-    private String timeSplit = "Min";  // Can be Day, Hour, Min (selected by time granularity slider)
+    private Calculation calc;
+    private JFreeChart chart;
+    private ChartPanel chartPanel;
 
     public Graph(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
+        this.calc = graphPanel.getDashboardPanel().getWindow().getControl().getModel().getCal();
         this.setBackground(graphPanel.getDashboardPanel().getWindow().getBackgoundColor());
         this.setLayout(new BorderLayout());
 
-        DefaultCategoryDataset dataset = createDataset(metric, timeSplit);
-        JFreeChart chart = ChartFactory.createLineChart("", "Time" , metric, dataset);
+        DefaultCategoryDataset dataset = createDataset(graphPanel.getMetric(), graphPanel.getTime());
+        chart = ChartFactory.createLineChart("", "Time" , "Metric", dataset);
         chart.setBackgroundPaint(null);
 
-        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel = new ChartPanel(chart);
         chartPanel.setBackground(graphPanel.getDashboardPanel().getWindow().getBackgoundColor());
 
         this.add(chartPanel, BorderLayout.CENTER);
     }
 
-    private DefaultCategoryDataset createDataset(String metric, String timeSplit) {
+    public DefaultCategoryDataset createDataset(String metric, String timeSplit) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        HashMap<Double, Date> currentGraphData = new HashMap<>(); // Method call to Model to get HashMap<Double, Date>
+        Map<String, Double> currentGraphData = calc.getTimeG(metric, timeSplit);
 
-        for(Double d : currentGraphData.keySet()) {
-            dataset.addValue(d, this.metric, currentGraphData.get(d));
+        for(String i : currentGraphData.keySet()) {
+            dataset.addValue(currentGraphData.get(i), graphPanel.getMetric(), i);
         }
 
         return dataset;
     }
 
 
+    public JFreeChart getChart() {
+        return chart;
+    }
+
+    public void setChart(JFreeChart chart) {
+        this.chart = chart;
+    }
+
+    public ChartPanel getChartPanel() {
+        return chartPanel;
+    }
+
+    public void setChartPanel(ChartPanel chartPanel) {
+        this.chartPanel = chartPanel;
+    }
 }

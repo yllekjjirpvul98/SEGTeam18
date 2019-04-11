@@ -2,14 +2,15 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ClickParser implements Parser{
     private Database db;
+    private String filepath;
 
-    ClickParser(Database db){
+    ClickParser(Database db, String filepath){
         this.db = db;
+        this.filepath = filepath;
         try {
             db.getStatement().execute("CREATE TABLE Click(" +
                     "ClickID int NOT NULL AUTO_INCREMENT," +
@@ -25,13 +26,13 @@ public class ClickParser implements Parser{
 
     @Override
     public void loadDatabase() {
-        String filename = "click_log.csv";
+        String filename = filepath + "/click_log.csv";
         try {
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";
             int count = 0;
             r.readLine(); //the firstline is not needed because it is the attributes
-            db.getStatement().execute("START TRANSACTION ");
+            db.getStatement().execute("BEGIN TRANSACTION ");
             String query = "INSERT into Click (Date, ID, ClickCost) VALUES ";
             while ((line = r.readLine()) != null){
                 count += 1;
@@ -50,5 +51,12 @@ public class ClickParser implements Parser{
             System.out.println(e.getMessage());
         }
 
+    }
+
+    @Override
+    public void run() {
+        float start = System.nanoTime();
+        loadDatabase();
+        System.out.println("Click takes " + (System.nanoTime() - start)/1_000_000_000 + "s to load");
     }
 }

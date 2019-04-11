@@ -2,48 +2,29 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class GraphPanel extends JPanel {
 
     private DashboardPanel dashboardPanel;
-    private Graph graph;
+    private Graph2 graph;
+    private String metric = "Impression";
+    private String time = "day";
+    private ArrayList<Map<String, Double>> savedDataMaps;
+    private ArrayList<String> savedDataLables;
 
     public GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
-        this.graph = new Graph(this);
+        this.graph = new Graph2(this);
+        this.savedDataMaps = new ArrayList<>();
+        this.savedDataLables = new ArrayList<>();
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
     }
 
     private void init() {
-
-        //   ---- Creating components ----
-        JLabel timeLab = new JLabel("Time Granularity: ");
-        timeLab.setFont(dashboardPanel.getWindow().getTextFontBold());
-
-        JSlider timeSlide = new JSlider();
-        timeSlide.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        timeSlide.setMinimum(0);
-        timeSlide.setMaximum(99);
-        timeSlide.setMaximumSize(new Dimension(200,30));
-
-        String[] metrics = { "Impressions","Clicks","Uniques","Conversations", "Bounces", "Bounce Rate", "Total Cost", "CPA", "CPC", "CPM", "CTR"};
-        JComboBox<String> metricSelect = new JComboBox<String>(metrics);
-        metricSelect.setVisible(true);
-        metricSelect.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        metricSelect.setFont(dashboardPanel.getWindow().getTextFont());
-
-        JButton addBut = new JButton("ADD");
-        addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());;
-        addBut.setBackground(new Color(0x9CFFAD));
-
-        JButton deleteBut = new JButton("DEL");
-        deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
-        deleteBut.setBackground(new Color(0xFF8976));
-
 
         //  ---- Layout ----
         JPanel eastPanel = new JPanel();
@@ -52,36 +33,61 @@ public class GraphPanel extends JPanel {
 
         eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
+        southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+
+        southPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
+
         JPanel centrePanel = new JPanel();
-        centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        centrePanel.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
         centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
+        centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
 
-        JPanel row1 = new JPanel();
-        row1.setBackground(dashboardPanel.getWindow().getBackgoundColor());
-        row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
-
-        row1.add(timeLab);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-        row1.add(timeSlide);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-        row1.add(Box.createHorizontalGlue());
-        row1.add(metricSelect);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-
-        row1.add(addBut);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-        row1.add(deleteBut);
-        row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-
-        centrePanel.add(row1);
         centrePanel.add(graph);
 
-
+        this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(eastPanel, BorderLayout.EAST);
     }
 
     public DashboardPanel getDashboardPanel(){
         return dashboardPanel;
+    }
+
+    public Graph2 getGraph(){
+        return graph;
+    }
+
+    public void setGraph(Graph2 graph){
+        this.graph = graph;
+    }
+
+    public String getMetric() {
+        return metric;
+    }
+
+    public void setMetric(String metric) { this.metric = metric; }
+
+    public String getTime() { return time; }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public ArrayList<Map<String, Double>> getSavedDataMaps() {
+        return savedDataMaps;
+    }
+
+    public void setSavedDataMaps(ArrayList<Map<String, Double>> savedDataMaps) {
+        this.savedDataMaps = savedDataMaps;
+    }
+
+    public ArrayList<String> getSavedDataLables() {
+        return savedDataLables;
+    }
+
+    public void setSavedDataLables(ArrayList<String> savedDataLables) {
+        this.savedDataLables = savedDataLables;
     }
 }
