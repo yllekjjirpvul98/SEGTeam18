@@ -584,9 +584,7 @@ public class Calculation {
             }
 
         }
-
-        System.out.println(granularity.keySet());
-
+        
         return granularity;
     }
 
