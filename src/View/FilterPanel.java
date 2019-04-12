@@ -27,6 +27,8 @@ public class FilterPanel extends JPanel {
 
     private JFormattedTextField dateText1;
     private JFormattedTextField dateText2;
+    private JLabel date1Label;
+    private JLabel date2Label;
 
     private JRadioButton genRad1;
     private JRadioButton genRad2;
@@ -44,6 +46,23 @@ public class FilterPanel extends JPanel {
     private JRadioButton conRad4;
     private JRadioButton conRad5;
     private JRadioButton conRad6;
+
+    private JButton applyBut;
+
+    private JPanel col1;
+    private JPanel c1r1;
+    private JPanel c1r2;
+    private JPanel col2;
+    private JPanel col3;
+    private JPanel c3r1;
+    private JPanel c3r2;
+    private JPanel c3r3;
+    private JPanel col4;
+    private JPanel col5;
+    private JPanel c5r1;
+    private JPanel c5r2;
+    private JPanel c5r3;
+    private JPanel col6;
 
     public FilterPanel(DashboardPanel dashboardPanel){
         this.dashboardPanel = dashboardPanel;
@@ -208,10 +227,10 @@ public class FilterPanel extends JPanel {
         dateText2.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         dateText2.setMaximumSize(new Dimension(dashboardPanel.getWindow().getButtonBigFont().getSize() * 10, dateText2.getHeight()));
 
-        JLabel date1Label = new JLabel("Start");
+        date1Label = new JLabel("Start");
         date1Label.setFont(dashboardPanel.getWindow().getTextFont());
 
-        JLabel date2Label = new JLabel(" End ");
+        date2Label = new JLabel(" End ");
         date2Label.setFont(dashboardPanel.getWindow().getTextFont());
 
 
@@ -495,9 +514,9 @@ public class FilterPanel extends JPanel {
         });
 
 
-        JButton applyBut = new JButton("Apply");
+        applyBut = new JButton("Apply");
         applyBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
-        applyBut.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
+        applyBut.setBackground(dashboardPanel.getWindow().getActionButColor());
 
         applyBut.addActionListener(new ActionListener() {
             @Override
@@ -559,11 +578,11 @@ public class FilterPanel extends JPanel {
 
 
         //  ---- Layout ----
-        JPanel col1 = new JPanel();
+        col1 = new JPanel();
         col1.setBackground(dashboardPanel.getWindow().getFilterColor());
         col1.setLayout(new BoxLayout(col1, BoxLayout.PAGE_AXIS));
 
-        JPanel c1r1 = new JPanel();
+        c1r1 = new JPanel();
         c1r1.setBackground(dashboardPanel.getWindow().getFilterColor());
         c1r1.setLayout(new BoxLayout(c1r1, BoxLayout.LINE_AXIS));
 
@@ -571,7 +590,7 @@ public class FilterPanel extends JPanel {
        c1r1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
        c1r1.add(date1Label);
 
-        JPanel c1r2 = new JPanel();
+        c1r2 = new JPanel();
         c1r2.setBackground(dashboardPanel.getWindow().getFilterColor());
         c1r2.setLayout(new BoxLayout(c1r2, BoxLayout.LINE_AXIS));
 
@@ -588,7 +607,7 @@ public class FilterPanel extends JPanel {
         col1.add(Box.createVerticalGlue());
 
 
-        JPanel col2 = new JPanel();
+        col2 = new JPanel();
         col2.setBackground(dashboardPanel.getWindow().getFilterColor());
         col2.setLayout(new BoxLayout(col2, BoxLayout.PAGE_AXIS));
 
@@ -601,11 +620,11 @@ public class FilterPanel extends JPanel {
         col2.add(Box.createVerticalGlue());
 
 
-        JPanel col3 = new JPanel();
+        col3 = new JPanel();
         col3.setBackground(dashboardPanel.getWindow().getFilterColor());
         col3.setLayout(new BoxLayout(col3, BoxLayout.PAGE_AXIS));
 
-        JPanel c3r1 = new JPanel();
+        c3r1 = new JPanel();
         c3r1.setBackground(dashboardPanel.getWindow().getFilterColor());
         c3r1.setLayout(new BoxLayout(c3r1, BoxLayout.LINE_AXIS));
 
@@ -613,7 +632,7 @@ public class FilterPanel extends JPanel {
         c3r1.add(Box.createHorizontalGlue());
         c3r1.add(ageRad2);
 
-        JPanel c3r2 = new JPanel();
+        c3r2 = new JPanel();
         c3r2.setBackground(dashboardPanel.getWindow().getFilterColor());
         c3r2.setLayout(new BoxLayout(c3r2, BoxLayout.LINE_AXIS));
 
@@ -621,7 +640,7 @@ public class FilterPanel extends JPanel {
         c3r2.add(Box.createHorizontalGlue());
         c3r2.add(ageRad4);
 
-        JPanel c3r3 = new JPanel();
+        c3r3 = new JPanel();
         c3r3.setBackground(dashboardPanel.getWindow().getFilterColor());
         c3r3.setLayout(new BoxLayout(c3r3, BoxLayout.LINE_AXIS));
 
@@ -639,7 +658,7 @@ public class FilterPanel extends JPanel {
         col3.add(Box.createVerticalGlue());
 
 
-        JPanel col4 = new JPanel();
+        col4 = new JPanel();
         col4.setBackground(dashboardPanel.getWindow().getFilterColor());
         col4.setLayout(new BoxLayout(col4, BoxLayout.PAGE_AXIS));
 
@@ -653,11 +672,11 @@ public class FilterPanel extends JPanel {
         col4.add(incomeRad3);
         col4.add(Box.createVerticalGlue());
 
-        JPanel col5 = new JPanel();
+        col5 = new JPanel();
         col5.setBackground(dashboardPanel.getWindow().getFilterColor());
         col5.setLayout(new BoxLayout(col5, BoxLayout.PAGE_AXIS));
 
-        JPanel c5r1 = new JPanel();
+        c5r1 = new JPanel();
         c5r1.setBackground(dashboardPanel.getWindow().getFilterColor());
         c5r1.setLayout(new BoxLayout(c5r1, BoxLayout.LINE_AXIS));
 
@@ -665,7 +684,7 @@ public class FilterPanel extends JPanel {
         c5r1.add(Box.createHorizontalGlue());
         c5r1.add(conRad2);
 
-        JPanel c5r2 = new JPanel();
+        c5r2 = new JPanel();
         c5r2.setBackground(dashboardPanel.getWindow().getFilterColor());
         c5r2.setLayout(new BoxLayout(c5r2, BoxLayout.LINE_AXIS));
 
@@ -673,7 +692,7 @@ public class FilterPanel extends JPanel {
         c5r2.add(Box.createHorizontalGlue());
         c5r2.add(conRad4);
 
-        JPanel c5r3 = new JPanel();
+        c5r3 = new JPanel();
         c5r3.setBackground(dashboardPanel.getWindow().getFilterColor());
         c5r3.setLayout(new BoxLayout(c5r3, BoxLayout.LINE_AXIS));
 
@@ -691,7 +710,7 @@ public class FilterPanel extends JPanel {
         col5.add(c5r3);
         col5.add(Box.createVerticalGlue());
 
-        JPanel col6 = new JPanel();
+        col6 = new JPanel();
         col6.setBackground(dashboardPanel.getWindow().getFilterColor());
         col6.setLayout(new BoxLayout(col6, BoxLayout.PAGE_AXIS));
 
@@ -717,5 +736,86 @@ public class FilterPanel extends JPanel {
 
     }
 
+    public void updateColors(){
+        this.setBackground(dashboardPanel.getWindow().getFilterColor2());
+        dateRangeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
+        ageCB.setBackground(dashboardPanel.getWindow().getFilterColor());
+        incomeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
+        genderCB.setBackground(dashboardPanel.getWindow().getFilterColor());
+        contextCB.setBackground(dashboardPanel.getWindow().getFilterColor());
+
+        dateText1.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        dateText2.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+
+        genRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        genRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
+
+        ageRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        ageRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
+        ageRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
+        ageRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
+        ageRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
+
+        incomeRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        incomeRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
+        incomeRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
+
+        conRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        conRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
+        conRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
+        conRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
+        conRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
+        conRad6.setBackground(dashboardPanel.getWindow().getFilterColor());
+
+        applyBut.setBackground(dashboardPanel.getWindow().getActionButColor());
+
+        col1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c1r1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c1r2.setBackground(dashboardPanel.getWindow().getFilterColor());
+        col2.setBackground(dashboardPanel.getWindow().getFilterColor());
+        col3.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c3r1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c3r2.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c3r3.setBackground(dashboardPanel.getWindow().getFilterColor());
+        col4.setBackground(dashboardPanel.getWindow().getFilterColor());
+        col5.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c5r1.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c5r2.setBackground(dashboardPanel.getWindow().getFilterColor());
+        c5r3.setBackground(dashboardPanel.getWindow().getFilterColor());
+        col6.setBackground(dashboardPanel.getWindow().getFilterColor());
+    }
+
+    public void updateTextSize(){
+        dateRangeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
+        ageCB.setFont(dashboardPanel.getWindow().getTextFontBold());
+        genderCB.setFont(dashboardPanel.getWindow().getTextFontBold());
+        incomeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
+        contextCB.setFont(dashboardPanel.getWindow().getTextFontBold());
+
+        dateText1.setFont(dashboardPanel.getWindow().getTextFont());
+        dateText2.setFont(dashboardPanel.getWindow().getTextFont());
+        date1Label.setFont(dashboardPanel.getWindow().getTextFont());
+        date2Label.setFont(dashboardPanel.getWindow().getTextFont());
+
+        ageRad1.setFont(dashboardPanel.getWindow().getTextFont());
+        ageRad2.setFont(dashboardPanel.getWindow().getTextFont());
+        ageRad3.setFont(dashboardPanel.getWindow().getTextFont());
+        ageRad4.setFont(dashboardPanel.getWindow().getTextFont());
+        ageRad5.setFont(dashboardPanel.getWindow().getTextFont());
+
+        genRad1.setFont(dashboardPanel.getWindow().getTextFont());
+        genRad2.setFont(dashboardPanel.getWindow().getTextFont());
+
+        incomeRad1.setFont(dashboardPanel.getWindow().getTextFont());
+        incomeRad2.setFont(dashboardPanel.getWindow().getTextFont());
+        incomeRad3.setFont(dashboardPanel.getWindow().getTextFont());
+
+        conRad1.setFont(dashboardPanel.getWindow().getTextFont());
+        conRad2.setFont(dashboardPanel.getWindow().getTextFont());
+        conRad3.setFont(dashboardPanel.getWindow().getTextFont());
+        conRad4.setFont(dashboardPanel.getWindow().getTextFont());
+        conRad5.setFont(dashboardPanel.getWindow().getTextFont());
+        conRad6.setFont(dashboardPanel.getWindow().getTextFont());
+    }
 
 }

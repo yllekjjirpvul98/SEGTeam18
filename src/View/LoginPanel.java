@@ -15,6 +15,19 @@ public class LoginPanel extends JPanel {
     private File lastLoadedCamp;
     private boolean firstLogin;
 
+    private JLabel title;
+    private JButton loadBut;
+    private JPanel row1;
+    private JPanel row2;
+    private JPanel row3;
+    private JPanel row4;
+    private JPanel row5;
+    private JButton helpBut;
+    private JButton delBut;
+    private JButton addbut;
+    private JList campList;
+
+
     public LoginPanel(View window){
         this.window = window;
         this.setBackground(window.getBackgoundColor());
@@ -29,19 +42,19 @@ public class LoginPanel extends JPanel {
 
         //  ---- Creating components ----
 
-        JLabel title = new JLabel("Campaign Select");
+        title = new JLabel("Campaign Select");
         title.setFont(window.getHeadingFont());
         title.setForeground(window.getHeadingColour());
 
-        JButton loadBut = new JButton("Load Data");
+        loadBut = new JButton("Load Data");
         loadBut.setFont(window.getButtonBigFont());
-        loadBut.setBackground(window.getHighlightColor());
+        loadBut.setBackground(window.getActionButColor());
 
-        JPanel row1 = new JPanel();
-        JPanel row2 = new JPanel();
-        JPanel row3 = new JPanel();
-        JPanel row4 = new JPanel();
-        JPanel row5 = new JPanel();
+        row1 = new JPanel();
+        row2 = new JPanel();
+        row3 = new JPanel();
+        row4 = new JPanel();
+        row5 = new JPanel();
 
         loadBut.addActionListener(new ActionListener() {
             @Override
@@ -53,6 +66,8 @@ public class LoginPanel extends JPanel {
                     boolean checkClick = new File(currentCamp, "click_log.csv").exists();
 
                     if(checkImp && checkServer && checkClick) {
+
+                        window.getDashboardPanel().setCampName(currentCamp.getName());
 
                         if(lastLoadedCamp != currentCamp) { // Only reloads if loading a new file else simply switches back
 
@@ -77,6 +92,7 @@ public class LoginPanel extends JPanel {
                                 add(Box.createRigidArea(window.getHightBorderDim()));
 
                             } else {
+                                window.getDashboardPanel().getDataPanel().setCampName(currentCamp.getName());
                                 window.getDashboardPanel().reset();
                                 window.getCampFrame().close();
                             }
@@ -101,7 +117,7 @@ public class LoginPanel extends JPanel {
 
         ListModel listModel = new DefaultListModel();
 
-        JList campList = new JList(listModel);
+        campList = new JList(listModel);
         JScrollPane scrollPane = new JScrollPane(campList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         campList.setFont(window.getTextFont());
         campList.setFixedCellWidth(window.getButtonTitleFont().getSize() * 20);
@@ -121,9 +137,9 @@ public class LoginPanel extends JPanel {
             }
         });
 
-        JButton delBut = new JButton("DEL");
+        delBut = new JButton("DEL");
         delBut.setFont(window.getButtonBigFont());
-        delBut.setBackground(new Color(0xFF8976));
+        delBut.setBackground(window.getDelColor());
 
         delBut.addActionListener(new ActionListener() {
             @Override
@@ -146,9 +162,9 @@ public class LoginPanel extends JPanel {
             }
         });
 
-        JButton addbut = new JButton("ADD");
+        addbut = new JButton("ADD");
         addbut.setFont(window.getButtonBigFont());
-        addbut.setBackground(new Color(0x9CFFAD));
+        addbut.setBackground(window.getAddColor());
 
         addbut.addActionListener(new ActionListener() {
             @Override
@@ -167,7 +183,7 @@ public class LoginPanel extends JPanel {
             }
         });
 
-        JButton helpBut = new JButton("?");
+        helpBut = new JButton("?");
         helpBut.setFont(window.getButtonBigFont());
         helpBut.setBackground(window.getUnhighlightColor());
 
@@ -219,6 +235,37 @@ public class LoginPanel extends JPanel {
         this.add(row5);
         this.add(Box.createRigidArea(window.getHightBorderDim()));
 
+    }
+
+    public void updateColors(){
+        this.setBackground(window.getBackgoundColor());
+        title.setForeground(window.getHeadingColour());
+        loadBut.setBackground(window.getActionButColor());
+        helpBut.setBackground(window.getUnhighlightColor());
+        delBut.setBackground(window.getDelColor());
+        addbut.setBackground(window.getAddColor());
+        row1.setBackground(window.getBackgoundColor());
+        row2.setBackground(window.getBackgoundColor());
+        row3.setBackground(window.getBackgoundColor());
+        row4.setBackground(window.getBackgoundColor());
+        row5.setBackground(window.getBackgoundColor());
+    }
+
+    public void updateTextSize(){
+        title.setFont(window.getHeadingFont());
+        loadBut.setFont(window.getButtonBigFont());
+        helpBut.setFont(window.getButtonBigFont());
+        addbut.setFont(window.getButtonBigFont());
+        delBut.setFont(window.getButtonBigFont());
+        campList.setFont(window.getTextFont());
+    }
+
+    public File getLastLoadedCamp() {
+        return lastLoadedCamp;
+    }
+
+    public void setLastLoadedCamp(File lastLoadedCamp) {
+        this.lastLoadedCamp = lastLoadedCamp;
     }
 
 }

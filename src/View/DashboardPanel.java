@@ -8,10 +8,21 @@ import java.awt.event.ActionListener;
 public class DashboardPanel extends JPanel {
 
     private View window;
+    private String campName;
 
     private FilterPanel filterPanel;
     private DataPanel dataPanel;
     private GraphPanel graphPanel;
+
+    private JLabel title;
+    private JButton logoutBut;
+    private JButton settingsBut;
+    private JComboBox<String> metricSelect;
+    private JComboBox<String> timeSlide;
+    private JPanel northPanel;
+    private JPanel row1n;
+    private JPanel row2n;
+    private JPanel row3n;
 
     public DashboardPanel(View window){
         this.window = window;
@@ -32,25 +43,25 @@ public class DashboardPanel extends JPanel {
         dataPanel = new DataPanel(this);
         graphPanel = new GraphPanel(this);
 
-        JLabel title = new JLabel("DashBoard");
+        title = new JLabel("DashBoard");
         title.setFont(window.getHeadingFont());
         title.setForeground(window.getHeadingColour());
 
-        JButton logoutBut = new JButton("Campaign Select");
+        logoutBut = new JButton("Campaign Select");
         logoutBut.setFont(window.getButtonBigFont());
-        logoutBut.setBackground(window.getUnhighlightColor());
+        logoutBut.setBackground(window.getHighlightColor());
 
         logoutBut.addActionListener(e -> window.setCampFrame(new CampFrame(window)));
 
 
-        JButton settingsBut = new JButton("Settings");
+        settingsBut = new JButton("Settings");
         settingsBut.setFont(window.getButtonBigFont());
-        settingsBut.setBackground(window.getUnhighlightColor());
+        settingsBut.setBackground(window.getHighlightColor());
 
         settingsBut.addActionListener(e -> window.setSettingFrame(new SettingFrame(window)));
 
         String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
-        JComboBox<String> metricSelect = new JComboBox<String>(metrics);
+        metricSelect = new JComboBox<String>(metrics);
         metricSelect.setVisible(true);
         metricSelect.setBackground(window.getUnhighlightColor());
         metricSelect.setFont(window.getTextFont());
@@ -62,12 +73,18 @@ public class DashboardPanel extends JPanel {
                 graphPanel.setMetric(metricSelect.getSelectedItem().toString());
 
                 graphPanel.getGraph().updateSeries();
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                graphPanel.getGraph().updateSeries();
             }
 
         });
 
         String[] TimeScales = {"Hour","Day","Week","Month","Year"};
-        JComboBox<String> timeSlide = new JComboBox<String>(TimeScales);
+        timeSlide = new JComboBox<String>(TimeScales);
         timeSlide.setSelectedIndex(1); // TO START ON DAY
         timeSlide.setFont(window.getTextFont());
         timeSlide.setBackground(window.getUnhighlightColor());
@@ -81,17 +98,28 @@ public class DashboardPanel extends JPanel {
                 graphPanel.setTime(timeUpper.toLowerCase());
 
                 graphPanel.getGraph().updateSeries();
-
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                graphPanel.getGraph().updateSeries();
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                graphPanel.getGraph().updateSeries();
             }
 
         });
 
         // North Panel --- Logout & Title
-        JPanel northPanel = new JPanel();
+        northPanel = new JPanel();
         northPanel.setBackground(window.getBackgoundColor());
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.PAGE_AXIS));
 
-        JPanel row1n = new JPanel();
+        row1n = new JPanel();
         row1n.setBackground(window.getBackgoundColor());
 
         row1n.setLayout(new BoxLayout(row1n, BoxLayout.LINE_AXIS));
@@ -101,7 +129,7 @@ public class DashboardPanel extends JPanel {
         row1n.add(settingsBut);
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
 
-        JPanel row2n = new JPanel();
+        row2n = new JPanel();
         row2n.setBackground(window.getBackgoundColor());
 
         row2n.setLayout(new BoxLayout(row2n, BoxLayout.LINE_AXIS));
@@ -109,7 +137,7 @@ public class DashboardPanel extends JPanel {
         row2n.add(title);
         row2n.add(Box.createHorizontalGlue());
 
-        JPanel row3n = new JPanel();
+        row3n = new JPanel();
         row3n.setBackground(window.getBackgoundColor());
         row3n.setLayout(new BoxLayout(row3n, BoxLayout.LINE_AXIS));
 
@@ -130,6 +158,34 @@ public class DashboardPanel extends JPanel {
         this.add(filterPanel, BorderLayout.SOUTH);
         this.add(graphPanel, BorderLayout.CENTER);
         this.add(dataPanel, BorderLayout.WEST);
+    }
+
+    public void updateColors(){
+        this.setBackground(window.getBackgoundColor());
+        title.setForeground(window.getHeadingColour());
+        logoutBut.setBackground(window.getHighlightColor());
+        settingsBut.setBackground(window.getHighlightColor());
+        metricSelect.setBackground(window.getUnhighlightColor());
+        timeSlide.setBackground(window.getUnhighlightColor());
+        northPanel.setBackground(window.getBackgoundColor());
+        row1n.setBackground(window.getBackgoundColor());
+        row2n.setBackground(window.getBackgoundColor());
+        row3n.setBackground(window.getBackgoundColor());
+
+        filterPanel.updateColors();
+        graphPanel.updateColors();
+        dataPanel.updateColors();
+    }
+
+    public void updateTextSize(){
+        title.setFont(window.getHeadingFont());
+        logoutBut.setFont(window.getButtonBigFont());
+        settingsBut.setFont(window.getButtonBigFont());
+        metricSelect.setFont(window.getTextFont());
+        timeSlide.setFont(window.getTextFont());
+
+        filterPanel.updateTextSize();
+        dataPanel.updateTextSize();
     }
 
 
@@ -159,5 +215,13 @@ public class DashboardPanel extends JPanel {
 
     public void setGraphPanel(GraphPanel graphPanel){
         this.graphPanel = graphPanel;
+    }
+
+    public String getCampName() {
+        return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
     }
 }

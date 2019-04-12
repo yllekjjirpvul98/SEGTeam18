@@ -17,14 +17,18 @@ public class Graph2 extends JFXPanel {
     private GraphPanel graphPanel;
     private Calculation calc;
     private LineChart lineChart;
+    private CategoryAxis xAxis;
+    private NumberAxis yAxis;
     private XYChart.Series series;
 
     public Graph2(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
         this.calc = graphPanel.getDashboardPanel().getWindow().getControl().getModel().getCal();
 
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
+        xAxis = new CategoryAxis();
+        yAxis = new NumberAxis();
+        xAxis.setLabel(graphPanel.getTime());
+        yAxis.setLabel("Number of " + graphPanel.getMetric());
 
         lineChart = new LineChart(xAxis, yAxis);
         updateSeries();
@@ -68,6 +72,10 @@ public class Graph2 extends JFXPanel {
 
             }
 
+            yAxis.setLabel(graphPanel.getMetric());
+            String metric = graphPanel.getTime();
+            String capMetric = metric.substring(0,1).toUpperCase() + metric.substring(1);
+            xAxis.setLabel(capMetric);
         });
     }
 

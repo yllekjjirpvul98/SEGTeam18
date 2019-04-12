@@ -14,6 +14,10 @@ public class GraphPanel extends JPanel {
     private ArrayList<Map<String, Double>> savedDataMaps;
     private ArrayList<String> savedDataLables;
 
+    private JPanel eastPanel;
+    private JPanel southPanel;
+    private JPanel centrePanel;
+
     public GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
         this.graph = new Graph2(this);
@@ -27,20 +31,20 @@ public class GraphPanel extends JPanel {
     private void init() {
 
         //  ---- Layout ----
-        JPanel eastPanel = new JPanel();
+        eastPanel = new JPanel();
         eastPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.LINE_AXIS));
 
         eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
-        JPanel southPanel = new JPanel();
+        southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
         southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
 
         southPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
 
-        JPanel centrePanel = new JPanel();
-        centrePanel.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
+        centrePanel = new JPanel();
+        centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
         centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
 
@@ -49,6 +53,13 @@ public class GraphPanel extends JPanel {
         this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(eastPanel, BorderLayout.EAST);
+    }
+
+    public void updateColors(){
+        this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        eastPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
     }
 
     public DashboardPanel getDashboardPanel(){

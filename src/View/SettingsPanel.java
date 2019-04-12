@@ -12,6 +12,25 @@ public class SettingsPanel extends JPanel {
     private View window;
     private Bounce bounce;
 
+    private JCheckBox colourBlind;
+    private JCheckBox largeText;
+    private JCheckBox minWebsiteTime;
+    private JCheckBox minPagesVisited;
+    private JButton applyBut;
+    private JLabel accessLab;
+    private JLabel bounceDefinition;
+    private JSpinner webTimeSpinner;
+    private JSpinner webPagesSpinner;
+
+    private JPanel row1;
+    private JPanel col1;
+    private JPanel col2;
+    private JPanel c2r0;
+    private JPanel c2r1;
+    private JPanel c2r2;
+    private JPanel sPanel;
+    private JPanel centrePanel;
+
     public SettingsPanel(View window){
         this.window = window;
         this.setBackground(window.getBackgoundColor());
@@ -26,63 +45,80 @@ public class SettingsPanel extends JPanel {
 
         //  ---- Creating components ----
 
-        JLabel accessLab = new JLabel("Accessibility");
+        accessLab = new JLabel("Accessibility");
         accessLab.setFont(window.getSubHeadingFont());
 
-        JCheckBox colourBlind = new JCheckBox("Colour Blind Mode");
+        colourBlind = new JCheckBox("Colour Blind Mode");
         colourBlind.setBackground(window.getBackgoundColor());
         colourBlind.setFont(window.getTextFont());
         colourBlind.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(colourBlind.isEnabled() == true) {
-                    window.setFilterColor(Color.lightGray);
-                    window.setBackgoundColor(Color.white);
-                    window.setHeadingColour(Color.BLACK);
-                    window.setHighlightColor(Color.DARK_GRAY);
-                    window.setUnhighlightColor(Color.GRAY);
-                } else {
+
+                boolean preSetting = window.getControl().getModel().getSettings().getColorBlind();
+                window.getControl().getModel().getSettings().setColorBlind(!preSetting);
+
+                if(window.getControl().getModel().getSettings().getColorBlind()) {
                     window.setHeadingColour(new Color(0xFBFBFB));
-                    window.setHighlightColor(new Color(0x76B8FF));
-                    window.setUnhighlightColor(new Color(0xF7F7F7));
+                    window.setHighlightColor(new Color(0xFBFBFB));
+                    window.setUnhighlightColor(new Color(0xFBFBFB));
                     window.setBackgoundColor(new Color(0x8DABCF));
                     window.setFilterColor(new Color(0xEDB980));
+                    window.setFilterColor2(new Color(0xEDB980));
+                    window.setAddColor(new Color(0xEEE832));
+                    window.setDelColor(new Color(0xDEBD6FD5));
+                    window.setActionButColor(new Color(0xFBFBFB));
+                } else {
+                    window.setHeadingColour(new Color(0x4167B2));
+                    window.setHighlightColor(new Color(0x71B9FF));
+                    window.setUnhighlightColor(new Color(0xFFFFFF));
+                    window.setBackgoundColor(new Color(0xEAEBEF));
+                    window.setFilterColor(new Color(0x468DDF));
+                    window.setFilterColor2(new Color(0x468DDF));
+                    window.setAddColor(new Color(0x71B9FF));
+                    window.setDelColor(new Color(0x71B9FF));
+                    window.setActionButColor(new Color(0xEF934E));
                 }
             }
 
         });
 
-        JCheckBox largeText = new JCheckBox("Large Text");
+        largeText = new JCheckBox("Large Text");
         largeText.setBackground(window.getBackgoundColor());
         largeText.setFont(window.getTextFont());
         largeText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(largeText.isEnabled() == true) {
 
-                    window.setTextSizeXL((int) Math.round(window.getTextSizeXL() * 1.5));
-                    window.setTextSizeL((int) Math.round(window.getTextSizeL() * 1.5));
-                    window.setTextSizeM((int) Math.round(window.getTextSizeM() * 1.5));
-                    window.setTextSizeS((int) Math.round(window.getTextSizeS() * 1.5));
-                    window.setTextSizeXS((int) Math.round(window.getTextSizeXS() * 1.5));
+                boolean preSetting = window.getControl().getModel().getSettings().getLargeText();
+                window.getControl().getModel().getSettings().setLargeText(!preSetting);
 
-                }
-
-                if(largeText.isEnabled() == false) {
-
-                    window.setTextSizeXL((int) Math.round(window.getTextSizeXL() / 1.5));
-                    window.setTextSizeL((int) Math.round(window.getTextSizeL() / 1.5));
-                    window.setTextSizeM((int) Math.round(window.getTextSizeM() / 1.5));
-                    window.setTextSizeS((int) Math.round(window.getTextSizeS() / 1.5));
-                    window.setTextSizeXS((int) Math.round(window.getTextSizeXS() / 1.5));
+                if(window.getControl().getModel().getSettings().getLargeText()) {
+                    window.setTitleFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getTitleFont().getSize() * 1.5))));
+                    window.setHeadingFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getHeadingFont().getSize() * 1.5))));
+                    window.setSubHeadingFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getSubHeadingFont().getSize() * 1.5))));
+                    window.setTextFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getTextFont().getSize() * 1.5))));
+                    window.setTextFontBold(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getTextFontBold().getSize() * 1.5))));
+                    window.setButtonTitleFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonTitleFont().getSize() * 1.5))));
+                    window.setButtonBigFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonBigFont().getSize() * 1.5))));
+                    window.setButtonSmallFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getButtonBigFont().getSize() * 1.5))));
+                } else {
+                    window.setTitleFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getTitleFont().getSize() / 1.5))));
+                    window.setHeadingFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getHeadingFont().getSize() / 1.5))));
+                    window.setSubHeadingFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getSubHeadingFont().getSize() / 1.5))));
+                    window.setTextFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getTextFont().getSize() / 1.5))));
+                    window.setTextFontBold(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getTextFontBold().getSize() / 1.5))));
+                    window.setButtonTitleFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonTitleFont().getSize() / 1.5))));
+                    window.setButtonBigFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonBigFont().getSize() / 1.5))));
+                    window.setButtonSmallFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getButtonBigFont().getSize() / 1.5))));
                 }
             }
         });
 
-        JLabel bounceDefinition = new JLabel("Bounce Definition");
+        bounceDefinition = new JLabel("Bounce Definition");
         bounceDefinition.setFont(window.getSubHeadingFont());
 
-        JCheckBox minWebsiteTime = new JCheckBox("Minimum Time on Website (secs)");
+        minWebsiteTime = new JCheckBox("Minimum Time on Website (secs)");
         minWebsiteTime.setBackground(window.getBackgoundColor());
         minWebsiteTime.setFont(window.getTextFont());
         minWebsiteTime.addActionListener(new ActionListener() {
@@ -94,7 +130,7 @@ public class SettingsPanel extends JPanel {
 
         });
 
-        JCheckBox minPagesVisited = new JCheckBox("Minimum Pages Visited");
+        minPagesVisited = new JCheckBox("Minimum Pages Visited");
         minPagesVisited.setBackground(window.getBackgoundColor());
         minPagesVisited.setFont(window.getTextFont());
         minPagesVisited.addActionListener(new ActionListener() {
@@ -106,20 +142,20 @@ public class SettingsPanel extends JPanel {
 
         });
 
-        JSpinner webTimeSpinner = new JSpinner();
+        webTimeSpinner = new JSpinner();
         webTimeSpinner.setFont(window.getTextFont());
         webTimeSpinner.setValue(3);
-        webTimeSpinner.setMaximumSize(new Dimension ((int) ( window.getButtonBigFont().getSize() * 1.5),window.getButtonBigFont().getSize() * 2));
+        webTimeSpinner.setMaximumSize(new Dimension ((int) ( window.getButtonBigFont().getSize() * 3),window.getButtonBigFont().getSize() * 2));
 
-        JSpinner webPagesSpinner = new JSpinner();
+        webPagesSpinner = new JSpinner();
         webPagesSpinner.setFont(window.getTextFont());
         webPagesSpinner.setValue(3);
-        webPagesSpinner.setMaximumSize(new Dimension((int) ( window.getButtonBigFont().getSize() * 1.5),window.getButtonBigFont().getSize() * 2));
+        webPagesSpinner.setMaximumSize(new Dimension((int) ( window.getButtonBigFont().getSize() * 3),window.getButtonBigFont().getSize() * 2));
 
 
-        JButton applyBut = new JButton("Apply");
+        applyBut = new JButton("Apply");
         applyBut.setFont(window.getButtonBigFont());
-        applyBut.setBackground(window.getFilterColor());
+        applyBut.setBackground(window.getActionButColor());
 
         applyBut.addActionListener(new ActionListener() {
             @Override
@@ -132,16 +168,18 @@ public class SettingsPanel extends JPanel {
                 window.getDashboardPanel().getGraphPanel().getGraph().updateSeries();
 
                 window.getSettingFrame().close();
+                window.updateColors();
+                window.updateTextSize();
             }
 
         });
 
         //  ---- Layout ----
-        JPanel sPanel = new JPanel();
+        sPanel = new JPanel();
         sPanel.setLayout(new BoxLayout(sPanel, BoxLayout.PAGE_AXIS));
         sPanel.setBackground(window.getBackgoundColor());
 
-        JPanel row1 = new JPanel();
+        row1 = new JPanel();
         row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
         row1.setBackground(window.getBackgoundColor());
 
@@ -155,11 +193,11 @@ public class SettingsPanel extends JPanel {
         sPanel.add(Box.createRigidArea(window.getHightBorderDim()));
 
 
-        JPanel centrePanel = new JPanel();
+        centrePanel = new JPanel();
         centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.LINE_AXIS));
         centrePanel.setBackground(window.getBackgoundColor());
 
-        JPanel col1 = new JPanel();
+        col1 = new JPanel();
         col1.setLayout(new BoxLayout(col1, BoxLayout.PAGE_AXIS));
         col1.setBackground(window.getBackgoundColor());
 
@@ -174,18 +212,18 @@ public class SettingsPanel extends JPanel {
         col1.add(Box.createVerticalGlue());
 
 
-        JPanel col2 = new JPanel();
+        col2 = new JPanel();
         col2.setLayout(new BoxLayout(col2, BoxLayout.PAGE_AXIS));
         col2.setBackground(window.getBackgoundColor());
 
-        JPanel c2r0 = new JPanel();
+        c2r0 = new JPanel();
         c2r0.setLayout(new BoxLayout(c2r0, BoxLayout.LINE_AXIS));
         c2r0.setBackground(window.getBackgoundColor());
 
         c2r0.add(bounceDefinition);
         c2r0.add(Box.createHorizontalGlue());
 
-        JPanel c2r1 = new JPanel();
+        c2r1 = new JPanel();
         c2r1.setLayout(new BoxLayout(c2r1, BoxLayout.LINE_AXIS));
         c2r1.setBackground(window.getBackgoundColor());
 
@@ -194,7 +232,7 @@ public class SettingsPanel extends JPanel {
         c2r1.add(webPagesSpinner);
         c2r1.add(Box.createHorizontalGlue());
 
-        JPanel c2r2 = new JPanel();
+        c2r2 = new JPanel();
         c2r2.setLayout(new BoxLayout(c2r2, BoxLayout.LINE_AXIS));
         c2r2.setBackground(window.getBackgoundColor());
 
@@ -223,6 +261,36 @@ public class SettingsPanel extends JPanel {
 
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(sPanel,BorderLayout.SOUTH);
+
+    }
+
+    public void updateColors(){
+        this.setBackground(window.getBackgoundColor());
+        colourBlind.setBackground(window.getBackgoundColor());
+        largeText.setBackground(window.getBackgoundColor());
+        minWebsiteTime.setBackground(window.getBackgoundColor());
+        minPagesVisited.setBackground(window.getBackgoundColor());
+        applyBut.setBackground(window.getActionButColor());
+        row1.setBackground(window.getBackgoundColor());
+        col1.setBackground(window.getBackgoundColor());
+        col2.setBackground(window.getBackgoundColor());
+        c2r0.setBackground(window.getBackgoundColor());
+        c2r1.setBackground(window.getBackgoundColor());
+        c2r2.setBackground(window.getBackgoundColor());
+        sPanel.setBackground(window.getBackgoundColor());
+        centrePanel.setBackground(window.getBackgoundColor());
+    }
+
+    public void updateTextSize(){
+        accessLab.setFont(window.getSubHeadingFont());
+        colourBlind.setFont(window.getTextFont());
+        largeText.setFont(window.getTextFont());
+        bounceDefinition.setFont(window.getSubHeadingFont());
+        minPagesVisited.setFont(window.getTextFont());
+        minWebsiteTime.setFont(window.getTextFont());
+        webPagesSpinner.setFont(window.getTextFont());
+        webTimeSpinner.setFont(window.getTextFont());
+        applyBut.setFont(window.getButtonBigFont());
 
     }
 
