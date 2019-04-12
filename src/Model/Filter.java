@@ -27,6 +27,22 @@ public class Filter {
         this.contextSelected = contextSelected;
     }
 
+    public void reset(){
+        dateRangeSelected = false;
+        genderSelected = false;
+        ageSelected = false;
+        incomeSelected = false;
+        contextSelected = false;
+
+        dateLowerRange = null;
+        dateUpperRange = null;
+
+        gender.clear();
+        age.clear();
+        income.clear();
+        context.clear();
+    }
+
     public enum Context {
         News,
         Blog,

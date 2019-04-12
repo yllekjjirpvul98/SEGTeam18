@@ -553,16 +553,16 @@ public class Calculation {
         return granularity;
     }
 
-    public static void main(String[] args){
-            Database db = new Database();
-            db.connectToDatabase();
-
-            Filter filter = new Filter(false, false, false, false, false);
-            Bounce bounce = new Bounce(false, false);
-            Settings settings = new Settings(false, false);
-            Calculation cal = new Calculation(db, bounce, filter);
-            filter.setAgeSelected(true);
-            filter.setAge("<25");
+//    public static void main(String[] args){
+//            Database db = new Database();
+//            db.connectToDatabase();
+//
+//            Filter filter = new Filter(false, false, false, false, false);
+//            Bounce bounce = new Bounce(false, false);
+//            Settings settings = new Settings(false, false);
+//            Calculation cal = new Calculation(db, bounce, filter);
+//            filter.setAgeSelected(true);
+//            filter.setAge("<25");
 
 //            filter.setContextSelected(true);
 //            filter.setContext(News);
@@ -612,40 +612,11 @@ public class Calculation {
 //            System.out.println("calTotal():" + time_diff/1_000_000_000);
 //            double endtime = System.nanoTime()-starttime;
 //            System.out.println("Total time : " + endtime/1_000_000_000);
-
-            Map<String, Double> map = cal.getTimeG("CPC", "hour");
-            for (String d : map.keySet()){
-                System.out.println(d);
-                System.out.println(map.get(d));
-            }
-        }
-
-    public Map<Integer, Integer> getClickCost () {
-        Map<Integer, Integer> granularity = new LinkedHashMap<>();
-        Map<Integer, Integer> result = new LinkedHashMap<>();
-        String clickQuery = "SELECT FLOOR(clickCost) AS RoundCost , count (Click.ID) FROM Click INNER JOIN ";
-
-        try {
-            clickQuery += "Impression ON Click.ID = Impression.id ";
-            clickQuery += whereClause();
-
-            clickQuery = clickQuery.replaceFirst(";", "");
-            clickQuery += " GROUP BY RoundCost ORDER BY RoundCost";
-
-            ResultSet rs = statement.executeQuery(clickQuery);
-            while (rs.next()) {
-                Integer cost = rs.getInt("RoundCost");
-                Integer count = rs.getInt("count(Click.ID)");
-                granularity.put(cost, count);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        for (Integer i : granularity.keySet()){
-            int key = i / 5;
-            if (result.containsKey(key)){
-                result.put(key, result.get(key)+granularity.get(i));
-            }else result.put(key, granularity.get(i));
-        }return result;
-    }
+//
+//            Map<String, Double> map = cal.getTimeG("CPC", "hour");
+//            for (String d : map.keySet()){
+//                System.out.println(d);
+//                System.out.println(map.get(d));
+//            }
+//        }
 }

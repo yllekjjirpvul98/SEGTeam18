@@ -1,6 +1,7 @@
 package View;
 
 import Control.Controller;
+import javafx.application.Platform;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +41,8 @@ public class View extends JFrame {
     private DashboardPanel dashboardPanel;
     private SettingsPanel settingsPanel;
 
+    private SettingFrame settingFrame;
+    private CampFrame campFrame;
 
     public View(String title) {
         super(title);
@@ -81,32 +84,36 @@ public class View extends JFrame {
 
         loginPanel = new LoginPanel(this);
         helpPanel = new HelpPanel(this);
-        dashboardPanel = new DashboardPanel(this);
         settingsPanel = new SettingsPanel(this);
+        dashboardPanel = new DashboardPanel(this);
 
         this.add(loginPanel);
         this.pack();
         this.setSize(windowDim);
+        this.setLocation(screenDim.width/2-this.getSize().width/2, screenDim.height/2-this.getSize().height/2);
     }
 
     public void changePanel(String panel){
-        Dimension windowSize = new Dimension(this.getWidth(),this.getHeight());
-        window.removeAll();
-        this.repaint();
+            Dimension windowSize = new Dimension(this.getWidth(), this.getHeight());
+            window.removeAll();
+            this.repaint();
 
-        if (panel.equals("loginPanel"))
-            window.add(loginPanel);
-        else if (panel.equals("helpPanel"))
-            window.add(helpPanel);
-        else if (panel.equals("dashboardPanel")) {
-            dashboardPanel = new DashboardPanel(this);
-            window.add(dashboardPanel);
-        }
-        else if (panel.equals("settingsPanel"))
-            window.add(settingsPanel);
+            if (panel.equals("loginPanel"))
+                window.add(loginPanel);
+            else if (panel.equals("helpPanel"))
+                window.add(helpPanel);
+            else if (panel.equals("dashboardPanel")) {
+                window.add(dashboardPanel);
+            }
+            else if (panel.equals("settingsPanel"))
+                window.add(settingsPanel);
 
-        this.pack();
-        this.setSize(windowSize);
+            this.pack();
+            this.setSize(windowSize);
+    }
+
+    public void setDashboardPanel(DashboardPanel dashboardPanel) {
+        this.dashboardPanel = dashboardPanel;
     }
 
     public DashboardPanel getDashboardPanel() {
@@ -247,5 +254,29 @@ public class View extends JFrame {
 
     public Color getFilterColor2() {
         return filterColor2;
+    }
+
+    public SettingsPanel getSettingsPanel(){
+        return settingsPanel;
+    }
+
+    public LoginPanel getLoginPanel(){
+        return loginPanel;
+    }
+
+    public SettingFrame getSettingFrame() {
+        return settingFrame;
+    }
+
+    public void setSettingFrame(SettingFrame settingFrame) {
+        this.settingFrame = settingFrame;
+    }
+
+    public CampFrame getCampFrame() {
+        return campFrame;
+    }
+
+    public void setCampFrame(CampFrame campFrame) {
+        this.campFrame = campFrame;
     }
 }

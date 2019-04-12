@@ -3,11 +3,9 @@ package View;
 import Model.Bounce;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ChangeEvent;
 
 public class SettingsPanel extends JPanel {
 
@@ -17,7 +15,7 @@ public class SettingsPanel extends JPanel {
     public SettingsPanel(View window){
         this.window = window;
         this.setBackground(window.getBackgoundColor());
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         bounce = window.getControl().getModel().getBounce();
         this.init();
@@ -27,10 +25,6 @@ public class SettingsPanel extends JPanel {
     private void init(){
 
         //  ---- Creating components ----
-
-        JLabel title = new JLabel("Settings");
-        title.setFont(window.getHeadingFont());
-        title.setForeground(window.getHeadingColour());
 
         JLabel accessLab = new JLabel("Accessibility");
         accessLab.setFont(window.getSubHeadingFont());
@@ -123,55 +117,42 @@ public class SettingsPanel extends JPanel {
         webPagesSpinner.setMaximumSize(new Dimension((int) ( window.getButtonBigFont().getSize() * 1.5),window.getButtonBigFont().getSize() * 2));
 
 
-        JButton backBut = new JButton("Back");
-        backBut.setFont(window.getButtonBigFont());
-        backBut.setBackground(window.getUnhighlightColor());
+        JButton applyBut = new JButton("Apply");
+        applyBut.setFont(window.getButtonBigFont());
+        applyBut.setBackground(window.getFilterColor());
 
-        backBut.addActionListener(new ActionListener() {
+        applyBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-
                 bounce.setTime((int) webTimeSpinner.getValue());
                 bounce.setNumOfPageVisited((int) webPagesSpinner.getValue());
+
                 window.getDashboardPanel().getDataPanel().updateData();
                 window.getDashboardPanel().getGraphPanel().getGraph().updateSeries();
 
-
-                window.changePanel("dashboardPanel");
+                window.getSettingFrame().close();
             }
 
         });
 
         //  ---- Layout ----
-        JPanel northPanel = new JPanel();
-        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.PAGE_AXIS));
-        northPanel.setBackground(window.getBackgoundColor());
+        JPanel sPanel = new JPanel();
+        sPanel.setLayout(new BoxLayout(sPanel, BoxLayout.PAGE_AXIS));
+        sPanel.setBackground(window.getBackgoundColor());
 
         JPanel row1 = new JPanel();
         row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
         row1.setBackground(window.getBackgoundColor());
 
         row1.add(Box.createRigidArea(window.getWidthBorderDim()));
-        row1.add(backBut);
         row1.add(Box.createHorizontalGlue());
+        row1.add(applyBut);
+        row1.add(Box.createRigidArea(window.getWidthBorderDim()));
 
-
-        JPanel row2 = new JPanel();
-        row2.setLayout(new BoxLayout(row2, BoxLayout.LINE_AXIS));
-        row2.setBackground(window.getBackgoundColor());
-
-        row2.add(Box.createHorizontalGlue());
-        row2.add(title);
-        row2.add(Box.createHorizontalGlue());
-
-
-        northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
-        northPanel.add(row1);
-        northPanel.add(row2);
-        northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
-        northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
-        northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
+        sPanel.add(Box.createRigidArea(window.getHightBorderDim()));
+        sPanel.add(row1);
+        sPanel.add(Box.createRigidArea(window.getHightBorderDim()));
 
 
         JPanel centrePanel = new JPanel();
@@ -182,7 +163,9 @@ public class SettingsPanel extends JPanel {
         col1.setLayout(new BoxLayout(col1, BoxLayout.PAGE_AXIS));
         col1.setBackground(window.getBackgoundColor());
 
+        col1.add(Box.createRigidArea(window.getHightBorderDim()));
         col1.add(accessLab);
+        col1.add(Box.createRigidArea(window.getHightBorderDim()));
         col1.add(Box.createRigidArea(window.getHightBorderDim()));
         col1.add(colourBlind);
         col1.add(Box.createRigidArea(window.getHightBorderDim()));
@@ -220,7 +203,9 @@ public class SettingsPanel extends JPanel {
         c2r2.add(webTimeSpinner);
         c2r2.add(Box.createHorizontalGlue());
 
+        col2.add(Box.createRigidArea(window.getHightBorderDim()));
         col2.add(c2r0);
+        col2.add(Box.createRigidArea(window.getHightBorderDim()));
         col2.add(Box.createRigidArea(window.getHightBorderDim()));
         col2.add(c2r1);
         col2.add(Box.createRigidArea(window.getHightBorderDim()));
@@ -236,8 +221,9 @@ public class SettingsPanel extends JPanel {
         centrePanel.add(Box.createRigidArea(window.getWidthBorderDim()));
         centrePanel.add(col2);
 
-        this.add(northPanel,BorderLayout.NORTH);
         this.add(centrePanel, BorderLayout.CENTER);
+        this.add(sPanel,BorderLayout.SOUTH);
+
     }
 
 }

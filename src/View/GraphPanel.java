@@ -14,7 +14,6 @@ public class GraphPanel extends JPanel {
     private ArrayList<Map<String, Double>> savedDataMaps;
     private ArrayList<String> savedDataLables;
 
-
     public GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
         this.graph = new Graph2(this);
@@ -25,7 +24,7 @@ public class GraphPanel extends JPanel {
         this.init();
     }
 
-    public void init() {
+    private void init() {
 
         //  ---- Layout ----
         JPanel eastPanel = new JPanel();
@@ -50,7 +49,6 @@ public class GraphPanel extends JPanel {
         this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(eastPanel, BorderLayout.EAST);
-
     }
 
     public DashboardPanel getDashboardPanel(){
@@ -61,10 +59,8 @@ public class GraphPanel extends JPanel {
         return graph;
     }
 
-    public void setGraph(Graph2 newGraph) {
-
-        graph = newGraph;
-
+    public void setGraph(Graph2 graph){
+        this.graph = graph;
     }
 
     public String getMetric() {

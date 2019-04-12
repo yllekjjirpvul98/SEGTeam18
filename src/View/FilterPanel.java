@@ -19,6 +19,32 @@ public class FilterPanel extends JPanel {
 
     private DashboardPanel dashboardPanel;
 
+    private JCheckBox dateRangeCB;
+    private JCheckBox genderCB;
+    private JCheckBox incomeCB;
+    private JCheckBox ageCB;
+    private JCheckBox contextCB;
+
+    private JFormattedTextField dateText1;
+    private JFormattedTextField dateText2;
+
+    private JRadioButton genRad1;
+    private JRadioButton genRad2;
+    private JRadioButton incomeRad1;
+    private JRadioButton incomeRad2;
+    private JRadioButton incomeRad3;
+    private JRadioButton ageRad1;
+    private JRadioButton ageRad2;
+    private JRadioButton ageRad3;
+    private JRadioButton ageRad4;
+    private JRadioButton ageRad5;
+    private JRadioButton conRad1;
+    private JRadioButton conRad2;
+    private JRadioButton conRad3;
+    private JRadioButton conRad4;
+    private JRadioButton conRad5;
+    private JRadioButton conRad6;
+
     public FilterPanel(DashboardPanel dashboardPanel){
         this.dashboardPanel = dashboardPanel;
         this.setBackground(dashboardPanel.getWindow().getFilterColor2());
@@ -27,11 +53,37 @@ public class FilterPanel extends JPanel {
         this.init();
     }
 
+    public void reset(){
+        dateRangeCB.setSelected(false);
+        genderCB.setSelected(false);
+        ageCB.setSelected(false);
+        incomeCB.setSelected(false);
+        contextCB.setSelected(false);
+        dateText1.setText("");
+        dateText2.setText("");
+        genRad1.setSelected(false);
+        genRad2.setSelected(false);
+        incomeRad1.setSelected(false);
+        incomeRad2.setSelected(false);
+        incomeRad3.setSelected(false);
+        ageRad1.setSelected(false);
+        ageRad2.setSelected(false);
+        ageRad3.setSelected(false);
+        ageRad4.setSelected(false);
+        ageRad5.setSelected(false);
+        conRad1.setSelected(false);
+        conRad2.setSelected(false);
+        conRad3.setSelected(false);
+        conRad4.setSelected(false);
+        conRad5.setSelected(false);
+        conRad6.setSelected(false);
+    }
+
     private void init(){
         Filter fil = dashboardPanel.getWindow().getControl().getModel().getFilter();
 
         //  ---- Creating components ----
-        JCheckBox dateRangeCB = new JCheckBox(" Date Range ");
+        dateRangeCB = new JCheckBox(" Date Range ");
         dateRangeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         dateRangeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
@@ -43,7 +95,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JCheckBox genderCB = new JCheckBox(" Gender     ");
+        genderCB = new JCheckBox(" Gender     ");
         genderCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         genderCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
@@ -55,8 +107,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JCheckBox ageCB = new JCheckBox(" Age        ");
-
+        ageCB = new JCheckBox(" Age        ");
         ageCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
@@ -68,7 +119,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JCheckBox incomeCB = new JCheckBox(" Income     ");
+        incomeCB = new JCheckBox(" Income     ");
         incomeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
@@ -80,7 +131,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JCheckBox contextCB = new JCheckBox(" Context    ");
+        contextCB = new JCheckBox(" Context    ");
         contextCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         contextCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
@@ -147,12 +198,12 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JFormattedTextField dateText1 = datePicker1.getJFormattedTextField();
+        dateText1 = datePicker1.getJFormattedTextField();
         dateText1.setFont(dashboardPanel.getWindow().getTextFont());
         dateText1.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         dateText1.setMaximumSize(new Dimension(dashboardPanel.getWindow().getButtonBigFont().getSize() * 10, dateText1.getHeight()));
 
-        JFormattedTextField dateText2 = datePicker2.getJFormattedTextField();
+        dateText2 = datePicker2.getJFormattedTextField();
         dateText2.setFont(dashboardPanel.getWindow().getTextFont());
         dateText2.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         dateText2.setMaximumSize(new Dimension(dashboardPanel.getWindow().getButtonBigFont().getSize() * 10, dateText2.getHeight()));
@@ -164,7 +215,7 @@ public class FilterPanel extends JPanel {
         date2Label.setFont(dashboardPanel.getWindow().getTextFont());
 
 
-        JRadioButton genRad1 = new JRadioButton("Male");
+        genRad1 = new JRadioButton("Male");
         genRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         genRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -183,7 +234,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton genRad2 = new JRadioButton("Female");
+        genRad2 = new JRadioButton("Female");
         genRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         genRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -202,7 +253,7 @@ public class FilterPanel extends JPanel {
         });
 
 
-        JRadioButton ageRad1 = new JRadioButton("< 25");
+        ageRad1 = new JRadioButton("< 25");
         ageRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -221,7 +272,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton ageRad2 = new JRadioButton("25 - 34");
+        ageRad2 = new JRadioButton("25 - 34");
         ageRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -238,7 +289,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton ageRad3 = new JRadioButton("35 - 44");
+        ageRad3 = new JRadioButton("35 - 44");
         ageRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -255,7 +306,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton ageRad4 = new JRadioButton("45 - 54");
+        ageRad4 = new JRadioButton("45 - 54");
         ageRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad4.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -272,7 +323,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton ageRad5 = new JRadioButton("> 54");
+        ageRad5 = new JRadioButton("> 54");
         ageRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad5.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -289,7 +340,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton incomeRad1 = new JRadioButton("Low");
+        incomeRad1 = new JRadioButton("Low");
         incomeRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -306,7 +357,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton incomeRad2 = new JRadioButton("Mid");
+        incomeRad2 = new JRadioButton("Mid");
         incomeRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -323,7 +374,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton incomeRad3 = new JRadioButton("High");
+        incomeRad3 = new JRadioButton("High");
         incomeRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -341,7 +392,7 @@ public class FilterPanel extends JPanel {
         });
 
 
-        JRadioButton conRad1 = new JRadioButton("News");
+        conRad1 = new JRadioButton("News");
         conRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -358,7 +409,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton conRad2 = new JRadioButton("Shopping");
+        conRad2 = new JRadioButton("Shopping");
         conRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -375,7 +426,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton conRad3 = new JRadioButton("Social Media");
+        conRad3 = new JRadioButton("Social Media");
         conRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -392,7 +443,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton conRad4 = new JRadioButton("Blog");
+        conRad4 = new JRadioButton("Blog");
         conRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad4.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -409,7 +460,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton conRad5 = new JRadioButton("Hobbies");
+        conRad5 = new JRadioButton("Hobbies");
         conRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad5.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -426,7 +477,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        JRadioButton conRad6 = new JRadioButton("Travel");
+        conRad6 = new JRadioButton("Travel");
         conRad6.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad6.setFont(dashboardPanel.getWindow().getTextFont());
 

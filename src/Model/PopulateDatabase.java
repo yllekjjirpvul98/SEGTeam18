@@ -1,10 +1,14 @@
 package Model;
 
 public class PopulateDatabase {
+
     Database db;
+
     public PopulateDatabase(Database db, String filepath) {
+
         float start = System.nanoTime();
         db.reloadDatabase();
+
         ThreadGroup tg = new ThreadGroup("Parser");
         ImpressionParser ip = new ImpressionParser(db, filepath);
         Thread i = new Thread(tg, ip);

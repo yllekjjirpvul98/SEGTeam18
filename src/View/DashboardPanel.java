@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class DashboardPanel extends JPanel {
 
     private View window;
+
     private FilterPanel filterPanel;
     private DataPanel dataPanel;
     private GraphPanel graphPanel;
@@ -16,7 +17,13 @@ public class DashboardPanel extends JPanel {
         this.window = window;
         this.setBackground(window.getBackgoundColor());
         this.setLayout(new BorderLayout());
-        this.init();
+    }
+
+    public void reset(){
+        window.getControl().getModel().getFilter().reset();
+        filterPanel.reset();
+        dataPanel.updateData();
+        graphPanel.getGraph().updateSeries();
     }
 
     public void init() {
@@ -33,16 +40,16 @@ public class DashboardPanel extends JPanel {
         logoutBut.setFont(window.getButtonBigFont());
         logoutBut.setBackground(window.getUnhighlightColor());
 
-        logoutBut.addActionListener(e -> window.changePanel("loginPanel"));
+        logoutBut.addActionListener(e -> window.setCampFrame(new CampFrame(window)));
 
 
         JButton settingsBut = new JButton("Settings");
         settingsBut.setFont(window.getButtonBigFont());
         settingsBut.setBackground(window.getUnhighlightColor());
 
-        settingsBut.addActionListener(e -> window.changePanel("settingsPanel"));
+        settingsBut.addActionListener(e -> window.setSettingFrame(new SettingFrame(window)));
 
-        String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR", "Click Cost Frequency"};
+        String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
         JComboBox<String> metricSelect = new JComboBox<String>(metrics);
         metricSelect.setVisible(true);
         metricSelect.setBackground(window.getUnhighlightColor());
@@ -54,10 +61,7 @@ public class DashboardPanel extends JPanel {
                 JComboBox metricSelect = (JComboBox) event.getSource();
                 graphPanel.setMetric(metricSelect.getSelectedItem().toString());
 
-                graphPanel.setGraph(new Graph2(graphPanel));
-                graphPanel.init();
-                //graphPanel.getGraph().updateSeries();
-                //graphPanel.repaint();
+                graphPanel.getGraph().updateSeries();
             }
 
         });
@@ -133,11 +137,27 @@ public class DashboardPanel extends JPanel {
         return window;
     }
 
+    public FilterPanel getFilterPanel() {
+        return filterPanel;
+    }
+
+    public void setFilterPanel(FilterPanel filterPanel) {
+        this.filterPanel = filterPanel;
+    }
+
     public DataPanel getDataPanel(){
         return dataPanel;
     }
 
+    public void setDataPanel(DataPanel dataPanel){
+        this.dataPanel = dataPanel;
+    }
+
     public GraphPanel getGraphPanel() {
         return graphPanel;
+    }
+
+    public void setGraphPanel(GraphPanel graphPanel){
+        this.graphPanel = graphPanel;
     }
 }
