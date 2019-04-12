@@ -281,9 +281,9 @@ public class Calculation {
 
         /*
             timeG : year => return String in the format "2019", "2020" ...
-            timeG : month => return String in the format "1", "2" ...
+            timeG : month => return String in the format "2015 1", "2015 2" ...
             timeG : date => return String in the format "2015-01-01"...
-            timeG : week => return String in the format "0", "1" ... representing week of the year
+            timeG : week => return String in the format "2015 0", "2015 1" ... representing week of the year
             timeG : hour => return String in the format "2015-01-02 8", "2015-01-02 7" representing hour of the day
          */
 
@@ -295,6 +295,12 @@ public class Calculation {
             query += "GROUP BY Granularity ORDER BY Granularity";
             if (timeG.equals("hour")) {
                 query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+            }
+            if (timeG.equals("month")) {
+                query = query.replaceFirst("month\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', month(ImpressionDate))");
+            }
+            if (timeG.equals("week")) {
+                query = query.replaceFirst("week\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', week(ImpressionDate))");
             }
             try {
                 ResultSet rs = statement.executeQuery(query);
@@ -320,6 +326,12 @@ public class Calculation {
                 if (timeG.equals("hour")) {
                     query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
+                if (timeG.equals("month")) {
+                    query = query.replaceFirst("month\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', month(ImpressionDate))");
+                }
+                if (timeG.equals("week")) {
+                    query = query.replaceFirst("week\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', week(ImpressionDate))");
+                }
 
                 ResultSet rs = statement.executeQuery(query);
                 while(rs.next()){
@@ -341,6 +353,12 @@ public class Calculation {
             query +=  " group by Granularity ORDER BY Granularity";
             if (timeG.equals("hour")) {
                 query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+            }
+            if (timeG.equals("month")) {
+                query = query.replaceFirst("month\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', month(ImpressionDate))");
+            }
+            if (timeG.equals("week")) {
+                query = query.replaceFirst("week\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', week(ImpressionDate))");
             }
             try {
                 ResultSet rs = statement.executeQuery(query);
@@ -384,6 +402,12 @@ public class Calculation {
                 if (timeG.equals("hour")) {
                     query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
+                if (timeG.equals("month")) {
+                    query = query.replaceFirst("month\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', month(ImpressionDate))");
+                }
+                if (timeG.equals("week")) {
+                    query = query.replaceFirst("week\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', week(ImpressionDate))");
+                }
 
                 query = query.replaceFirst(";", "");
                 query += " GROUP BY Granularity ORDER BY Granularity;";
@@ -413,6 +437,12 @@ public class Calculation {
                 if (timeG.equals("hour")) {
                     query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
+                if (timeG.equals("month")) {
+                    query = query.replaceFirst("month\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', month(ImpressionDate))");
+                }
+                if (timeG.equals("week")) {
+                    query = query.replaceFirst("week\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', week(ImpressionDate))");
+                }
                 System.out.println(query);
 
                 ResultSet rs = statement.executeQuery(query);
@@ -439,6 +469,12 @@ public class Calculation {
                 totalQuery += " GROUP BY Granularity ORDER BY Granularity";
                 if (timeG.equals("hour")) {
                     totalQuery = totalQuery.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
+                }
+                if (timeG.equals("month")) {
+                    totalQuery = totalQuery.replaceFirst("month\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', month(ImpressionDate))");
+                }
+                if (timeG.equals("week")) {
+                    totalQuery = totalQuery.replaceFirst("week\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', week(ImpressionDate))");
                 }
 
                 ResultSet rs = statement.executeQuery(totalQuery);
@@ -549,6 +585,7 @@ public class Calculation {
 
         }
 
+        System.out.println(granularity.keySet());
 
         return granularity;
     }
