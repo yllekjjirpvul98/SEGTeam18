@@ -47,8 +47,6 @@ public class View extends JFrame {
     private SettingFrame settingFrame;
     private CampFrame campFrame;
 
-
-
     public View(String title) {
         super(title);
         screenDim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -360,7 +358,5 @@ public class View extends JFrame {
     public void setButtonSmallFont(Font buttonSmallFont) {
         this.buttonSmallFont = buttonSmallFont;
     }
-
-
 }
 

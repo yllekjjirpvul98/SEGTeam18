@@ -44,7 +44,6 @@ public class SettingsPanel extends JPanel {
     private void init(){
 
         //  ---- Creating components ----
-
         accessLab = new JLabel("Accessibility");
         accessLab.setFont(window.getSubHeadingFont());
 
@@ -77,7 +76,7 @@ public class SettingsPanel extends JPanel {
                     window.setFilterColor2(new Color(0x468DDF));
                     window.setAddColor(new Color(0x71B9FF));
                     window.setDelColor(new Color(0x71B9FF));
-                    window.setActionButColor(new Color(0xEF934E));
+                    window.setActionButColor(new Color(0xC0F89B4F, true));
                 }
             }
 
@@ -184,8 +183,10 @@ public class SettingsPanel extends JPanel {
         row1.setBackground(window.getBackgoundColor());
 
         row1.add(Box.createRigidArea(window.getWidthBorderDim()));
+        row1.add(Box.createRigidArea(window.getWidthBorderDim()));
         row1.add(Box.createHorizontalGlue());
         row1.add(applyBut);
+        row1.add(Box.createRigidArea(window.getWidthBorderDim()));
         row1.add(Box.createRigidArea(window.getWidthBorderDim()));
 
         sPanel.add(Box.createRigidArea(window.getHightBorderDim()));
@@ -261,7 +262,6 @@ public class SettingsPanel extends JPanel {
 
         this.add(centrePanel, BorderLayout.CENTER);
         this.add(sPanel,BorderLayout.SOUTH);
-
     }
 
     public void updateColors(){
@@ -291,7 +291,6 @@ public class SettingsPanel extends JPanel {
         webPagesSpinner.setFont(window.getTextFont());
         webTimeSpinner.setFont(window.getTextFont());
         applyBut.setFont(window.getButtonBigFont());
-
     }
 
 }

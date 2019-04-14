@@ -22,6 +22,8 @@ public class SettingFrame extends JFrame {
         this.pack();
         this.setSize(frameDim);
         this.setLocation(screenDim.width/2-this.getSize().width/2, screenDim.height/2-this.getSize().height/2);
+
+        validate();
     }
 
     public void close(){

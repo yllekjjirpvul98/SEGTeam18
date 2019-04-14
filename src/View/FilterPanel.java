@@ -816,6 +816,8 @@ public class FilterPanel extends JPanel {
         conRad4.setFont(dashboardPanel.getWindow().getTextFont());
         conRad5.setFont(dashboardPanel.getWindow().getTextFont());
         conRad6.setFont(dashboardPanel.getWindow().getTextFont());
+
+        applyBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
     }
 
 }
