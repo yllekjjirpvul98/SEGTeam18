@@ -32,7 +32,6 @@ public class DataPanel extends JPanel {
     private JTable table;
     private JList graphList;
     private String campName;
-
     private JButton addBut;
     private JButton deleteBut;
 
@@ -246,6 +245,29 @@ public class DataPanel extends JPanel {
 
     public void setCampName(String campName) {
         this.campName = campName;
+    }
+    public JList getGraphList() {
+        return graphList;
+    }
+
+    public void setGraphList(JList graphList) {
+        this.graphList = graphList;
+    }
+
+    public JButton getAddBut() {
+        return addBut;
+    }
+
+    public void setAddBut(JButton addBut) {
+        this.addBut = addBut;
+    }
+
+    public JButton getDeleteBut() {
+        return deleteBut;
+    }
+
+    public void setDeleteBut(JButton deleteBut) {
+        this.deleteBut = deleteBut;
     }
 
 }

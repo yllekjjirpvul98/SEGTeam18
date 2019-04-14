@@ -594,4 +594,34 @@ public class Calculation {
 
         return granularity;
     }
+    public Map<Integer, Integer> getClickCost () {
+        Map<Integer, Integer> granularity = new LinkedHashMap<>();
+        Map<Integer, Integer> result = new LinkedHashMap<>();
+        String clickQuery = "SELECT FLOOR(clickCost) AS RoundCost , count (Click.ID) FROM Click INNER JOIN ";
+
+        try {
+            clickQuery += "Impression ON Click.ID = Impression.id ";
+            clickQuery += whereClause();
+
+            clickQuery = clickQuery.replaceFirst(";", "");
+            clickQuery += " GROUP BY RoundCost ORDER BY RoundCost";
+
+            ResultSet rs = statement.executeQuery(clickQuery);
+            while (rs.next()) {
+                Integer cost = rs.getInt("RoundCost");
+                Integer count = rs.getInt("count(Click.ID)");
+                granularity.put(cost, count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (Integer i : granularity.keySet()){
+            int key = i / 5;
+            if (result.containsKey(key)){
+                result.put(key, result.get(key)+granularity.get(i));
+            }
+            else result.put(key, granularity.get(i));
+        }
+        return result;
+    }
 }

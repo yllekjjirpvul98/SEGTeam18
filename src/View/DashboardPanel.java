@@ -9,6 +9,7 @@ public class DashboardPanel extends JPanel {
 
     private View window;
     private String campName;
+    private boolean histoEnabled;
 
     private FilterPanel filterPanel;
     private DataPanel dataPanel;
@@ -19,8 +20,10 @@ public class DashboardPanel extends JPanel {
     private JButton saveBut;
     private JButton campBut;
     private JButton settingsBut;
+    private JButton histoBut;
+    private JButton lineBut;
     private JComboBox<String> metricSelect;
-    private JComboBox<String> timeSlide;
+    private JComboBox<String> timeSelect;
     private JPanel northPanel;
     private JPanel row1n;
     private JPanel row2n;
@@ -28,6 +31,7 @@ public class DashboardPanel extends JPanel {
 
     public DashboardPanel(View window){
         this.window = window;
+        this.histoEnabled = false;
         this.setBackground(window.getBackgoundColor());
         this.setLayout(new BorderLayout());
     }
@@ -49,18 +53,18 @@ public class DashboardPanel extends JPanel {
         title.setFont(window.getHeadingFont());
         title.setForeground(window.getHeadingColour());
 
-        campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         campBut.setBackground(window.getHighlightColor());
 
         campBut.addActionListener(e -> window.setCampFrame(new CampFrame(window)));
 
 
-        settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         settingsBut.setBackground(window.getHighlightColor());
 
         settingsBut.addActionListener(e -> window.setSettingFrame(new SettingFrame(window)));
 
-        printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
 
         printBut.addActionListener(new ActionListener() {
@@ -71,7 +75,7 @@ public class DashboardPanel extends JPanel {
             }
         });
 
-        saveBut = new JButton(new ImageIcon(((new ImageIcon("SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        saveBut = new JButton(new ImageIcon(((new ImageIcon("SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         saveBut.setBackground(window.getHighlightColor());
 
         saveBut.addActionListener(new ActionListener() {
@@ -100,17 +104,18 @@ public class DashboardPanel extends JPanel {
                     e.printStackTrace();
                 }
                 graphPanel.getGraph().updateSeries();
+
             }
 
         });
 
         String[] TimeScales = {"Hour","Day","Week","Month","Year"};
-        timeSlide = new JComboBox<String>(TimeScales);
-        timeSlide.setSelectedIndex(1); // TO START ON DAY
-        timeSlide.setFont(window.getTextFont());
-        timeSlide.setBackground(window.getUnhighlightColor());
-        timeSlide.setMaximumSize(new Dimension(window.getButtonBigFont().getSize() * 10, window.getButtonBigFont().getSize() * 3));
-        timeSlide.addActionListener(new ActionListener() {
+        timeSelect = new JComboBox<String>(TimeScales);
+        timeSelect.setSelectedIndex(1); // TO START ON DAY
+        timeSelect.setFont(window.getTextFont());
+        timeSelect.setBackground(window.getUnhighlightColor());
+        timeSelect.setMaximumSize(new Dimension(window.getButtonBigFont().getSize() * 10, window.getButtonBigFont().getSize() * 3));
+        timeSelect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
                 JComboBox timeSlide = (JComboBox) event.getSource();
@@ -120,19 +125,60 @@ public class DashboardPanel extends JPanel {
 
                 graphPanel.getGraph().updateSeries();
                 try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                graphPanel.getGraph().updateSeries();
-                try {
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 graphPanel.getGraph().updateSeries();
             }
 
+        });
+
+        histoBut = new JButton(new ImageIcon(((new ImageIcon("HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        histoBut.setBackground(window.getHighlightColor());
+
+        histoBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(!histoEnabled){
+                    dataPanel.getAddBut().setEnabled(false);
+                    dataPanel.getDeleteBut().setEnabled(false);
+                    dataPanel.getGraphList().setEnabled(false);
+                    metricSelect.setEnabled(false);
+                    timeSelect.setEnabled(false);
+
+                    graphPanel.setMetric("Click Cost Frequency");
+                    graphPanel.setGraph(new Graph2(graphPanel));
+                    graphPanel.removeAll();
+                    graphPanel.init();
+                    histoEnabled = true;
+                }
+            }
+        });
+
+        lineBut = new JButton(new ImageIcon(((new ImageIcon("LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        lineBut.setBackground(window.getHighlightColor());
+
+        lineBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(histoEnabled){
+                    dataPanel.getAddBut().setEnabled(true);
+                    dataPanel.getDeleteBut().setEnabled(true);
+                    dataPanel.getGraphList().setEnabled(true);
+                    metricSelect.setEnabled(true);
+                    timeSelect.setEnabled(true);
+
+                    graphPanel.setMetric(metricSelect.getSelectedItem().toString());
+                    graphPanel.setGraph(new Graph2(graphPanel));
+                    graphPanel.removeAll();
+                    graphPanel.init();
+                    histoEnabled = false;
+                }
+            }
         });
 
         // North Panel --- Logout & Title
@@ -146,6 +192,10 @@ public class DashboardPanel extends JPanel {
         row1n.setLayout(new BoxLayout(row1n, BoxLayout.LINE_AXIS));
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
         row1n.add(campBut);
+        row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
+        row1n.add(histoBut);
+        row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
+        row1n.add(lineBut);
         row1n.add(Box.createHorizontalGlue());
         row1n.add(printBut);
         row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
@@ -170,7 +220,7 @@ public class DashboardPanel extends JPanel {
         row3n.add(Box.createHorizontalGlue());
         row3n.add(metricSelect);
         row3n.add(Box.createRigidArea(window.getWidthBorderDim()));
-        row3n.add(timeSlide);
+        row3n.add(timeSelect);
         row3n.add(Box.createRigidArea(window.getWidthBorderDim()));
 
         northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
@@ -189,17 +239,17 @@ public class DashboardPanel extends JPanel {
     private void updateNorthPanel(){
         this.remove(northPanel);
 
-        campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         campBut.setBackground(window.getHighlightColor());
 
         campBut.addActionListener(e -> window.setCampFrame(new CampFrame(window)));
 
-        settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         settingsBut.setBackground(window.getHighlightColor());
 
         settingsBut.addActionListener(e -> window.setSettingFrame(new SettingFrame(window)));
 
-        printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
 
         printBut.addActionListener(new ActionListener() {
@@ -209,13 +259,60 @@ public class DashboardPanel extends JPanel {
             }
         });
 
-        saveBut = new JButton(new ImageIcon(((new ImageIcon("SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 4), Math.round((window.getButtonBigFont().getSize()/3) * 4), java.awt.Image.SCALE_SMOOTH)));
+        saveBut = new JButton(new ImageIcon(((new ImageIcon("SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         saveBut.setBackground(window.getHighlightColor());
 
         saveBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Save Graph");
+            }
+        });
+
+
+        histoBut = new JButton(new ImageIcon(((new ImageIcon("HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        histoBut.setBackground(window.getHighlightColor());
+
+        histoBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(!histoEnabled){
+                    dataPanel.getAddBut().setEnabled(false);
+                    dataPanel.getDeleteBut().setEnabled(false);
+                    dataPanel.getGraphList().setEnabled(false);
+                    metricSelect.setEnabled(false);
+                    timeSelect.setEnabled(false);
+
+                    graphPanel.setMetric("Click Cost Frequency");
+                    graphPanel.setGraph(new Graph2(graphPanel));
+                    graphPanel.removeAll();
+                    graphPanel.init();
+                    histoEnabled = true;
+                }
+            }
+        });
+
+        lineBut = new JButton(new ImageIcon(((new ImageIcon("LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        lineBut.setBackground(window.getHighlightColor());
+
+        lineBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(histoEnabled){
+                    dataPanel.getAddBut().setEnabled(true);
+                    dataPanel.getDeleteBut().setEnabled(true);
+                    dataPanel.getGraphList().setEnabled(true);
+                    metricSelect.setEnabled(true);
+                    timeSelect.setEnabled(true);
+
+                    graphPanel.setMetric(metricSelect.getSelectedItem().toString());
+                    graphPanel.setGraph(new Graph2(graphPanel));
+                    graphPanel.removeAll();
+                    graphPanel.init();
+                    histoEnabled = false;
+                }
             }
         });
 
@@ -229,6 +326,10 @@ public class DashboardPanel extends JPanel {
         row1n.setLayout(new BoxLayout(row1n, BoxLayout.LINE_AXIS));
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
         row1n.add(campBut);
+        row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
+        row1n.add(histoBut);
+        row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
+        row1n.add(lineBut);
         row1n.add(Box.createHorizontalGlue());
         row1n.add(printBut);
         row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
@@ -253,7 +354,7 @@ public class DashboardPanel extends JPanel {
         row3n.add(Box.createHorizontalGlue());
         row3n.add(metricSelect);
         row3n.add(Box.createRigidArea(window.getWidthBorderDim()));
-        row3n.add(timeSlide);
+        row3n.add(timeSelect);
         row3n.add(Box.createRigidArea(window.getWidthBorderDim()));
 
         northPanel.add(Box.createRigidArea(window.getHightBorderDim()));
@@ -269,7 +370,7 @@ public class DashboardPanel extends JPanel {
         this.setBackground(window.getBackgoundColor());
         title.setForeground(window.getHeadingColour());
         metricSelect.setBackground(window.getUnhighlightColor());
-        timeSlide.setBackground(window.getUnhighlightColor());
+        timeSelect.setBackground(window.getUnhighlightColor());
 
         filterPanel.updateColors();
         graphPanel.updateColors();
@@ -279,7 +380,7 @@ public class DashboardPanel extends JPanel {
     public void updateTextSize(){
         title.setFont(window.getHeadingFont());
         metricSelect.setFont(window.getTextFont());
-        timeSlide.setFont(window.getTextFont());
+        timeSelect.setFont(window.getTextFont());
         updateNorthPanel();
 
         filterPanel.updateTextSize();

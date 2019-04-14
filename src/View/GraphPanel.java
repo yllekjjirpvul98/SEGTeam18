@@ -28,7 +28,7 @@ public class GraphPanel extends JPanel {
         this.init();
     }
 
-    private void init() {
+    public void init() {
 
         //  ---- Layout ----
         eastPanel = new JPanel();

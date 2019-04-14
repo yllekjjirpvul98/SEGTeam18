@@ -1,16 +1,22 @@
-Graph to load in filtered data and split on time granularity value
-Selection Buttons - add listeners to change colour and data displayed on graph
-Time granularity adaptable
+--- Main Tasks ---
+
+Implement functionality for the "print" button
+Implement functionality for the "save" button
 
 
-Readjust dashboard layout to look less clutted - Data View in a tabel
+--- Additional Tasks ---
 
-Change login screen to campaign select with file navigation to local database files (update logout to campaign select)
+Error/Info Message Boxes
+Disable radiobuttons when checkboxes unchecked
+Add bordered to the indevidual fitlers
+Calander start from start of dataset date
+Limit spinners
+Add horizontail scroll panes
+Mouse over saved graph shows they're filters
 
-Add settings panel - ability to change colour and size + accesibility settings (Greg)
+Better solution to pauseing program for axis bug
 
-Create histogram graph
-
----- After Inc 2 ----
-
-Create a file that saves user settings to be loaded in at login stage
+Clean up code:
+	- remove unused code
+	- reduce duplicated code
+	- comment code
