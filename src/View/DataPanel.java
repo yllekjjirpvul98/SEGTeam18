@@ -34,6 +34,7 @@ public class DataPanel extends JPanel {
     private String campName;
     private JButton addBut;
     private JButton deleteBut;
+    private ListModel listModel;
 
     private JPanel row1;
     private JPanel row2;
@@ -120,7 +121,7 @@ public class DataPanel extends JPanel {
         table.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
 
 
-        ListModel listModel = new DefaultListModel();
+        listModel = new DefaultListModel();
 
         graphList = new JList(listModel);
         JScrollPane scrollPane = new JScrollPane(graphList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -268,6 +269,10 @@ public class DataPanel extends JPanel {
 
     public void setDeleteBut(JButton deleteBut) {
         this.deleteBut = deleteBut;
+    }
+
+    public ListModel getListModel() {
+        return listModel;
     }
 
 }

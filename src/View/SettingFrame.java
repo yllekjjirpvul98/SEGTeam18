@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SettingFrame extends JFrame {
@@ -15,6 +16,13 @@ public class SettingFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                window.getDashboardPanel().getSettingsBut().setEnabled(true);
+            }
+        });
+
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameDim = new Dimension(4 * ((screenDim.width)/12), 3 * ((screenDim.height)/10));
 
@@ -23,7 +31,6 @@ public class SettingFrame extends JFrame {
         this.setSize(frameDim);
         this.setLocation(screenDim.width/2-this.getSize().width/2, screenDim.height/2-this.getSize().height/2);
 
-        validate();
     }
 
     public void close(){

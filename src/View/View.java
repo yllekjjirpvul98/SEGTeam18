@@ -40,7 +40,6 @@ public class View extends JFrame {
 
     private Container window;
     private LoginPanel loginPanel;
-    private HelpPanel helpPanel;
     private DashboardPanel dashboardPanel;
     private SettingsPanel settingsPanel;
 
@@ -89,7 +88,6 @@ public class View extends JFrame {
         this.setVisible(true);
 
         loginPanel = new LoginPanel(this);
-        helpPanel = new HelpPanel(this);
         settingsPanel = new SettingsPanel(this);
         dashboardPanel = new DashboardPanel(this);
 
@@ -106,8 +104,6 @@ public class View extends JFrame {
 
         if (panel.equals("loginPanel"))
             window.add(loginPanel);
-        else if (panel.equals("helpPanel"))
-            window.add(helpPanel);
         else if (panel.equals("dashboardPanel")) {
             window.add(dashboardPanel);
         } else if (panel.equals("settingsPanel"))
@@ -120,14 +116,12 @@ public class View extends JFrame {
     public void updateColors(){
         loginPanel.updateColors();
         dashboardPanel.updateColors();
-        helpPanel.updateColors();
         settingsPanel.updateColors();
     }
 
     public void updateTextSize(){
         loginPanel.updateTextSize();
         settingsPanel.updateTextSize();
-        helpPanel.updateTextSize();
         dashboardPanel.updateTextSize();
     }
 

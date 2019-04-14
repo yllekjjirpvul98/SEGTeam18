@@ -24,6 +24,7 @@ public class DashboardPanel extends JPanel {
     private JButton lineBut;
     private JComboBox<String> metricSelect;
     private JComboBox<String> timeSelect;
+    private int preTimeSelected;
     private JPanel northPanel;
     private JPanel row1n;
     private JPanel row2n;
@@ -56,13 +57,24 @@ public class DashboardPanel extends JPanel {
         campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         campBut.setBackground(window.getHighlightColor());
 
-        campBut.addActionListener(e -> window.setCampFrame(new CampFrame(window)));
-
+        campBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                window.setCampFrame(new CampFrame(window));
+                campBut.setEnabled(false);
+            }
+        });
 
         settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         settingsBut.setBackground(window.getHighlightColor());
 
-        settingsBut.addActionListener(e -> window.setSettingFrame(new SettingFrame(window)));
+        settingsBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                window.setSettingFrame(new SettingFrame(window));
+                settingsBut.setEnabled(false);
+            }
+        });
 
         printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
@@ -71,7 +83,6 @@ public class DashboardPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Print Graph");
-                System.out.println(window.getButtonBigFont().getSize());
             }
         });
 
@@ -111,7 +122,8 @@ public class DashboardPanel extends JPanel {
 
         String[] TimeScales = {"Hour","Day","Week","Month","Year"};
         timeSelect = new JComboBox<String>(TimeScales);
-        timeSelect.setSelectedIndex(1); // TO START ON DAY
+        preTimeSelected = 1; // TO START ON DAY
+        timeSelect.setSelectedIndex(preTimeSelected);
         timeSelect.setFont(window.getTextFont());
         timeSelect.setBackground(window.getUnhighlightColor());
         timeSelect.setMaximumSize(new Dimension(window.getButtonBigFont().getSize() * 10, window.getButtonBigFont().getSize() * 3));
@@ -119,20 +131,51 @@ public class DashboardPanel extends JPanel {
             public void actionPerformed(ActionEvent event) {
 
                 JComboBox timeSlide = (JComboBox) event.getSource();
-
                 String timeUpper = timeSlide.getSelectedItem().toString();
-                graphPanel.setTime(timeUpper.toLowerCase());
 
-                graphPanel.getGraph().updateSeries();
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (graphPanel.getSavedDataMaps().size() > 0) {
+
+                    int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int dialogResult = JOptionPane.showConfirmDialog(window, "Changing time granularitry to \"" + timeUpper + "\" will delete saved graphs. \n Do you wish to continue?", "Confirm Action", dialogButton);
+
+                    if (dialogResult == 0) {
+                        // YES selected
+                        preTimeSelected = timeSelect.getSelectedIndex();
+                        graphPanel.setTime(timeUpper.toLowerCase());
+
+                        graphPanel.getSavedDataMaps().clear();
+                        graphPanel.getSavedDataLables().clear();
+
+                        while(dataPanel.getListModel().getSize() != 0) {
+                            ((DefaultListModel) dataPanel.getListModel()).remove(0);
+                        }
+
+                        graphPanel.getGraph().updateSeries();
+                        try {
+                            Thread.sleep(1500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        graphPanel.getGraph().updateSeries();
+
+                    } else {
+                        // NO selected
+                        timeSelect.setSelectedIndex(preTimeSelected);
+                    }
+
+                } else {
+                    preTimeSelected = timeSelect.getSelectedIndex();
+                    graphPanel.setTime(timeUpper.toLowerCase());
+
+                    graphPanel.getGraph().updateSeries();
+                    try {
+                        Thread.sleep(1500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    graphPanel.getGraph().updateSeries();
                 }
-
-                graphPanel.getGraph().updateSeries();
             }
-
         });
 
         histoBut = new JButton(new ImageIcon(((new ImageIcon("HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
@@ -242,12 +285,24 @@ public class DashboardPanel extends JPanel {
         campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         campBut.setBackground(window.getHighlightColor());
 
-        campBut.addActionListener(e -> window.setCampFrame(new CampFrame(window)));
+        campBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                window.setCampFrame(new CampFrame(window));
+                campBut.setEnabled(false);
+            }
+        });
 
         settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         settingsBut.setBackground(window.getHighlightColor());
 
-        settingsBut.addActionListener(e -> window.setSettingFrame(new SettingFrame(window)));
+        settingsBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                window.setSettingFrame(new SettingFrame(window));
+                settingsBut.setEnabled(false);
+            }
+        });
 
         printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
@@ -422,5 +477,21 @@ public class DashboardPanel extends JPanel {
 
     public void setCampName(String campName) {
         this.campName = campName;
+    }
+
+    public JButton getCampBut() {
+        return campBut;
+    }
+
+    public void setCampBut(JButton campBut) {
+        this.campBut = campBut;
+    }
+
+    public JButton getSettingsBut() {
+        return settingsBut;
+    }
+
+    public void setSettingsBut(JButton settingsBut) {
+        this.settingsBut = settingsBut;
     }
 }

@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class CampFrame extends JFrame {
@@ -13,6 +14,13 @@ public class CampFrame extends JFrame {
         frame = this.getContentPane();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                window.getDashboardPanel().getCampBut().setEnabled(true);
+            }
+        });
 
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameDim = new Dimension(3 * ((screenDim.width)/10), 3 * ((screenDim.height)/8));

@@ -21,8 +21,6 @@ public class LoginPanel extends JPanel {
     private JPanel row2;
     private JPanel row3;
     private JPanel row4;
-    private JPanel row5;
-    private JButton helpBut;
     private JButton delBut;
     private JButton addbut;
     private JList campList;
@@ -54,7 +52,6 @@ public class LoginPanel extends JPanel {
         row2 = new JPanel();
         row3 = new JPanel();
         row4 = new JPanel();
-        row5 = new JPanel();
 
         loadBut.addActionListener(new ActionListener() {
             @Override
@@ -102,15 +99,14 @@ public class LoginPanel extends JPanel {
                             window.getCampFrame().close();
                         }
 
-                        System.out.println("Campaign Selected: " + currentCamp);
                     }
 
                     else{
-                        System.out.println("Campaign Selected: " + currentCamp + " : doesn't contain required files");
+                        JOptionPane.showMessageDialog(window, "Please select a campaign containing required files.");
                     }
                 }
                 else{
-                    System.out.println("No campaign selected");
+                    JOptionPane.showMessageDialog(window, "Please select a campaign.");
                 }
             }
         });
@@ -183,12 +179,6 @@ public class LoginPanel extends JPanel {
             }
         });
 
-        helpBut = new JButton("?");
-        helpBut.setFont(window.getButtonBigFont());
-        helpBut.setBackground(window.getUnhighlightColor());
-
-        helpBut.addActionListener(e -> window.changePanel("helpPanel"));
-
         //  ---- Layout ----
 
         row1.setBackground(window.getBackgoundColor());
@@ -217,11 +207,6 @@ public class LoginPanel extends JPanel {
         row4.add(loadBut);
         row4.add(Box.createHorizontalGlue());
 
-        row5.setBackground(window.getBackgoundColor());
-        row5.setLayout(new BoxLayout(row5, BoxLayout.LINE_AXIS));
-        row5.add(Box.createHorizontalGlue());
-        row5.add(helpBut);
-        row5.add(Box.createRigidArea(window.getWidthBorderDim()));
 
         this.add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 4)));  // 100 at 1440p
         this.add(row1);
@@ -232,7 +217,6 @@ public class LoginPanel extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 4)));  // 100 at 1440p
         this.add(row4);
         this.add(Box.createVerticalGlue());
-        this.add(row5);
         this.add(Box.createRigidArea(window.getHightBorderDim()));
 
     }
@@ -241,20 +225,17 @@ public class LoginPanel extends JPanel {
         this.setBackground(window.getBackgoundColor());
         title.setForeground(window.getHeadingColour());
         loadBut.setBackground(window.getActionButColor());
-        helpBut.setBackground(window.getUnhighlightColor());
         delBut.setBackground(window.getDelColor());
         addbut.setBackground(window.getAddColor());
         row1.setBackground(window.getBackgoundColor());
         row2.setBackground(window.getBackgoundColor());
         row3.setBackground(window.getBackgoundColor());
         row4.setBackground(window.getBackgoundColor());
-        row5.setBackground(window.getBackgoundColor());
     }
 
     public void updateTextSize(){
         title.setFont(window.getHeadingFont());
         loadBut.setFont(window.getButtonBigFont());
-        helpBut.setFont(window.getButtonBigFont());
         addbut.setFont(window.getButtonBigFont());
         delBut.setFont(window.getButtonBigFont());
         campList.setFont(window.getTextFont());
