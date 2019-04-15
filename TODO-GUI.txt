@@ -6,13 +6,7 @@ Implement functionality for the "save" button
 
 --- Additional Tasks ---
 
-Error/Info Message Boxes
-Disable radiobuttons when checkboxes unchecked
-Add bordered to the indevidual fitlers
-Calander start from start of dataset date
-Limit spinners
-Add horizontail scroll panes
-Mouse over saved graph shows they're filters
+Calander start from start of dataset date  -- Waiting on method
 
 Better solution to pauseing program for axis bug
 

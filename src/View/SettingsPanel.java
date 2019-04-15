@@ -100,7 +100,7 @@ public class SettingsPanel extends JPanel {
                     window.setTextFontBold(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getTextFontBold().getSize() * 1.5))));
                     window.setButtonTitleFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonTitleFont().getSize() * 1.5))));
                     window.setButtonBigFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonBigFont().getSize() * 1.5))));
-                    window.setButtonSmallFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getButtonBigFont().getSize() * 1.5))));
+                    window.setButtonSmallFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getButtonSmallFont().getSize() * 1.5))));
                 } else {
                     window.setTitleFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getTitleFont().getSize() / 1.5))));
                     window.setHeadingFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getHeadingFont().getSize() / 1.5))));
@@ -109,7 +109,7 @@ public class SettingsPanel extends JPanel {
                     window.setTextFontBold(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getTextFontBold().getSize() / 1.5))));
                     window.setButtonTitleFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonTitleFont().getSize() / 1.5))));
                     window.setButtonBigFont(new Font("Verdana", Font.BOLD, (int)(Math.round(window.getButtonBigFont().getSize() / 1.5))));
-                    window.setButtonSmallFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getButtonBigFont().getSize() / 1.5))));
+                    window.setButtonSmallFont(new Font("Verdana", Font.PLAIN, (int)(Math.round(window.getButtonSmallFont().getSize() / 1.5))));
                 }
             }
         });
@@ -141,15 +141,16 @@ public class SettingsPanel extends JPanel {
 
         });
 
-        webTimeSpinner = new JSpinner();
-        webTimeSpinner.setFont(window.getTextFont());
-        webTimeSpinner.setValue(3);
-        webTimeSpinner.setMaximumSize(new Dimension ((int) ( window.getButtonBigFont().getSize() * 3),window.getButtonBigFont().getSize() * 2));
+        SpinnerModel spinnerModel1 = new SpinnerNumberModel(5, 0, 999, 1);
+        SpinnerModel spinnerModel2 = new SpinnerNumberModel(20, 0, 999, 1);
 
-        webPagesSpinner = new JSpinner();
+        webTimeSpinner = new JSpinner(spinnerModel1);
+        webTimeSpinner.setFont(window.getTextFont());
+        webTimeSpinner.setMaximumSize(new Dimension ((int) ( window.getButtonBigFont().getSize() * 2),window.getButtonBigFont().getSize() * 2));
+
+        webPagesSpinner = new JSpinner(spinnerModel2);
         webPagesSpinner.setFont(window.getTextFont());
-        webPagesSpinner.setValue(3);
-        webPagesSpinner.setMaximumSize(new Dimension((int) ( window.getButtonBigFont().getSize() * 3),window.getButtonBigFont().getSize() * 2));
+        webPagesSpinner.setMaximumSize(new Dimension((int) ( window.getButtonBigFont().getSize() * 2),window.getButtonBigFont().getSize() * 2));
 
 
         applyBut = new JButton("Apply");
@@ -163,8 +164,7 @@ public class SettingsPanel extends JPanel {
                 bounce.setTime((int) webTimeSpinner.getValue());
                 bounce.setNumOfPageVisited((int) webPagesSpinner.getValue());
 
-                window.getDashboardPanel().getDataPanel().updateData();
-                window.getDashboardPanel().getGraphPanel().getGraph().updateSeries();
+                window.getDashboardPanel().getFilterPanel().apply();
 
                 window.getSettingFrame().close();
                 window.updateColors();

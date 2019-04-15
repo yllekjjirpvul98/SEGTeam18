@@ -136,7 +136,7 @@ public class DashboardPanel extends JPanel {
                 if (graphPanel.getSavedDataMaps().size() > 0) {
 
                     int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int dialogResult = JOptionPane.showConfirmDialog(window, "Changing time granularitry to \"" + timeUpper + "\" will delete saved graphs. \n Do you wish to continue?", "Confirm Action", dialogButton);
+                    int dialogResult = JOptionPane.showConfirmDialog(window, "Changing time granularity to \"" + timeUpper + "\" will delete saved graphs. \n Do you wish to continue?", "Confirm Action", dialogButton);
 
                     if (dialogResult == 0) {
                         // YES selected

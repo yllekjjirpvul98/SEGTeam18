@@ -13,6 +13,7 @@ public class GraphPanel extends JPanel {
     private String time = "day";
     private ArrayList<Map<String, Double>> savedDataMaps;
     private ArrayList<String> savedDataLables;
+    private ArrayList<ArrayList<String>> savedFilterLists;
 
     private JPanel eastPanel;
     private JPanel southPanel;
@@ -23,6 +24,7 @@ public class GraphPanel extends JPanel {
         this.graph = new Graph2(this);
         this.savedDataMaps = new ArrayList<>();
         this.savedDataLables = new ArrayList<>();
+        this.savedFilterLists = new ArrayList<>();
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
@@ -101,4 +103,13 @@ public class GraphPanel extends JPanel {
     public void setSavedDataLables(ArrayList<String> savedDataLables) {
         this.savedDataLables = savedDataLables;
     }
+
+    public ArrayList<ArrayList<String>> getSavedFilterLists() {
+        return savedFilterLists;
+    }
+
+    public void setSavedFilterLists(ArrayList<ArrayList<String>> savedFilterLists) {
+        this.savedFilterLists = savedFilterLists;
+    }
+
 }

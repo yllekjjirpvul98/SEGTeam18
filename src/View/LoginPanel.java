@@ -114,10 +114,10 @@ public class LoginPanel extends JPanel {
         ListModel listModel = new DefaultListModel();
 
         campList = new JList(listModel);
-        JScrollPane scrollPane = new JScrollPane(campList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(campList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
         campList.setFont(window.getTextFont());
-        campList.setFixedCellWidth(window.getButtonTitleFont().getSize() * 20);
-        campList.setPreferredSize(new Dimension(window.getButtonTitleFont().getSize() * 15, window.getButtonTitleFont().getSize() * 15));
+        campList.setBackground(window.getUnhighlightColor());
         campList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         campList.setLayoutOrientation(JList.VERTICAL);
         campList.setVisibleRowCount(-1);
@@ -189,9 +189,11 @@ public class LoginPanel extends JPanel {
 
         row2.setBackground(window.getBackgoundColor());
         row2.setLayout(new BoxLayout(row2, BoxLayout.LINE_AXIS));
+        row2.add(Box.createRigidArea(window.getWidthBorderDim()));
         row2.add(Box.createHorizontalGlue());
         row2.add(scrollPane);
         row2.add(Box.createHorizontalGlue());
+        row2.add(Box.createRigidArea(window.getWidthBorderDim()));
 
         row3.setBackground(window.getBackgoundColor());
         row3.setLayout(new BoxLayout(row3, BoxLayout.LINE_AXIS));

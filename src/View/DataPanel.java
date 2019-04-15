@@ -1,12 +1,14 @@
 package View;
 
 import Model.Calculation;
+import org.h2.engine.Setting;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -124,15 +126,35 @@ public class DataPanel extends JPanel {
         listModel = new DefaultListModel();
 
         graphList = new JList(listModel);
-        JScrollPane scrollPane = new JScrollPane(graphList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(graphList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,false));
         graphList.setFont(dashboardPanel.getWindow().getTextFont());
-        graphList.setFixedCellWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 22);
-        graphList.setPreferredSize(new Dimension(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 22, dashboardPanel.getWindow().getButtonSmallFont().getSize() * 10));
+        graphList.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
         graphList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         graphList.setLayoutOrientation(JList.VERTICAL);
         graphList.setVisibleRowCount(-1);
-        graphList.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,false));
+
+        graphList.addMouseListener(new MouseListener() {
+
+            GraphFilterFrame filterFrame;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                filterFrame = new GraphFilterFrame(dashboardPanel.getWindow(), graphList.getSelectedIndex());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                filterFrame.close();
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) { }
+            @Override
+            public void mouseEntered(MouseEvent e) { }
+            @Override
+            public void mouseExited(MouseEvent e) { }
+        });
 
 
         addBut = new JButton("ADD");
@@ -202,6 +224,7 @@ public class DataPanel extends JPanel {
         row3.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
         row3.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
+        //this.add(Box.createRigidArea(new Dimension(table.getWidth() + (int)(3 * dashboardPanel.getWindow().getWidthBorderDim().getWidth()),0)));
         this.add(row1);
         this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
         this.add(row2);
@@ -223,14 +246,14 @@ public class DataPanel extends JPanel {
 
     public void updateTextSize(){
         if(dashboardPanel.getWindow().getControl().getModel().getSettings().getLargeText()) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 9);
-            table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 4);
-            table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize());
+            table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
+            table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
+            table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
         }
         else{
             table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
-            table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 4);
-            table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 15);
+            table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
+            table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
         }
         table.setFont(dashboardPanel.getWindow().getTextFont());
         graphList.setFont(dashboardPanel.getWindow().getTextFont());

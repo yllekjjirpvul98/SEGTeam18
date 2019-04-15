@@ -24,7 +24,7 @@ public class SettingFrame extends JFrame {
         });
 
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameDim = new Dimension(4 * ((screenDim.width)/12), 3 * ((screenDim.height)/10));
+        Dimension frameDim = new Dimension(4 * ((screenDim.width)/10), 3 * ((screenDim.height)/10));
 
         this.add(window.getSettingsPanel());
         this.pack();

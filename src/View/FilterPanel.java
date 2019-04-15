@@ -48,6 +48,9 @@ public class FilterPanel extends JPanel {
     private JRadioButton conRad6;
 
     private JButton applyBut;
+    private JDatePickerImpl datePicker1;
+    private JDatePickerImpl datePicker2;
+    private Filter fil;
 
     private JPanel col1;
     private JPanel c1r1;
@@ -63,13 +66,20 @@ public class FilterPanel extends JPanel {
     private JPanel c5r2;
     private JPanel c5r3;
     private JPanel col6;
+    private JPanel northPanel;
+    private JPanel southPanel;
+    private JPanel centrePanel;
 
     public FilterPanel(DashboardPanel dashboardPanel){
         this.dashboardPanel = dashboardPanel;
         this.setBackground(dashboardPanel.getWindow().getFilterColor2());
-        this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-        this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, false));
+        this.setLayout(new BorderLayout());
         this.init();
+        this.disableAgeRad(false);
+        this.disableGenRad(false);
+        this.disableIncomeRad(false);
+        this.disableConRad(false);
+        this.disableDateRange(false);
     }
 
     public void reset(){
@@ -99,7 +109,7 @@ public class FilterPanel extends JPanel {
     }
 
     private void init(){
-        Filter fil = dashboardPanel.getWindow().getControl().getModel().getFilter();
+        fil = dashboardPanel.getWindow().getControl().getModel().getFilter();
 
         //  ---- Creating components ----
         dateRangeCB = new JCheckBox(" Date Range ");
@@ -111,6 +121,8 @@ public class FilterPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 boolean currDateFilter = fil.getDateRangeSelected();
                 fil.setDateRangeSelected(!currDateFilter);
+
+                disableDateRange(fil.getDateRangeSelected());
             }
         });
 
@@ -123,6 +135,8 @@ public class FilterPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 boolean currGenderFilter = fil.getGenderSelected();
                 fil.setGenderSelected(!currGenderFilter);
+
+                disableGenRad(fil.getGenderSelected());
             }
         });
 
@@ -135,6 +149,8 @@ public class FilterPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 boolean currAgeFilter = fil.getAgeSelected();
                 fil.setAgeSelected(!currAgeFilter);
+
+                disableAgeRad(fil.getAgeSelected());
             }
         });
 
@@ -147,6 +163,8 @@ public class FilterPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 boolean currIncomeFilter = fil.getIncomeSelected();
                 fil.setIncomeSelected(!currIncomeFilter);
+
+                disableIncomeRad(fil.getIncomeSelected());
             }
         });
 
@@ -159,18 +177,24 @@ public class FilterPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 boolean currContextFilter = fil.getContextSelected();
                 fil.setContextSelected(!currContextFilter);
+
+                disableConRad(fil.getContextSelected());
             }
         });
 
+        //METHOD TO RETURN THE FIRST DATA DATE OF THE CAMPAIGN (RESET THE DATE AND JDATEPICKER WHEN NEW CAMPAIGN LOADED)
+        int year = 2015;
+        int month = 0;
 
         SqlDateModel dateModel1 = new SqlDateModel();
+        dateModel1.setDate(year,month,1);
         Properties dateProp1 = new Properties();
         dateProp1.put("text.today", "Today");
         dateProp1.put("text.month", "Month");
         dateProp1.put("text.year", "Year");
 
         JDatePanelImpl datePanel1 = new JDatePanelImpl(dateModel1, dateProp1);
-        JDatePickerImpl datePicker1 = new JDatePickerImpl(datePanel1, new JFormattedTextField.AbstractFormatter() {
+        datePicker1 = new JDatePickerImpl(datePanel1, new JFormattedTextField.AbstractFormatter() {
             private String datePattern = "yyyy-MM-dd";
             private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
@@ -191,13 +215,14 @@ public class FilterPanel extends JPanel {
         });
 
         SqlDateModel dateModel2 = new SqlDateModel();
+        dateModel2.setDate(year,month,1);
         Properties dateProp2 = new Properties();
         dateProp2.put("text.today", "Today");
         dateProp2.put("text.month", "Month");
         dateProp2.put("text.year", "Year");
 
         JDatePanelImpl datePanel2 = new JDatePanelImpl(dateModel2, dateProp2);
-        JDatePickerImpl datePicker2 = new JDatePickerImpl(datePanel2, new JFormattedTextField.AbstractFormatter() {
+        datePicker2 = new JDatePickerImpl(datePanel2, new JFormattedTextField.AbstractFormatter() {
             private String datePattern = "yyyy-MM-dd";
             private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
@@ -376,7 +401,7 @@ public class FilterPanel extends JPanel {
             }
         });
 
-        incomeRad2 = new JRadioButton("Mid");
+        incomeRad2 = new JRadioButton("Medium");
         incomeRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
@@ -521,58 +546,7 @@ public class FilterPanel extends JPanel {
         applyBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                Date date1 = (Date) datePicker1.getModel().getValue();
-                Date date2 = (Date) datePicker2.getModel().getValue();
-
-                if(date1 != null && date2 != null) {
-                    fil.setdateLowerRange(date1);
-                    fil.setDateUpperRange(date2);
-                }
-
-                if(fil.getDateRangeSelected() && (date1 == null || date2 == null)){
-                    fil.setDateRangeSelected(false);
-                    dateRangeCB.setSelected(false);
-                }
-
-                if(fil.getIncomeSelected() && fil.getIncome().isEmpty()){
-                    fil.setIncomeSelected(false);
-                    incomeCB.setSelected(false);
-                }
-
-                if(fil.getGenderSelected() && fil.getGender().isEmpty()){
-                    fil.setGenderSelected(false);
-                    genderCB.setSelected(false);
-                }
-
-                if(fil.getAgeSelected() && fil.getAge().isEmpty()){
-                    fil.setAgeSelected(false);
-                    ageCB.setSelected(false);
-                }
-
-                if(fil.getContextSelected() && fil.getContext().isEmpty()){
-                    fil.setContextSelected(false);
-                    contextCB.setSelected(false);
-                }
-
-                System.out.println("-----Filter values-----");
-                if(fil.getDateRangeSelected()) {
-                    System.out.println("Start Date: " + fil.getDateLowerRange());
-                    System.out.println("End Date: " + fil.getDateUpperRange());
-                }
-                if(fil.getGenderSelected())
-                    System.out.println("Gender: " + fil.getGender());
-                if(fil.getAgeSelected())
-                    System.out.println("Age: " + fil.getAge());
-                if(fil.getIncomeSelected())
-                    System.out.println("Income: " + fil.getIncome());
-                if(fil.getContextSelected())
-                    System.out.println("Context: " + fil.getContext());
-                System.out.println("----------------------");
-
-                dashboardPanel.getDataPanel().updateData();
-                dashboardPanel.getGraphPanel().getGraph().updateSeries();
-
+                apply();
             }
         });
 
@@ -718,22 +692,145 @@ public class FilterPanel extends JPanel {
         col6.add(applyBut);
         col6.add(Box.createVerticalGlue());
 
+        col1.setBorder(BorderFactory.createLineBorder(Color.WHITE,1,true));
+        col2.setBorder(BorderFactory.createLineBorder(Color.WHITE,1,true));
+        col3.setBorder(BorderFactory.createLineBorder(Color.WHITE,1,true));
+        col4.setBorder(BorderFactory.createLineBorder(Color.WHITE,1,true));
+        col5.setBorder(BorderFactory.createLineBorder(Color.WHITE,1,true));
 
-        this.add(Box.createRigidArea(new Dimension(0,dashboardPanel.getWindow().getTextSizeL() * 4))); //200 at 1440p
-        this.add(Box.createHorizontalGlue());
-        this.add(col1);
-        this.add(Box.createHorizontalGlue());
-        this.add(col2);
-        this.add(Box.createHorizontalGlue());
-        this.add(col4);
-        this.add(Box.createHorizontalGlue());
-        this.add(col3);
-        this.add(Box.createHorizontalGlue());
-        this.add(col5);
-        this.add(Box.createHorizontalGlue());
-        this.add(col6);
-        this.add(Box.createHorizontalGlue());
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
 
+        centrePanel = new JPanel();
+        centrePanel.setBackground(dashboardPanel.getWindow().getFilterColor());
+        centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.LINE_AXIS));
+
+        centrePanel.add(Box.createRigidArea(new Dimension(0,dashboardPanel.getWindow().getTextSizeL() * 4))); //200 at 1440p
+        centrePanel.add(Box.createHorizontalGlue());
+        centrePanel.add(col1);
+        centrePanel.add(Box.createHorizontalGlue());
+        centrePanel.add(col2);
+        centrePanel.add(Box.createHorizontalGlue());
+        centrePanel.add(col4);
+        centrePanel.add(Box.createHorizontalGlue());
+        centrePanel.add(col3);
+        centrePanel.add(Box.createHorizontalGlue());
+        centrePanel.add(col5);
+        centrePanel.add(Box.createHorizontalGlue());
+        centrePanel.add(col6);
+        centrePanel.add(Box.createHorizontalGlue());
+
+        northPanel = new JPanel();
+        northPanel.setBackground(dashboardPanel.getWindow().getFilterColor());
+        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.PAGE_AXIS));
+
+        northPanel.add(Box.createRigidArea(new Dimension(0, (int) Math.round(dashboardPanel.getWindow().getHightBorderDim().getHeight())/2)));
+
+        southPanel = new JPanel();
+        southPanel.setBackground(dashboardPanel.getWindow().getFilterColor());
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
+
+        southPanel.add(Box.createRigidArea(new Dimension(0, (int) Math.round(dashboardPanel.getWindow().getHightBorderDim().getHeight())/2)));
+
+        this.add(northPanel, BorderLayout.NORTH);
+        this.add(southPanel, BorderLayout.SOUTH);
+        this.add(centrePanel, BorderLayout.CENTER);
+
+    }
+
+    public void apply(){
+        Date date1 = (Date) datePicker1.getModel().getValue();
+        Date date2 = (Date) datePicker2.getModel().getValue();
+
+        if(date1 != null && date2 != null) {
+            fil.setdateLowerRange(date1);
+            fil.setDateUpperRange(date2);
+        }
+
+        if(fil.getDateRangeSelected() && (date1 == null || date2 == null)){
+            fil.setDateRangeSelected(false);
+            dateRangeCB.setSelected(false);
+        }
+
+        if(fil.getIncomeSelected() && fil.getIncome().isEmpty()){
+            fil.setIncomeSelected(false);
+            incomeCB.setSelected(false);
+        }
+
+        if(fil.getGenderSelected() && fil.getGender().isEmpty()){
+            fil.setGenderSelected(false);
+            genderCB.setSelected(false);
+        }
+
+        if(fil.getAgeSelected() && fil.getAge().isEmpty()){
+            fil.setAgeSelected(false);
+            ageCB.setSelected(false);
+        }
+
+        if(fil.getContextSelected() && fil.getContext().isEmpty()){
+            fil.setContextSelected(false);
+            contextCB.setSelected(false);
+        }
+
+        System.out.println("-----Filter values-----");
+        if(fil.getDateRangeSelected()) {
+            System.out.println("Start Date: " + fil.getDateLowerRange());
+            System.out.println("End Date: " + fil.getDateUpperRange());
+        }
+        if(fil.getGenderSelected())
+            System.out.println("Gender: " + fil.getGender());
+        if(fil.getAgeSelected())
+            System.out.println("Age: " + fil.getAge());
+        if(fil.getIncomeSelected())
+            System.out.println("Income: " + fil.getIncome());
+        if(fil.getContextSelected())
+            System.out.println("Context: " + fil.getContext());
+        System.out.println("----------------------");
+
+
+        dashboardPanel.getDataPanel().updateData();
+
+        dashboardPanel.getGraphPanel().getGraph().updateSeries();
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        dashboardPanel.getGraphPanel().getGraph().updateSeries();
+    }
+
+    private void disableDateRange(boolean isEnabled){
+        dateText1.setEnabled(isEnabled);
+        dateText2.setEnabled(isEnabled);
+        date1Label.setEnabled(isEnabled);
+        date2Label.setEnabled(isEnabled);
+    }
+
+    private void disableGenRad(boolean isEnabled){
+        genRad1.setEnabled(isEnabled);
+        genRad2.setEnabled(isEnabled);
+    }
+
+    private void disableAgeRad(boolean isEnabled){
+        ageRad1.setEnabled(isEnabled);
+        ageRad2.setEnabled(isEnabled);
+        ageRad3.setEnabled(isEnabled);
+        ageRad4.setEnabled(isEnabled);
+        ageRad5.setEnabled(isEnabled);
+    }
+
+    private void disableIncomeRad(boolean isEnabled){
+        incomeRad1.setEnabled(isEnabled);
+        incomeRad2.setEnabled(isEnabled);
+        incomeRad3.setEnabled(isEnabled);
+    }
+
+    private void disableConRad(boolean isEnabled){
+        conRad1.setEnabled(isEnabled);
+        conRad2.setEnabled(isEnabled);
+        conRad3.setEnabled(isEnabled);
+        conRad4.setEnabled(isEnabled);
+        conRad5.setEnabled(isEnabled);
+        conRad6.setEnabled(isEnabled);
     }
 
     public void updateColors(){
@@ -783,6 +880,10 @@ public class FilterPanel extends JPanel {
         c5r2.setBackground(dashboardPanel.getWindow().getFilterColor());
         c5r3.setBackground(dashboardPanel.getWindow().getFilterColor());
         col6.setBackground(dashboardPanel.getWindow().getFilterColor());
+
+        centrePanel.setBackground(dashboardPanel.getWindow().getFilterColor());
+        southPanel.setBackground(dashboardPanel.getWindow().getFilterColor());
+        northPanel.setBackground(dashboardPanel.getWindow().getFilterColor());
     }
 
     public void updateTextSize(){

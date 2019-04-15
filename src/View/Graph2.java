@@ -1,6 +1,7 @@
 package View;
 
 import Model.Calculation;
+import Model.Filter;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
@@ -37,8 +38,7 @@ public class Graph2 extends JFXPanel {
 
         lineChart = new LineChart(xAxis, yAxis);
         barChart = new BarChart(barXAxis, barYAxis);
-        barChart.setBarGap(5);
-        barChart.setCategoryGap(5);
+        barChart.setBarGap(-5);
 
         updateSeries();
 
@@ -122,11 +122,68 @@ public class Graph2 extends JFXPanel {
         Map<String, Double> copyData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
         graphPanel.getSavedDataMaps().add(copyData);
         graphPanel.getSavedDataLables().add(graphPanel.getSavedDataMaps().size() + " (" + graphPanel.getMetric() + ")");
+
+        ArrayList<String> filters = new ArrayList<>();
+        Filter fil = graphPanel.getDashboardPanel().getWindow().getControl().getModel().getFilter();
+
+        if(fil.getDateRangeSelected()){
+            String text1 = "Start Date: " + fil.getDateLowerRange();
+            String text2 = "End Date: " + fil.getDateUpperRange();
+            filters.add(text1);
+            filters.add(text2);
+        }
+
+        if(fil.getGenderSelected()){
+            String text = "Gender:";
+
+            for(String s : fil.getGender()){
+                text = text + " " + s + ",";
+            }
+            text = text.substring(0,text.length() - 1);
+
+            filters.add(text);
+        }
+
+        if(fil.getIncomeSelected()){
+            String text = "Income:";
+
+            for(String s : fil.getIncome()){
+                text = text + " " + s + ",";
+            }
+            text = text.substring(0,text.length() - 1);
+
+            filters.add(text);
+        }
+
+        if(fil.getAgeSelected()){
+            String text = "Age:";
+
+            for(String s : fil.getAge()){
+                text = text + " " + s + ",";
+            }
+            text = text.substring(0,text.length() - 1);
+
+            filters.add(text);
+        }
+
+        if(fil.getContextSelected()){
+            String text = "Context:";
+
+            for(Filter.Context s : fil.getContext()){
+                text = text + " " + s.toString() + ",";
+            }
+            text = text.substring(0,text.length() - 1);
+
+            filters.add(text);
+        }
+
+        graphPanel.getSavedFilterLists().add(filters);
     }
 
     public void deleteGraph(int position){
         graphPanel.getSavedDataMaps().remove(position);
         graphPanel.getSavedDataLables().remove(position);
+        graphPanel.getSavedFilterLists().remove(position);
     }
 
 
