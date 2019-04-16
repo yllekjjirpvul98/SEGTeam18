@@ -37,10 +37,12 @@ public class DataPanel extends JPanel {
     private JButton addBut;
     private JButton deleteBut;
     private ListModel listModel;
+    private JLabel graphListTitle;
 
     private JPanel row1;
     private JPanel row2;
     private JPanel row3;
+    private JPanel row4;
 
 
     public DataPanel(DashboardPanel dashboardPanel){
@@ -122,6 +124,9 @@ public class DataPanel extends JPanel {
         table.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
         table.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
 
+        graphListTitle = new JLabel("Saved Graphs");
+        graphListTitle.setFont(dashboardPanel.getWindow().getTextFontBold());
+        graphListTitle.setForeground(dashboardPanel.getWindow().getHeadingColour());
 
         listModel = new DefaultListModel();
 
@@ -201,6 +206,15 @@ public class DataPanel extends JPanel {
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
         row1.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
+        row4 = new JPanel();
+        row4.setLayout(new BoxLayout(row4,BoxLayout.LINE_AXIS));
+        row4.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+
+        row4.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+        row4.add(graphListTitle);
+        row4.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+        row4.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
+
         row2 = new JPanel();
         row2.setLayout(new BoxLayout(row2,BoxLayout.LINE_AXIS));
         row2.setBackground(dashboardPanel.getWindow().getBackgoundColor());
@@ -209,7 +223,6 @@ public class DataPanel extends JPanel {
         row2.add(scrollPane);
         row2.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
         row2.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
-
 
         row3 = new JPanel();
         row3.setLayout(new BoxLayout(row3,BoxLayout.LINE_AXIS));
@@ -224,9 +237,10 @@ public class DataPanel extends JPanel {
         row3.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
         row3.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
-        //this.add(Box.createRigidArea(new Dimension(table.getWidth() + (int)(3 * dashboardPanel.getWindow().getWidthBorderDim().getWidth()),0)));
         this.add(row1);
         this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
+        this.add(row4);
+        //this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
         this.add(row2);
         this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
         this.add(row3);
@@ -239,28 +253,24 @@ public class DataPanel extends JPanel {
         graphList.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
         addBut.setBackground(dashboardPanel.getWindow().getAddColor());
         deleteBut.setBackground(dashboardPanel.getWindow().getDelColor());
+        graphListTitle.setForeground(dashboardPanel.getWindow().getHeadingColour());
         row1.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         row2.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         row3.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        row4.setBackground(dashboardPanel.getWindow().getBackgoundColor());
     }
 
     public void updateTextSize(){
-        if(dashboardPanel.getWindow().getControl().getModel().getSettings().getLargeText()) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
-            table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
-            table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
-        }
-        else{
-            table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
-            table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
-            table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
-        }
+
+        table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
+        table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
+        table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
+
         table.setFont(dashboardPanel.getWindow().getTextFont());
         graphList.setFont(dashboardPanel.getWindow().getTextFont());
         addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
         deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
-
-
+        graphListTitle.setFont(dashboardPanel.getWindow().getTextFontBold());
     }
 
     public String getCampName() {

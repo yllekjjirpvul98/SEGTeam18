@@ -6,12 +6,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class CampFrame extends JFrame {
-    private Container frame;
 
     public CampFrame(View window){
         super("Campaign Select");
 
-        frame = this.getContentPane();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
 

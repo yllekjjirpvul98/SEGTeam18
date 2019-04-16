@@ -38,7 +38,6 @@ public class SettingsPanel extends JPanel {
 
         bounce = window.getControl().getModel().getBounce();
         this.init();
-
     }
 
     private void init(){
@@ -74,8 +73,8 @@ public class SettingsPanel extends JPanel {
                     window.setBackgoundColor(new Color(0xEAEBEF));
                     window.setFilterColor(new Color(0x468DDF));
                     window.setFilterColor2(new Color(0x468DDF));
-                    window.setAddColor(new Color(0x71B9FF));
-                    window.setDelColor(new Color(0x71B9FF));
+                    window.setAddColor(new Color(0x70FF78));
+                    window.setDelColor(new Color(0xFF5238));
                     window.setActionButColor(new Color(0xC0F89B4F, true));
                 }
             }

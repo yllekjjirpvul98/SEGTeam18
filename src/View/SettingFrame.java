@@ -7,12 +7,9 @@ import java.awt.event.WindowEvent;
 
 public class SettingFrame extends JFrame {
 
-    private Container frame;
-
     public SettingFrame(View window){
         super("Settings");
 
-        frame = this.getContentPane();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
 
