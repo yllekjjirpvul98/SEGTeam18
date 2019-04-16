@@ -5,6 +5,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+/*
+    Class holds the Graph and Lists for the saved graph data.
+ */
+
 public class GraphPanel extends JPanel {
 
     private DashboardPanel dashboardPanel;
@@ -19,7 +23,7 @@ public class GraphPanel extends JPanel {
     private JPanel southPanel;
     private JPanel centrePanel;
 
-    public GraphPanel(DashboardPanel dashboardPanel) {
+    GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
         this.graph = new Graph2(this);
         this.savedDataMaps = new ArrayList<>();
@@ -30,7 +34,7 @@ public class GraphPanel extends JPanel {
         this.init();
     }
 
-    public void init() {
+    void init() {
 
         //  ---- Layout ----
         eastPanel = new JPanel();
@@ -57,6 +61,7 @@ public class GraphPanel extends JPanel {
         this.add(eastPanel, BorderLayout.EAST);
     }
 
+    // Update GUI colors.
     public void updateColors(){
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
@@ -64,6 +69,7 @@ public class GraphPanel extends JPanel {
         centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
     }
 
+    // Getters and Setters.
     public DashboardPanel getDashboardPanel(){
         return dashboardPanel;
     }
@@ -92,24 +98,11 @@ public class GraphPanel extends JPanel {
         return savedDataMaps;
     }
 
-    public void setSavedDataMaps(ArrayList<Map<String, Double>> savedDataMaps) {
-        this.savedDataMaps = savedDataMaps;
-    }
-
     public ArrayList<String> getSavedDataLables() {
         return savedDataLables;
-    }
-
-    public void setSavedDataLables(ArrayList<String> savedDataLables) {
-        this.savedDataLables = savedDataLables;
     }
 
     public ArrayList<ArrayList<String>> getSavedFilterLists() {
         return savedFilterLists;
     }
-
-    public void setSavedFilterLists(ArrayList<ArrayList<String>> savedFilterLists) {
-        this.savedFilterLists = savedFilterLists;
-    }
-
 }

@@ -1,10 +1,13 @@
 package View;
 
 import Control.Controller;
-import javafx.application.Platform;
-
 import javax.swing.*;
 import java.awt.*;
+
+/*
+    Class encapsulates all the front end code of the program.
+    Acts as the main JFrame the user interacts with.
+ */
 
 public class View extends JFrame {
 
@@ -15,11 +18,6 @@ public class View extends JFrame {
     private Dimension widthBorderDim;
     private Dimension hightBorderDim;
 
-    private int textSizeXL;
-    private int textSizeL;
-    private int textSizeM;
-    private int textSizeS;
-    private int textSizeXS;
     private Font titleFont;
     private Font headingFont;
     private Font subHeadingFont;
@@ -46,6 +44,11 @@ public class View extends JFrame {
     private SettingFrame settingFrame;
     private CampFrame campFrame;
 
+
+    /*
+        Constructor sets component size references as a fraction of the users screen size.
+        Sets various fonts and colours to be referenced by components throughout the program.
+     */
     public View(String title) {
         super(title);
         screenDim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -77,7 +80,7 @@ public class View extends JFrame {
         setFilterColor2(new Color(0x468DDF));
         setAddColor(new Color(0x71B9FF));
         setDelColor(new Color(0x71B9FF));
-        setActionButColor(new Color(0xEF934E));
+        setActionButColor(new Color(0xEDB980));
     }
 
     public void init(Controller control) {
@@ -97,6 +100,7 @@ public class View extends JFrame {
         this.setLocation(screenDim.width / 2 - this.getSize().width / 2, screenDim.height / 2 - this.getSize().height / 2);
     }
 
+    // Change the panel being displayed in the window depending on given string.
     public void changePanel(String panel) {
         Dimension windowSize = new Dimension(this.getWidth(), this.getHeight());
         window.removeAll();
@@ -113,36 +117,27 @@ public class View extends JFrame {
         this.setSize(windowSize);
     }
 
+    // Update GUI colours.
     public void updateColors(){
         loginPanel.updateColors();
         dashboardPanel.updateColors();
         settingsPanel.updateColors();
     }
 
+    // Update GUI sizing.
     public void updateTextSize(){
         loginPanel.updateTextSize();
         settingsPanel.updateTextSize();
         dashboardPanel.updateTextSize();
     }
 
-    public void setDashboardPanel(DashboardPanel dashboardPanel) {
-        this.dashboardPanel = dashboardPanel;
-    }
-
+    // Getters and Setters.
     public DashboardPanel getDashboardPanel() {
         return dashboardPanel;
     }
 
     public Controller getControl() {
         return control;
-    }
-
-    public Dimension getScreenSize() {
-        return screenDim;
-    }
-
-    public Dimension getWindowDim() {
-        return windowDim;
     }
 
     public Color getBackgoundColor() {
@@ -219,46 +214,6 @@ public class View extends JFrame {
 
     public void setFilterColor(Color color) {
         filterColor = color;
-    }
-
-    public int getTextSizeXL() {
-        return textSizeXL;
-    }
-
-    public void setTextSizeXL(int textSizeXL) {
-        this.textSizeXL = textSizeXL;
-    }
-
-    public int getTextSizeL() {
-        return textSizeL;
-    }
-
-    public void setTextSizeL(int textSizeL) {
-        this.textSizeL = textSizeL;
-    }
-
-    public int getTextSizeM() {
-        return textSizeM;
-    }
-
-    public void setTextSizeM(int textSizeM) {
-        this.textSizeM = textSizeM;
-    }
-
-    public int getTextSizeS() {
-        return textSizeS;
-    }
-
-    public void setTextSizeS(int textSizeS) {
-        this.textSizeS = textSizeS;
-    }
-
-    public int getTextSizeXS() {
-        return textSizeXS;
-    }
-
-    public void setTextSizeXS(int textSizeXS) {
-        this.textSizeXS = textSizeXS;
     }
 
     public Color getFilterColor() {

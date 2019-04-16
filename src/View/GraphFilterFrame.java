@@ -5,12 +5,17 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-public class GraphFilterFrame extends JFrame {
+/*
+    Class displays the filters that were applied to a particular saved graph.
+    Has decoration removed as frame only exists while the user holds the mouse button.
+    Displays the text describing the filters in a JList.
+ */
 
-    public GraphFilterFrame(View window, int index) {
+class GraphFilterFrame extends JFrame {
+
+    GraphFilterFrame(View window, int index) {
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         this.setVisible(true);
@@ -19,7 +24,6 @@ public class GraphFilterFrame extends JFrame {
         Point b = a.getLocation();
         int x = (int) b.getX();
         int y = (int) b.getY();
-
 
         JPanel panel = new JPanel();
         panel.setBackground(window.getActionButColor());
@@ -39,7 +43,7 @@ public class GraphFilterFrame extends JFrame {
 
         String number = graphNumberArray[2];
 
-        ((DefaultListModel) listModel).addElement("----- Graph " + (number) + " Filters -----");
+        ((DefaultListModel) listModel).addElement("------ Graph " + (number) + " Filters ------");
 
 
         ArrayList<String> filters = window.getDashboardPanel().getGraphPanel().getSavedFilterLists().get(index);
@@ -56,6 +60,7 @@ public class GraphFilterFrame extends JFrame {
 
     }
 
+    // Closing window only closes this frame instead of closing the program.
     public void close(){
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }

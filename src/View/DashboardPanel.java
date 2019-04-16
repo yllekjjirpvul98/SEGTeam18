@@ -5,6 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*
+    Class contains a FilterPanel, DataPanel and GraphPanel object as well as the components that make up the top section
+    of the dashboard panel.
+    Provides functionality for the metric/time select dropdown boxes and the 6 icon buttons.
+ */
+
 public class DashboardPanel extends JPanel {
 
     private View window;
@@ -30,6 +36,7 @@ public class DashboardPanel extends JPanel {
     private JPanel row2n;
     private JPanel row3n;
 
+    // Initially set the histoEnabled toggle to false as starts displaying the line chart.
     public DashboardPanel(View window){
         this.window = window;
         this.histoEnabled = false;
@@ -37,6 +44,7 @@ public class DashboardPanel extends JPanel {
         this.setLayout(new BorderLayout());
     }
 
+    // Resets filters then updates data and graph view.
     public void reset(){
         window.getControl().getModel().getFilter().reset();
         filterPanel.reset();
@@ -44,6 +52,14 @@ public class DashboardPanel extends JPanel {
         graphPanel.getGraph().updateSeries();
     }
 
+    /*
+        Settings/Camp buttons create Setting/CampFrame object when clicked, then disabled until Frame closed.
+        Print/Save buttons call method in model to print/save current graph.
+        Histogram/Line buttons cause Graph displayed in GraphPanel to switch between line chart and histogram.
+        Switching to histogram causes components relating to the line chart to be disabled until switched back.
+        Metric/Time combo boxes change the GraphPanels current metric/time and then update the graph to display.
+        Changing the time value with saved graphs stored will cause saved graphs to be removed (will prompt user).
+     */
     public void init() {
         //  ---- Creating Components ----
         filterPanel = new FilterPanel(this);
@@ -54,118 +70,81 @@ public class DashboardPanel extends JPanel {
         title.setFont(window.getHeadingFont());
         title.setForeground(window.getHeadingColour());
 
-        campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        campBut = new JButton(new ImageIcon(((new ImageIcon("Images\\CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         campBut.setBackground(window.getHighlightColor());
 
-        campBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setCampFrame(new CampFrame(window));
-                campBut.setEnabled(false);
-            }
+        campBut.addActionListener(e -> {
+            window.setCampFrame(new CampFrame(window));
+            campBut.setEnabled(false);
         });
 
-        settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        settingsBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         settingsBut.setBackground(window.getHighlightColor());
 
-        settingsBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setSettingFrame(new SettingFrame(window));
-                settingsBut.setEnabled(false);
-            }
+        settingsBut.addActionListener(e -> {
+            window.setSettingFrame(new SettingFrame(window));
+            settingsBut.setEnabled(false);
         });
 
-        printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        printBut = new JButton(new ImageIcon(((new ImageIcon("Images\\PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
 
-        printBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Print Graph");
-            }
-        });
+        printBut.addActionListener(e -> System.out.println("Print Graph"));
 
-        saveBut = new JButton(new ImageIcon(((new ImageIcon("SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        saveBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         saveBut.setBackground(window.getHighlightColor());
 
-        saveBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Save Graph");
-            }
-        });
+        saveBut.addActionListener(e -> System.out.println("Save Graph"));
 
         String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
-        metricSelect = new JComboBox<String>(metrics);
+        metricSelect = new JComboBox<>(metrics);
         metricSelect.setVisible(true);
         metricSelect.setBackground(window.getUnhighlightColor());
         metricSelect.setFont(window.getTextFont());
         metricSelect.setMaximumSize(new Dimension(window.getButtonBigFont().getSize() * 10,window.getButtonBigFont().getSize() * 3));
-        metricSelect.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
 
-                JComboBox metricSelect = (JComboBox) event.getSource();
-                graphPanel.setMetric(metricSelect.getSelectedItem().toString());
+        metricSelect.addActionListener(event -> {
+            JComboBox metricSelect = (JComboBox) event.getSource();
+            graphPanel.setMetric(metricSelect.getSelectedItem().toString());
 
-                graphPanel.getGraph().updateSeries();
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                graphPanel.getGraph().updateSeries();
-
+            graphPanel.getGraph().updateSeries();
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            graphPanel.getGraph().updateSeries();
 
         });
 
         String[] TimeScales = {"Hour","Day","Week","Month","Year"};
-        timeSelect = new JComboBox<String>(TimeScales);
+        timeSelect = new JComboBox<>(TimeScales);
         preTimeSelected = 1; // TO START ON DAY
         timeSelect.setSelectedIndex(preTimeSelected);
         timeSelect.setFont(window.getTextFont());
         timeSelect.setBackground(window.getUnhighlightColor());
         timeSelect.setMaximumSize(new Dimension(window.getButtonBigFont().getSize() * 10, window.getButtonBigFont().getSize() * 3));
-        timeSelect.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
 
-                JComboBox timeSlide = (JComboBox) event.getSource();
-                String timeUpper = timeSlide.getSelectedItem().toString();
+        timeSelect.addActionListener(event -> {
+            JComboBox timeSlide = (JComboBox) event.getSource();
+            String timeUpper = timeSlide.getSelectedItem().toString();
 
-                if (graphPanel.getSavedDataMaps().size() > 0) {
+            if (graphPanel.getSavedDataMaps().size() > 0) {
 
-                    int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int dialogResult = JOptionPane.showConfirmDialog(window, "Changing time granularity to \"" + timeUpper + "\" will delete saved graphs. \n Do you wish to continue?", "Confirm Action", dialogButton);
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+                int dialogResult = JOptionPane.showConfirmDialog(window, "Changing time granularity to \"" + timeUpper + "\" will delete saved graphs. \n Do you wish to continue?", "Confirm Action", dialogButton);
 
-                    if (dialogResult == 0) {
-                        // YES selected
-                        preTimeSelected = timeSelect.getSelectedIndex();
-                        graphPanel.setTime(timeUpper.toLowerCase());
-
-                        graphPanel.getSavedDataMaps().clear();
-                        graphPanel.getSavedDataLables().clear();
-
-                        while(dataPanel.getListModel().getSize() != 0) {
-                            ((DefaultListModel) dataPanel.getListModel()).remove(0);
-                        }
-
-                        graphPanel.getGraph().updateSeries();
-                        try {
-                            Thread.sleep(1500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        graphPanel.getGraph().updateSeries();
-
-                    } else {
-                        // NO selected
-                        timeSelect.setSelectedIndex(preTimeSelected);
-                    }
-
-                } else {
+                if (dialogResult == 0) {
+                    // YES selected
                     preTimeSelected = timeSelect.getSelectedIndex();
                     graphPanel.setTime(timeUpper.toLowerCase());
+
+                    graphPanel.getSavedDataMaps().clear();
+                    graphPanel.getSavedDataLables().clear();
+
+                    while(dataPanel.getListModel().getSize() != 0) {
+                        ((DefaultListModel) dataPanel.getListModel()).remove(0);
+                    }
 
                     graphPanel.getGraph().updateSeries();
                     try {
@@ -174,57 +153,65 @@ public class DashboardPanel extends JPanel {
                         e.printStackTrace();
                     }
                     graphPanel.getGraph().updateSeries();
+
+                } else {
+                    // NO selected
+                    timeSelect.setSelectedIndex(preTimeSelected);
                 }
+
+            } else {
+                preTimeSelected = timeSelect.getSelectedIndex();
+                graphPanel.setTime(timeUpper.toLowerCase());
+
+                graphPanel.getGraph().updateSeries();
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                graphPanel.getGraph().updateSeries();
             }
         });
 
-        histoBut = new JButton(new ImageIcon(((new ImageIcon("HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        histoBut = new JButton(new ImageIcon(((new ImageIcon("Images\\HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         histoBut.setBackground(window.getHighlightColor());
 
-        histoBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        histoBut.addActionListener(e -> {
+            if(!histoEnabled){
+                dataPanel.getAddBut().setEnabled(false);
+                dataPanel.getDeleteBut().setEnabled(false);
+                dataPanel.getGraphList().setEnabled(false);
+                metricSelect.setEnabled(false);
+                timeSelect.setEnabled(false);
 
-                if(!histoEnabled){
-                    dataPanel.getAddBut().setEnabled(false);
-                    dataPanel.getDeleteBut().setEnabled(false);
-                    dataPanel.getGraphList().setEnabled(false);
-                    metricSelect.setEnabled(false);
-                    timeSelect.setEnabled(false);
-
-                    graphPanel.setMetric("Click Cost Frequency");
-                    graphPanel.setGraph(new Graph2(graphPanel));
-                    graphPanel.removeAll();
-                    graphPanel.init();
-                    histoEnabled = true;
-                }
+                graphPanel.setMetric("Click Cost Frequency");
+                graphPanel.setGraph(new Graph2(graphPanel));
+                graphPanel.removeAll();
+                graphPanel.init();
+                histoEnabled = true;
             }
         });
 
-        lineBut = new JButton(new ImageIcon(((new ImageIcon("LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        lineBut = new JButton(new ImageIcon(((new ImageIcon("Images\\LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         lineBut.setBackground(window.getHighlightColor());
 
-        lineBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        lineBut.addActionListener(e -> {
+            if(histoEnabled){
+                dataPanel.getAddBut().setEnabled(true);
+                dataPanel.getDeleteBut().setEnabled(true);
+                dataPanel.getGraphList().setEnabled(true);
+                metricSelect.setEnabled(true);
+                timeSelect.setEnabled(true);
 
-                if(histoEnabled){
-                    dataPanel.getAddBut().setEnabled(true);
-                    dataPanel.getDeleteBut().setEnabled(true);
-                    dataPanel.getGraphList().setEnabled(true);
-                    metricSelect.setEnabled(true);
-                    timeSelect.setEnabled(true);
-
-                    graphPanel.setMetric(metricSelect.getSelectedItem().toString());
-                    graphPanel.setGraph(new Graph2(graphPanel));
-                    graphPanel.removeAll();
-                    graphPanel.init();
-                    histoEnabled = false;
-                }
+                graphPanel.setMetric(metricSelect.getSelectedItem().toString());
+                graphPanel.setGraph(new Graph2(graphPanel));
+                graphPanel.removeAll();
+                graphPanel.init();
+                histoEnabled = false;
             }
         });
 
-        // North Panel --- Logout & Title
+        // ---- Layout ----
         northPanel = new JPanel();
         northPanel.setBackground(window.getBackgoundColor());
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.PAGE_AXIS));
@@ -246,7 +233,6 @@ public class DashboardPanel extends JPanel {
         row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
         row1n.add(settingsBut);
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
-
 
         row2n = new JPanel();
         row2n.setBackground(window.getBackgoundColor());
@@ -271,7 +257,6 @@ public class DashboardPanel extends JPanel {
         northPanel.add(row2n);
         northPanel.add(row3n);
         northPanel.add(Box.createRigidArea(new Dimension(0,window.getButtonBigFont().getSize())));
-
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(filterPanel, BorderLayout.SOUTH);
@@ -279,95 +264,72 @@ public class DashboardPanel extends JPanel {
         this.add(dataPanel, BorderLayout.WEST);
     }
 
+    // Redraws the northPanel when new settings are applied in the settings menu.
     private void updateNorthPanel(){
         this.remove(northPanel);
 
-        campBut = new JButton(new ImageIcon(((new ImageIcon("CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        campBut = new JButton(new ImageIcon(((new ImageIcon("Images\\CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         campBut.setBackground(window.getHighlightColor());
 
-        campBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setCampFrame(new CampFrame(window));
-                campBut.setEnabled(false);
-            }
+        campBut.addActionListener(e -> {
+            window.setCampFrame(new CampFrame(window));
+            campBut.setEnabled(false);
         });
 
-        settingsBut = new JButton(new ImageIcon(((new ImageIcon("SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        settingsBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         settingsBut.setBackground(window.getHighlightColor());
 
-        settingsBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.setSettingFrame(new SettingFrame(window));
-                settingsBut.setEnabled(false);
-            }
+        settingsBut.addActionListener(e -> {
+            window.setSettingFrame(new SettingFrame(window));
+            settingsBut.setEnabled(false);
         });
 
-        printBut = new JButton(new ImageIcon(((new ImageIcon("PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        printBut = new JButton(new ImageIcon(((new ImageIcon("Images\\PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
 
-        printBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Print Graph");
-            }
-        });
+        printBut.addActionListener(e -> System.out.println("Print Graph"));
 
-        saveBut = new JButton(new ImageIcon(((new ImageIcon("SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        saveBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         saveBut.setBackground(window.getHighlightColor());
 
-        saveBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Save Graph");
-            }
-        });
+        saveBut.addActionListener(e -> System.out.println("Save Graph"));
 
 
-        histoBut = new JButton(new ImageIcon(((new ImageIcon("HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        histoBut = new JButton(new ImageIcon(((new ImageIcon("Images\\HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         histoBut.setBackground(window.getHighlightColor());
 
-        histoBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        histoBut.addActionListener(e -> {
+            if(!histoEnabled){
+                dataPanel.getAddBut().setEnabled(false);
+                dataPanel.getDeleteBut().setEnabled(false);
+                dataPanel.getGraphList().setEnabled(false);
+                metricSelect.setEnabled(false);
+                timeSelect.setEnabled(false);
 
-                if(!histoEnabled){
-                    dataPanel.getAddBut().setEnabled(false);
-                    dataPanel.getDeleteBut().setEnabled(false);
-                    dataPanel.getGraphList().setEnabled(false);
-                    metricSelect.setEnabled(false);
-                    timeSelect.setEnabled(false);
-
-                    graphPanel.setMetric("Click Cost Frequency");
-                    graphPanel.setGraph(new Graph2(graphPanel));
-                    graphPanel.removeAll();
-                    graphPanel.init();
-                    histoEnabled = true;
-                }
+                graphPanel.setMetric("Click Cost Frequency");
+                graphPanel.setGraph(new Graph2(graphPanel));
+                graphPanel.removeAll();
+                graphPanel.init();
+                histoEnabled = true;
             }
         });
 
-        lineBut = new JButton(new ImageIcon(((new ImageIcon("LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        lineBut = new JButton(new ImageIcon(((new ImageIcon("Images\\LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         lineBut.setBackground(window.getHighlightColor());
 
-        lineBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        lineBut.addActionListener(e -> {
+            if(histoEnabled){
+                dataPanel.getAddBut().setEnabled(true);
+                dataPanel.getDeleteBut().setEnabled(true);
+                dataPanel.getGraphList().setEnabled(true);
+                metricSelect.setEnabled(true);
+                timeSelect.setEnabled(true);
 
-                if(histoEnabled){
-                    dataPanel.getAddBut().setEnabled(true);
-                    dataPanel.getDeleteBut().setEnabled(true);
-                    dataPanel.getGraphList().setEnabled(true);
-                    metricSelect.setEnabled(true);
-                    timeSelect.setEnabled(true);
-
-                    graphPanel.setMetric(metricSelect.getSelectedItem().toString());
-                    graphPanel.setGraph(new Graph2(graphPanel));
-                    graphPanel.removeAll();
-                    graphPanel.init();
-                    histoEnabled = false;
-                }
+                graphPanel.setMetric(metricSelect.getSelectedItem().toString());
+                graphPanel.setGraph(new Graph2(graphPanel));
+                graphPanel.removeAll();
+                graphPanel.init();
+                histoEnabled = false;
             }
         });
 
@@ -392,7 +354,6 @@ public class DashboardPanel extends JPanel {
         row1n.add(Box.createRigidArea(new Dimension((int) Math.round(window.getWidthBorderDim().getWidth()/2),0)));
         row1n.add(settingsBut);
         row1n.add(Box.createRigidArea(window.getWidthBorderDim()));
-
 
         row2n = new JPanel();
         row2n.setBackground(window.getBackgoundColor());
@@ -421,6 +382,7 @@ public class DashboardPanel extends JPanel {
         this.add(northPanel, BorderLayout.NORTH);
     }
 
+    // Update GUI colours.
     public void updateColors(){
         this.setBackground(window.getBackgoundColor());
         title.setForeground(window.getHeadingColour());
@@ -432,6 +394,7 @@ public class DashboardPanel extends JPanel {
         dataPanel.updateColors();
     }
 
+    // Update GUI sizing.
     public void updateTextSize(){
         title.setFont(window.getHeadingFont());
         metricSelect.setFont(window.getTextFont());
@@ -442,7 +405,7 @@ public class DashboardPanel extends JPanel {
         dataPanel.updateTextSize();
     }
 
-
+    // Getters and Setters.
     public View getWindow(){
         return window;
     }
@@ -451,24 +414,12 @@ public class DashboardPanel extends JPanel {
         return filterPanel;
     }
 
-    public void setFilterPanel(FilterPanel filterPanel) {
-        this.filterPanel = filterPanel;
-    }
-
     public DataPanel getDataPanel(){
         return dataPanel;
     }
 
-    public void setDataPanel(DataPanel dataPanel){
-        this.dataPanel = dataPanel;
-    }
-
     public GraphPanel getGraphPanel() {
         return graphPanel;
-    }
-
-    public void setGraphPanel(GraphPanel graphPanel){
-        this.graphPanel = graphPanel;
     }
 
     public String getCampName() {
@@ -483,15 +434,7 @@ public class DashboardPanel extends JPanel {
         return campBut;
     }
 
-    public void setCampBut(JButton campBut) {
-        this.campBut = campBut;
-    }
-
     public JButton getSettingsBut() {
         return settingsBut;
-    }
-
-    public void setSettingsBut(JButton settingsBut) {
-        this.settingsBut = settingsBut;
     }
 }

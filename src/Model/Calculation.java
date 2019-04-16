@@ -46,9 +46,13 @@ public class Calculation {
                     query += "(";
                     query += "Gender = '" + map.get("gender").get(0) + "'";
 
-                    map.get("gender").remove(0);
+                    boolean doAdd = false;
+
                     for (String g : map.get("gender")) {
-                        query += " OR Gender = '" + g + "'";
+                        if(doAdd)
+                            query += " OR Gender = '" + g + "'";
+                        else
+                            doAdd = true;
                     }
                     query += ") ";
                 }
@@ -64,9 +68,14 @@ public class Calculation {
                 if (map.get("age").size() != 1) {
                     query += "(";
                     query += "Age = '" + map.get("age").get(0) + "'";
-                    map.get("age").remove(0);
+
+                    boolean doAdd = false;
+
                     for (String a : map.get("age")) {
-                        query += " OR Age = '" + a + "'";
+                        if(doAdd)
+                            query += " OR Age = '" + a + "'";
+                        else
+                            doAdd = true;
                     }
                     query += ") ";
                 }
@@ -82,9 +91,14 @@ public class Calculation {
                 if (map.get("income").size() > 1) {
                     query += "(";
                     query += "Income = '" + map.get("income").get(0) + "'";
-                    map.get("income").remove(0);
+
+                    boolean doAdd = false;
+
                     for (String in : map.get("income")) {
-                        query += " OR Age = '" + in + "'";
+                        if(doAdd)
+                            query += " OR Age = '" + in + "'";
+                        else
+                            doAdd = true;
                     }
                     query += ") ";
                 }
@@ -99,9 +113,14 @@ public class Calculation {
                 if (map.get("context").size() > 1) {
                     query += "(";
                     query += "Context = '" + map.get("context").get(0) + "'";
-                    map.get("context").remove(0);
+
+                    boolean doAdd = false;
+
                     for (String context : map.get("context")) {
-                        query += " OR context = '" + context + "'";
+                        if(doAdd)
+                            query += " OR context = '" + context + "'";
+                        else
+                            doAdd = true;
                     }
                     query += ") ";
                 }

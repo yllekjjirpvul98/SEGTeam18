@@ -4,18 +4,20 @@ import Model.Filter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 
-public class FilterPanel extends JPanel {
+/*
+    Class contains all components to provide functionality for the user to change, and apply, the filters
+    on the campaign data.
+ */
+
+class FilterPanel extends JPanel {
 
     private DashboardPanel dashboardPanel;
 
@@ -70,11 +72,14 @@ public class FilterPanel extends JPanel {
     private JPanel southPanel;
     private JPanel centrePanel;
 
-    public FilterPanel(DashboardPanel dashboardPanel){
+    FilterPanel(DashboardPanel dashboardPanel){
         this.dashboardPanel = dashboardPanel;
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
         this.setBackground(dashboardPanel.getWindow().getFilterColor2());
         this.setLayout(new BorderLayout());
         this.init();
+
+        // Initially disable components, enable when corresponding checkbox is checked.
         this.disableAgeRad(false);
         this.disableGenRad(false);
         this.disableIncomeRad(false);
@@ -82,7 +87,8 @@ public class FilterPanel extends JPanel {
         this.disableDateRange(false);
     }
 
-    public void reset(){
+    // Will uncheck all components - resetting them to their starting state.
+    void reset(){
         dateRangeCB.setSelected(false);
         genderCB.setSelected(false);
         ageCB.setSelected(false);
@@ -106,86 +112,83 @@ public class FilterPanel extends JPanel {
         conRad4.setSelected(false);
         conRad5.setSelected(false);
         conRad6.setSelected(false);
+
+        this.disableAgeRad(false);
+        this.disableGenRad(false);
+        this.disableIncomeRad(false);
+        this.disableConRad(false);
+        this.disableDateRange(false);
     }
 
+    /*
+        All checkboxes when clicked set corresponding filter in model to be !currentValue.
+        When a radio button is selected add corresponding filter in model.
+        When radio button deselected remove corresponding filter in model.
+     */
     private void init(){
+        //  ---- Creating components ----
         fil = dashboardPanel.getWindow().getControl().getModel().getFilter();
 
-        //  ---- Creating components ----
         dateRangeCB = new JCheckBox(" Date Range ");
         dateRangeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         dateRangeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
-        dateRangeCB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean currDateFilter = fil.getDateRangeSelected();
-                fil.setDateRangeSelected(!currDateFilter);
+        dateRangeCB.addActionListener(e -> {
+            boolean currDateFilter = fil.getDateRangeSelected();
+            fil.setDateRangeSelected(!currDateFilter);
 
-                disableDateRange(fil.getDateRangeSelected());
-            }
+            disableDateRange(fil.getDateRangeSelected());
         });
 
         genderCB = new JCheckBox(" Gender     ");
         genderCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         genderCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
-        genderCB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean currGenderFilter = fil.getGenderSelected();
-                fil.setGenderSelected(!currGenderFilter);
+        genderCB.addActionListener(e -> {
+            boolean currGenderFilter = fil.getGenderSelected();
+            fil.setGenderSelected(!currGenderFilter);
 
-                disableGenRad(fil.getGenderSelected());
-            }
+            disableGenRad(fil.getGenderSelected());
         });
 
         ageCB = new JCheckBox(" Age        ");
         ageCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
-        ageCB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean currAgeFilter = fil.getAgeSelected();
-                fil.setAgeSelected(!currAgeFilter);
+        ageCB.addActionListener(e -> {
+            boolean currAgeFilter = fil.getAgeSelected();
+            fil.setAgeSelected(!currAgeFilter);
 
-                disableAgeRad(fil.getAgeSelected());
-            }
+            disableAgeRad(fil.getAgeSelected());
         });
 
         incomeCB = new JCheckBox(" Income     ");
         incomeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
-        incomeCB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean currIncomeFilter = fil.getIncomeSelected();
-                fil.setIncomeSelected(!currIncomeFilter);
+        incomeCB.addActionListener(e -> {
+            boolean currIncomeFilter = fil.getIncomeSelected();
+            fil.setIncomeSelected(!currIncomeFilter);
 
-                disableIncomeRad(fil.getIncomeSelected());
-            }
+            disableIncomeRad(fil.getIncomeSelected());
         });
 
         contextCB = new JCheckBox(" Context    ");
         contextCB.setBackground(dashboardPanel.getWindow().getFilterColor());
         contextCB.setFont(dashboardPanel.getWindow().getTextFontBold());
 
-        contextCB.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean currContextFilter = fil.getContextSelected();
-                fil.setContextSelected(!currContextFilter);
+        contextCB.addActionListener(e -> {
+            boolean currContextFilter = fil.getContextSelected();
+            fil.setContextSelected(!currContextFilter);
 
-                disableConRad(fil.getContextSelected());
-            }
+            disableConRad(fil.getContextSelected());
         });
 
         //METHOD TO RETURN THE FIRST DATA DATE OF THE CAMPAIGN (RESET THE DATE AND JDATEPICKER WHEN NEW CAMPAIGN LOADED)
         int year = 2015;
         int month = 0;
 
+        // Create JDatePickers to allow the user to select start/end date to filter on.
         SqlDateModel dateModel1 = new SqlDateModel();
         dateModel1.setDate(year,month,1);
         Properties dateProp1 = new Properties();
@@ -204,7 +207,7 @@ public class FilterPanel extends JPanel {
             }
 
             @Override
-            public String valueToString(Object value) throws ParseException {
+            public String valueToString(Object value) {
                 if (value != null) {
                     Calendar cal = (Calendar) value;
                     return dateFormatter.format(cal.getTime());
@@ -232,7 +235,7 @@ public class FilterPanel extends JPanel {
             }
 
             @Override
-            public String valueToString(Object value) throws ParseException {
+            public String valueToString(Object value) {
                 if (value != null) {
                     Calendar cal = (Calendar) value;
                     return dateFormatter.format(cal.getTime());
@@ -258,23 +261,17 @@ public class FilterPanel extends JPanel {
         date2Label = new JLabel(" End ");
         date2Label.setFont(dashboardPanel.getWindow().getTextFont());
 
-
+        //Radio buttons for remaining filters.
         genRad1 = new JRadioButton("Male");
         genRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         genRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
-        genRad1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(genRad1.isSelected() && !(fil.getGender().contains("Male"))) {
-                    fil.setGender("Male");
-                }
-                if(!(genRad1.isSelected()) && fil.getGender().contains("Male")){
-                    fil.getGender().remove("Male");
-                }
-                System.out.println(fil.getGender());
-
+        genRad1.addActionListener(e -> {
+            if(genRad1.isSelected() && !(fil.getGender().contains("Male"))) {
+                fil.setGender("Male");
+            }
+            if(!(genRad1.isSelected()) && fil.getGender().contains("Male")){
+                fil.getGender().remove("Male");
             }
         });
 
@@ -282,17 +279,12 @@ public class FilterPanel extends JPanel {
         genRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         genRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
-        genRad2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(genRad2.isSelected() && !(fil.getGender().contains("Female"))) {
-                    fil.setGender("Female");
-                }
-                if(!(genRad2.isSelected()) && fil.getGender().contains("Female")){
-                    fil.getGender().remove("Female");
-                }
-                System.out.println(fil.getGender());
+        genRad2.addActionListener(e -> {
+            if(genRad2.isSelected() && !(fil.getGender().contains("Female"))) {
+                fil.setGender("Female");
+            }
+            if(!(genRad2.isSelected()) && fil.getGender().contains("Female")){
+                fil.getGender().remove("Female");
             }
         });
 
@@ -301,18 +293,12 @@ public class FilterPanel extends JPanel {
         ageRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
-        ageRad1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(ageRad1.isSelected() && !(fil.getAge().contains("<25"))) {
-                    fil.setAge("<25");
-                }
-                if(!(ageRad1.isSelected()) && fil.getAge().contains("<25")){
-                    fil.getAge().remove("<25");
-                }
-                System.out.println(fil.getAge());
-
+        ageRad1.addActionListener(e -> {
+            if(ageRad1.isSelected() && !(fil.getAge().contains("<25"))) {
+                fil.setAge("<25");
+            }
+            if(!(ageRad1.isSelected()) && fil.getAge().contains("<25")){
+                fil.getAge().remove("<25");
             }
         });
 
@@ -320,16 +306,12 @@ public class FilterPanel extends JPanel {
         ageRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
-        ageRad2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(ageRad2.isSelected() && !(fil.getAge().contains("25-34"))) {
-                    fil.setAge("25-34");
-                }
-                if(!(ageRad2.isSelected()) && fil.getAge().contains("25-34")){
-                    fil.getAge().remove("25-34");
-                }
-                System.out.println(fil.getAge());
+        ageRad2.addActionListener(e -> {
+            if(ageRad2.isSelected() && !(fil.getAge().contains("25-34"))) {
+                fil.setAge("25-34");
+            }
+            if(!(ageRad2.isSelected()) && fil.getAge().contains("25-34")){
+                fil.getAge().remove("25-34");
             }
         });
 
@@ -337,16 +319,12 @@ public class FilterPanel extends JPanel {
         ageRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
-        ageRad3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(ageRad3.isSelected() && !(fil.getAge().contains("35-44"))) {
-                    fil.setAge("35-44");
-                }
-                if(!(ageRad3.isSelected()) && fil.getAge().contains("35-44")){
-                    fil.getAge().remove("35-44");
-                }
-                System.out.println(fil.getAge());
+        ageRad3.addActionListener(e -> {
+            if(ageRad3.isSelected() && !(fil.getAge().contains("35-44"))) {
+                fil.setAge("35-44");
+            }
+            if(!(ageRad3.isSelected()) && fil.getAge().contains("35-44")){
+                fil.getAge().remove("35-44");
             }
         });
 
@@ -354,16 +332,12 @@ public class FilterPanel extends JPanel {
         ageRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad4.setFont(dashboardPanel.getWindow().getTextFont());
 
-        ageRad4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(ageRad4.isSelected() && !(fil.getAge().contains("45-54"))) {
-                    fil.setAge("45-54");
-                }
-                if(!(ageRad4.isSelected()) && fil.getAge().contains("45-54")){
-                    fil.getAge().remove("45-54");
-                }
-                System.out.println(fil.getAge());
+        ageRad4.addActionListener(e -> {
+            if(ageRad4.isSelected() && !(fil.getAge().contains("45-54"))) {
+                fil.setAge("45-54");
+            }
+            if(!(ageRad4.isSelected()) && fil.getAge().contains("45-54")){
+                fil.getAge().remove("45-54");
             }
         });
 
@@ -371,16 +345,12 @@ public class FilterPanel extends JPanel {
         ageRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
         ageRad5.setFont(dashboardPanel.getWindow().getTextFont());
 
-        ageRad5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(ageRad5.isSelected() && !(fil.getAge().contains(">54"))) {
-                    fil.setAge(">54");
-                }
-                if(!(ageRad5.isSelected()) && fil.getAge().contains(">54")){
-                    fil.getAge().remove(">54");
-                }
-                System.out.println(fil.getAge());
+        ageRad5.addActionListener(e -> {
+            if(ageRad5.isSelected() && !(fil.getAge().contains(">54"))) {
+                fil.setAge(">54");
+            }
+            if(!(ageRad5.isSelected()) && fil.getAge().contains(">54")){
+                fil.getAge().remove(">54");
             }
         });
 
@@ -388,16 +358,12 @@ public class FilterPanel extends JPanel {
         incomeRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
-        incomeRad1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(incomeRad1.isSelected() && !(fil.getIncome().contains("Low"))) {
-                    fil.setIncome("Low");
-                }
-                if(!(incomeRad1.isSelected()) && fil.getIncome().contains("Low")){
-                    fil.getIncome().remove("Low");
-                }
-                System.out.println(fil.getIncome());
+        incomeRad1.addActionListener(e -> {
+            if(incomeRad1.isSelected() && !(fil.getIncome().contains("Low"))) {
+                fil.setIncome("Low");
+            }
+            if(!(incomeRad1.isSelected()) && fil.getIncome().contains("Low")){
+                fil.getIncome().remove("Low");
             }
         });
 
@@ -405,16 +371,12 @@ public class FilterPanel extends JPanel {
         incomeRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
-        incomeRad2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(incomeRad2.isSelected() && !(fil.getIncome().contains("Medium"))) {
-                    fil.setIncome("Medium");
-                }
-                if(!(incomeRad2.isSelected()) && fil.getIncome().contains("Medium")){
-                    fil.getIncome().remove("Medium");
-                }
-                System.out.println(fil.getIncome());
+        incomeRad2.addActionListener(e -> {
+            if(incomeRad2.isSelected() && !(fil.getIncome().contains("Medium"))) {
+                fil.setIncome("Medium");
+            }
+            if(!(incomeRad2.isSelected()) && fil.getIncome().contains("Medium")){
+                fil.getIncome().remove("Medium");
             }
         });
 
@@ -422,16 +384,12 @@ public class FilterPanel extends JPanel {
         incomeRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         incomeRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
-        incomeRad3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(incomeRad3.isSelected() && !(fil.getIncome().contains("High"))) {
-                    fil.setIncome("High");
-                }
-                if(!(incomeRad3.isSelected()) && fil.getIncome().contains("High")){
-                    fil.getIncome().remove("High");
-                }
-                System.out.println(fil.getIncome());
+        incomeRad3.addActionListener(e -> {
+            if(incomeRad3.isSelected() && !(fil.getIncome().contains("High"))) {
+                fil.setIncome("High");
+            }
+            if(!(incomeRad3.isSelected()) && fil.getIncome().contains("High")){
+                fil.getIncome().remove("High");
             }
         });
 
@@ -440,16 +398,12 @@ public class FilterPanel extends JPanel {
         conRad1.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad1.setFont(dashboardPanel.getWindow().getTextFont());
 
-        conRad1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(conRad1.isSelected() && !(fil.getContext().contains(Filter.Context.News))) {
-                    fil.setContext(Filter.Context.News);
-                }
-                if(!(conRad1.isSelected()) && fil.getContext().contains(Filter.Context.News)){
-                    fil.getContext().remove(Filter.Context.News);
-                }
-                System.out.println(fil.getContext());
+        conRad1.addActionListener(e -> {
+            if(conRad1.isSelected() && !(fil.getContext().contains(Filter.Context.News))) {
+                fil.setContext(Filter.Context.News);
+            }
+            if(!(conRad1.isSelected()) && fil.getContext().contains(Filter.Context.News)){
+                fil.getContext().remove(Filter.Context.News);
             }
         });
 
@@ -457,16 +411,12 @@ public class FilterPanel extends JPanel {
         conRad2.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad2.setFont(dashboardPanel.getWindow().getTextFont());
 
-        conRad2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(conRad2.isSelected() && !(fil.getContext().contains(Filter.Context.Shopping))) {
-                    fil.setContext(Filter.Context.Shopping);
-                }
-                if(!(conRad2.isSelected()) && fil.getContext().contains(Filter.Context.Shopping)){
-                    fil.getContext().remove(Filter.Context.Shopping);
-                }
-                System.out.println(fil.getContext());
+        conRad2.addActionListener(e -> {
+            if(conRad2.isSelected() && !(fil.getContext().contains(Filter.Context.Shopping))) {
+                fil.setContext(Filter.Context.Shopping);
+            }
+            if(!(conRad2.isSelected()) && fil.getContext().contains(Filter.Context.Shopping)){
+                fil.getContext().remove(Filter.Context.Shopping);
             }
         });
 
@@ -474,16 +424,12 @@ public class FilterPanel extends JPanel {
         conRad3.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad3.setFont(dashboardPanel.getWindow().getTextFont());
 
-        conRad3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(conRad3.isSelected() && !(fil.getContext().contains(Filter.Context.SocialMedia))) {
-                    fil.setContext(Filter.Context.SocialMedia);
-                }
-                if(!(conRad3.isSelected()) && fil.getContext().contains(Filter.Context.SocialMedia)){
-                    fil.getContext().remove(Filter.Context.SocialMedia);
-                }
-                System.out.println(fil.getContext());
+        conRad3.addActionListener(e -> {
+            if(conRad3.isSelected() && !(fil.getContext().contains(Filter.Context.SocialMedia))) {
+                fil.setContext(Filter.Context.SocialMedia);
+            }
+            if(!(conRad3.isSelected()) && fil.getContext().contains(Filter.Context.SocialMedia)){
+                fil.getContext().remove(Filter.Context.SocialMedia);
             }
         });
 
@@ -491,16 +437,12 @@ public class FilterPanel extends JPanel {
         conRad4.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad4.setFont(dashboardPanel.getWindow().getTextFont());
 
-        conRad4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(conRad4.isSelected() && !(fil.getContext().contains(Filter.Context.Blog))) {
-                    fil.setContext(Filter.Context.Blog);
-                }
-                if(!(conRad4.isSelected()) && fil.getContext().contains(Filter.Context.Blog)){
-                    fil.getContext().remove(Filter.Context.Blog);
-                }
-                System.out.println(fil.getContext());
+        conRad4.addActionListener(e -> {
+            if(conRad4.isSelected() && !(fil.getContext().contains(Filter.Context.Blog))) {
+                fil.setContext(Filter.Context.Blog);
+            }
+            if(!(conRad4.isSelected()) && fil.getContext().contains(Filter.Context.Blog)){
+                fil.getContext().remove(Filter.Context.Blog);
             }
         });
 
@@ -508,16 +450,12 @@ public class FilterPanel extends JPanel {
         conRad5.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad5.setFont(dashboardPanel.getWindow().getTextFont());
 
-        conRad5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(conRad5.isSelected() && !(fil.getContext().contains(Filter.Context.Hobbies))) {
-                    fil.setContext(Filter.Context.Hobbies);
-                }
-                if(!(conRad5.isSelected()) && fil.getContext().contains(Filter.Context.Hobbies)){
-                    fil.getContext().remove(Filter.Context.Hobbies);
-                }
-                System.out.println(fil.getContext());
+        conRad5.addActionListener(e -> {
+            if(conRad5.isSelected() && !(fil.getContext().contains(Filter.Context.Hobbies))) {
+                fil.setContext(Filter.Context.Hobbies);
+            }
+            if(!(conRad5.isSelected()) && fil.getContext().contains(Filter.Context.Hobbies)){
+                fil.getContext().remove(Filter.Context.Hobbies);
             }
         });
 
@@ -525,16 +463,12 @@ public class FilterPanel extends JPanel {
         conRad6.setBackground(dashboardPanel.getWindow().getFilterColor());
         conRad6.setFont(dashboardPanel.getWindow().getTextFont());
 
-        conRad6.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(conRad6.isSelected() && !(fil.getContext().contains(Filter.Context.Travel))) {
-                    fil.setContext(Filter.Context.Travel);
-                }
-                if(!(conRad6.isSelected()) && fil.getContext().contains(Filter.Context.Travel)){
-                    fil.getContext().remove(Filter.Context.Travel);
-                }
-                System.out.println(fil.getContext());
+        conRad6.addActionListener(e -> {
+            if(conRad6.isSelected() && !(fil.getContext().contains(Filter.Context.Travel))) {
+                fil.setContext(Filter.Context.Travel);
+            }
+            if(!(conRad6.isSelected()) && fil.getContext().contains(Filter.Context.Travel)){
+                fil.getContext().remove(Filter.Context.Travel);
             }
         });
 
@@ -543,12 +477,8 @@ public class FilterPanel extends JPanel {
         applyBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
         applyBut.setBackground(dashboardPanel.getWindow().getActionButColor());
 
-        applyBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                apply();
-            }
-        });
+        // Call apply method when apply button pressed.
+        applyBut.addActionListener(e -> apply());
 
 
         //  ---- Layout ----
@@ -580,7 +510,6 @@ public class FilterPanel extends JPanel {
         col1.add(c1r2);
         col1.add(Box.createVerticalGlue());
 
-
         col2 = new JPanel();
         col2.setBackground(dashboardPanel.getWindow().getFilterColor());
         col2.setLayout(new BoxLayout(col2, BoxLayout.PAGE_AXIS));
@@ -592,7 +521,6 @@ public class FilterPanel extends JPanel {
         col2.add(Box.createVerticalGlue());
         col2.add(genRad2);
         col2.add(Box.createVerticalGlue());
-
 
         col3 = new JPanel();
         col3.setBackground(dashboardPanel.getWindow().getFilterColor());
@@ -630,7 +558,6 @@ public class FilterPanel extends JPanel {
         col3.add(Box.createVerticalGlue());
         col3.add(c3r3);
         col3.add(Box.createVerticalGlue());
-
 
         col4 = new JPanel();
         col4.setBackground(dashboardPanel.getWindow().getFilterColor());
@@ -698,13 +625,11 @@ public class FilterPanel extends JPanel {
         col4.setBorder(BorderFactory.createLineBorder(Color.WHITE,1,true));
         col5.setBorder(BorderFactory.createLineBorder(Color.WHITE,1,true));
 
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
-
         centrePanel = new JPanel();
         centrePanel.setBackground(dashboardPanel.getWindow().getFilterColor());
         centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.LINE_AXIS));
 
-        centrePanel.add(Box.createRigidArea(new Dimension(0,dashboardPanel.getWindow().getTextSizeL() * 4))); //200 at 1440p
+        centrePanel.add(Box.createRigidArea(new Dimension(0,dashboardPanel.getWindow().getButtonTitleFont().getSize() * 4))); //200 at 1440p
         centrePanel.add(Box.createHorizontalGlue());
         centrePanel.add(col1);
         centrePanel.add(Box.createHorizontalGlue());
@@ -734,10 +659,14 @@ public class FilterPanel extends JPanel {
         this.add(northPanel, BorderLayout.NORTH);
         this.add(southPanel, BorderLayout.SOUTH);
         this.add(centrePanel, BorderLayout.CENTER);
-
     }
 
-    public void apply(){
+    /*
+        Set the start/end date in the model to the values in JDatePickers if not null.
+        If any filter is active but no options in it selected deactivate the filter.
+        Apply the filters to the date and the graph.
+     */
+    void apply(){
         Date date1 = (Date) datePicker1.getModel().getValue();
         Date date2 = (Date) datePicker2.getModel().getValue();
 
@@ -749,43 +678,32 @@ public class FilterPanel extends JPanel {
         if(fil.getDateRangeSelected() && (date1 == null || date2 == null)){
             fil.setDateRangeSelected(false);
             dateRangeCB.setSelected(false);
+            disableDateRange(false);
         }
 
         if(fil.getIncomeSelected() && fil.getIncome().isEmpty()){
             fil.setIncomeSelected(false);
             incomeCB.setSelected(false);
+            disableIncomeRad(false);
         }
 
         if(fil.getGenderSelected() && fil.getGender().isEmpty()){
             fil.setGenderSelected(false);
             genderCB.setSelected(false);
+            disableGenRad(false);
         }
 
         if(fil.getAgeSelected() && fil.getAge().isEmpty()){
             fil.setAgeSelected(false);
             ageCB.setSelected(false);
+            disableAgeRad(false);
         }
 
         if(fil.getContextSelected() && fil.getContext().isEmpty()){
             fil.setContextSelected(false);
             contextCB.setSelected(false);
+            disableConRad(false);
         }
-
-        System.out.println("-----Filter values-----");
-        if(fil.getDateRangeSelected()) {
-            System.out.println("Start Date: " + fil.getDateLowerRange());
-            System.out.println("End Date: " + fil.getDateUpperRange());
-        }
-        if(fil.getGenderSelected())
-            System.out.println("Gender: " + fil.getGender());
-        if(fil.getAgeSelected())
-            System.out.println("Age: " + fil.getAge());
-        if(fil.getIncomeSelected())
-            System.out.println("Income: " + fil.getIncome());
-        if(fil.getContextSelected())
-            System.out.println("Context: " + fil.getContext());
-        System.out.println("----------------------");
-
 
         dashboardPanel.getDataPanel().updateData();
 
@@ -798,6 +716,7 @@ public class FilterPanel extends JPanel {
         dashboardPanel.getGraphPanel().getGraph().updateSeries();
     }
 
+    // Methods for enabling/disabling components for a filter.
     private void disableDateRange(boolean isEnabled){
         dateText1.setEnabled(isEnabled);
         dateText2.setEnabled(isEnabled);
@@ -833,6 +752,7 @@ public class FilterPanel extends JPanel {
         conRad6.setEnabled(isEnabled);
     }
 
+    // Update GUI colours.
     public void updateColors(){
         this.setBackground(dashboardPanel.getWindow().getFilterColor2());
         dateRangeCB.setBackground(dashboardPanel.getWindow().getFilterColor());
@@ -886,6 +806,7 @@ public class FilterPanel extends JPanel {
         northPanel.setBackground(dashboardPanel.getWindow().getFilterColor());
     }
 
+    // Update GUI sizing.
     public void updateTextSize(){
         dateRangeCB.setFont(dashboardPanel.getWindow().getTextFontBold());
         ageCB.setFont(dashboardPanel.getWindow().getTextFontBold());

@@ -6,9 +6,12 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-
 import java.util.ArrayList;
 import java.util.Map;
+
+/*
+    Class displays the line/bar chart.
+ */
 
 public class Graph2 extends JFXPanel {
 
@@ -18,11 +21,10 @@ public class Graph2 extends JFXPanel {
     private BarChart barChart;
     private CategoryAxis xAxis;
     private NumberAxis yAxis;
-    private CategoryAxis barXAxis;
-    private NumberAxis barYAxis;
     private XYChart.Series series;
 
-    public Graph2(GraphPanel graphPanel) {
+    // Creates line chart and bar chart, displays the one depending on GraphPanels metric.
+    Graph2(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
         this.calc = graphPanel.getDashboardPanel().getWindow().getControl().getModel().getCal();
 
@@ -31,8 +33,8 @@ public class Graph2 extends JFXPanel {
         xAxis.setLabel(graphPanel.getTime());
         yAxis.setLabel("Number of " + graphPanel.getMetric());
 
-        barXAxis = new CategoryAxis();
-        barYAxis = new NumberAxis();
+        CategoryAxis barXAxis = new CategoryAxis();
+        NumberAxis barYAxis = new NumberAxis();
         barYAxis.setLabel("Frequency");
         barXAxis.setLabel("Click Cost Range");
 
@@ -54,11 +56,14 @@ public class Graph2 extends JFXPanel {
                 this.setScene(scene);
             });
         }
-
     }
 
-    public void updateSeries(){
-
+    /*
+       Updates display of the line/bar chart depending on the graphPanels metric.
+       Removes all currently in the chart, then gets the current mapping of data and adds to the chart.
+       Then cycles through the saved mappings and adds them to the chart with their corresponding saved label.
+     */
+    void updateSeries(){
         Platform.runLater(() -> {
 
             if(this.graphPanel.getMetric() == "Click Cost Frequency") {
@@ -80,7 +85,6 @@ public class Graph2 extends JFXPanel {
             }
 
             else {
-
                 Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
 
                 lineChart.getData().removeAll();
@@ -118,7 +122,12 @@ public class Graph2 extends JFXPanel {
         });
     }
 
-    public void addGraph(){
+    /*
+        Adds current mapping to saved mappings list.
+        Adds current metric to saved labels list.
+        Generate a list of strings for the currently applied filters and adds to the saved filters lists.
+     */
+    void addGraph(){
         Map<String, Double> copyData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
         graphPanel.getSavedDataMaps().add(copyData);
         graphPanel.getSavedDataLables().add(graphPanel.getSavedDataMaps().size() + " (" + graphPanel.getMetric() + ")");
@@ -180,18 +189,10 @@ public class Graph2 extends JFXPanel {
         graphPanel.getSavedFilterLists().add(filters);
     }
 
-    public void deleteGraph(int position){
+    // Deletes the given position from all 3 saving lists.
+    void deleteGraph(int position){
         graphPanel.getSavedDataMaps().remove(position);
         graphPanel.getSavedDataLables().remove(position);
         graphPanel.getSavedFilterLists().remove(position);
-    }
-
-
-    public LineChart getLineChart(){
-        return lineChart;
-    }
-
-    public XYChart.Series getSeries() {
-        return series;
     }
 }

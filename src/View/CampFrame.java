@@ -5,9 +5,14 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class CampFrame extends JFrame {
+/*
+    Class holds the LoginPanel after initial loading of data.
+    Displays as a popup menu off the main Dashboard interface.
+ */
 
-    public CampFrame(View window){
+class CampFrame extends JFrame {
+
+    CampFrame(View window){
         super("Campaign Select");
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -29,6 +34,7 @@ public class CampFrame extends JFrame {
         this.setLocation(screenDim.width/2-this.getSize().width/2, screenDim.height/2-this.getSize().height/2);
     }
 
+    // Closing window only closes this frame instead of closing the program.
     public void close(){
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }

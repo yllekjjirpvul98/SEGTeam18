@@ -5,9 +5,14 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class SettingFrame extends JFrame {
+/*
+    Class holds the SettingsPanel.
+    Displays as a popup menu off the main Dashboard interface.
+ */
 
-    public SettingFrame(View window){
+class SettingFrame extends JFrame {
+
+    SettingFrame(View window){
         super("Settings");
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,6 +35,7 @@ public class SettingFrame extends JFrame {
 
     }
 
+    // Closing window only closes this frame instead of closing the program.
     public void close(){
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }

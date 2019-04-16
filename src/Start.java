@@ -2,6 +2,11 @@ import Model.Model;
 import View.View;
 import Control.Controller;
 
+/*
+    Contains main method instantiates a copy of Model, View and Controller.
+    Links the Model and View via the Controller.
+ */
+
 public class Start {
 
     public static void main(String[] args) {

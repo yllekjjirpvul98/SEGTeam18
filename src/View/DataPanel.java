@@ -1,17 +1,19 @@
 package View;
 
 import Model.Calculation;
-import org.h2.engine.Setting;
+import Model.Filter;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+/*
+    Class displays the data table for current campaign with its applied filters and the list of saved graphs which can
+    be added/removed to as well as displaying selected graphs filters when holding mouse button in the list.
+ */
 
 public class DataPanel extends JPanel {
 
@@ -44,7 +46,6 @@ public class DataPanel extends JPanel {
     private JPanel row3;
     private JPanel row4;
 
-
     public DataPanel(DashboardPanel dashboardPanel){
         this.dashboardPanel = dashboardPanel;
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
@@ -53,6 +54,7 @@ public class DataPanel extends JPanel {
         this.init();
     }
 
+    // Sets the local variables to the values in the models Calculation class.
     private void calcValues(){
         Calculation cal = dashboardPanel.getWindow().getControl().getModel().getCal();
 
@@ -69,6 +71,7 @@ public class DataPanel extends JPanel {
         CTR = numClicks/numImpressions;
     }
 
+    // Updates the data in the table to represent current campaign with current filters applied.
     public void updateData(){
         this.calcValues();
 
@@ -87,11 +90,9 @@ public class DataPanel extends JPanel {
         tableModel.setValueAt(String.valueOf(df.format(CPC)),8,1);
         tableModel.setValueAt(String.valueOf(df.format(CPM)),9,1);
         tableModel.setValueAt(String.valueOf(df.format(CTR)),10,1);
-
     }
 
     public void init(){
-
         // ----  Creating Components  ----
         DecimalFormat df = new DecimalFormat("#.###");
         df.setRoundingMode(RoundingMode.CEILING);
@@ -139,8 +140,8 @@ public class DataPanel extends JPanel {
         graphList.setLayoutOrientation(JList.VERTICAL);
         graphList.setVisibleRowCount(-1);
 
+        // Mouse listener on the graph list displays selected graphs filters when mouse is pressed, removes if released.
         graphList.addMouseListener(new MouseListener() {
-
             GraphFilterFrame filterFrame;
 
             @Override
@@ -166,37 +167,28 @@ public class DataPanel extends JPanel {
         addBut.setFont(dashboardPanel.getWindow().getButtonBigFont());;
         addBut.setBackground(dashboardPanel.getWindow().getAddColor());
 
-        addBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dashboardPanel.getGraphPanel().getGraph().addGraph();
-                dashboardPanel.getGraphPanel().getGraph().updateSeries();
+        addBut.addActionListener(e -> {
+            dashboardPanel.getGraphPanel().getGraph().addGraph();
+            dashboardPanel.getGraphPanel().getGraph().updateSeries();
 
-                ((DefaultListModel) listModel).addElement(" Graph " + (listModel.getSize()+1) + " ("+ dashboardPanel.getGraphPanel().getMetric() + ") - " + campName);
-
-            }
+            ((DefaultListModel) listModel).addElement(" Graph " + (listModel.getSize()+1) + " ("+ dashboardPanel.getGraphPanel().getMetric() + ") - " + campName);
         });
 
         deleteBut = new JButton("DEL");
         deleteBut.setFont(dashboardPanel.getWindow().getButtonBigFont());
         deleteBut.setBackground(dashboardPanel.getWindow().getDelColor());
 
-        deleteBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        deleteBut.addActionListener(e -> {
+            int index = graphList.getSelectedIndex();
 
-                int index = graphList.getSelectedIndex();
-
-                if(index >= 0){
-                    ((DefaultListModel) listModel).remove(index);
-                    dashboardPanel.getGraphPanel().getGraph().deleteGraph(index);
-                    dashboardPanel.getGraphPanel().getGraph().updateSeries();
-                }
-
+            if(index >= 0){
+                ((DefaultListModel) listModel).remove(index);
+                dashboardPanel.getGraphPanel().getGraph().deleteGraph(index);
+                dashboardPanel.getGraphPanel().getGraph().updateSeries();
             }
         });
 
-        // ----  Creating Layout  ----
+        // ---- Layout  ----
         row1 = new JPanel();
         row1.setLayout(new BoxLayout(row1,BoxLayout.LINE_AXIS));
         row1.setBackground(dashboardPanel.getWindow().getBackgoundColor());
@@ -240,13 +232,13 @@ public class DataPanel extends JPanel {
         this.add(row1);
         this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
         this.add(row4);
-        //this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
         this.add(row2);
         this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
         this.add(row3);
         this.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
     }
 
+    // Update GUI colours.
     public void updateColors(){
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         table.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
@@ -260,8 +252,8 @@ public class DataPanel extends JPanel {
         row4.setBackground(dashboardPanel.getWindow().getBackgoundColor());
     }
 
+    // Update GUI sizing.
     public void updateTextSize(){
-
         table.getColumnModel().getColumn(0).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 15);
         table.getColumnModel().getColumn(1).setPreferredWidth(dashboardPanel.getWindow().getButtonSmallFont().getSize() * 7);
         table.setRowHeight(dashboardPanel.getWindow().getButtonSmallFont().getSize() + 10);
@@ -273,10 +265,7 @@ public class DataPanel extends JPanel {
         graphListTitle.setFont(dashboardPanel.getWindow().getTextFontBold());
     }
 
-    public String getCampName() {
-        return campName;
-    }
-
+    // Getters and Setters.
     public void setCampName(String campName) {
         this.campName = campName;
     }
@@ -284,28 +273,15 @@ public class DataPanel extends JPanel {
         return graphList;
     }
 
-    public void setGraphList(JList graphList) {
-        this.graphList = graphList;
-    }
-
     public JButton getAddBut() {
         return addBut;
-    }
-
-    public void setAddBut(JButton addBut) {
-        this.addBut = addBut;
     }
 
     public JButton getDeleteBut() {
         return deleteBut;
     }
 
-    public void setDeleteBut(JButton deleteBut) {
-        this.deleteBut = deleteBut;
-    }
-
     public ListModel getListModel() {
         return listModel;
     }
-
 }

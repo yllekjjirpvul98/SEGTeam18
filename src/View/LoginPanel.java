@@ -1,14 +1,15 @@
 package View;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
-public class LoginPanel extends JPanel {
+/*
+    Class hold all the components of the Login screen.
+    Give the user the functionality to add, remove and load into campaigns.
+ */
+
+class LoginPanel extends JPanel {
 
     private View window;
     private File currentCamp;
@@ -22,11 +23,11 @@ public class LoginPanel extends JPanel {
     private JPanel row3;
     private JPanel row4;
     private JButton delBut;
-    private JButton addbut;
+    private JButton addBut;
     private JList campList;
 
 
-    public LoginPanel(View window){
+    LoginPanel(View window){
         this.window = window;
         this.setBackground(window.getBackgoundColor());
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -39,7 +40,6 @@ public class LoginPanel extends JPanel {
     private void init(){
 
         //  ---- Creating components ----
-
         title = new JLabel("Campaign Select");
         title.setFont(window.getHeadingFont());
         title.setForeground(window.getHeadingColour());
@@ -53,61 +53,58 @@ public class LoginPanel extends JPanel {
         row3 = new JPanel();
         row4 = new JPanel();
 
-        loadBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        // Can only load a campaign if file is selected and contains the required 3 csv files.
+        loadBut.addActionListener(e -> {
+            if(currentCamp != null) {
+                boolean checkImp = new File(currentCamp, "impression_log.csv").exists();
+                boolean checkServer = new File(currentCamp, "server_log.csv").exists();
+                boolean checkClick = new File(currentCamp, "click_log.csv").exists();
 
-                if(currentCamp != null) {
-                    boolean checkImp = new File(currentCamp, "impression_log.csv").exists();
-                    boolean checkServer = new File(currentCamp, "server_log.csv").exists();
-                    boolean checkClick = new File(currentCamp, "click_log.csv").exists();
+                if(checkImp && checkServer && checkClick) {
 
-                    if(checkImp && checkServer && checkClick) {
+                    window.getDashboardPanel().setCampName(currentCamp.getName());
 
-                        window.getDashboardPanel().setCampName(currentCamp.getName());
+                    if(lastLoadedCamp != currentCamp) { // Only reloads if loading a new file else simply switches back
 
-                        if(lastLoadedCamp != currentCamp) { // Only reloads if loading a new file else simply switches back
+                        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        window.getControl().getModel().populateDatabase(currentCamp.toString());
+                        setCursor(null);
+                        lastLoadedCamp = currentCamp;
 
-                            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                            window.getControl().getModel().populateDatabase(currentCamp.toString());
-                            setCursor(null);
-                            lastLoadedCamp = currentCamp;
+                        if (firstLogin) {
+                            window.getDashboardPanel().init();
+                            firstLogin = false;
+                            window.changePanel("dashboardPanel");
 
-                            if (firstLogin) {
-                                window.getDashboardPanel().init();
-                                firstLogin = false;
-                                window.changePanel("dashboardPanel");
+                            removeAll();
 
-                                removeAll();
+                            add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 3)));  // 150 at 1440p
+                            add(row2);
+                            add(Box.createRigidArea(window.getHightBorderDim()));
+                            add(row3);
+                            add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 2)));  // 100 at 1440p
+                            add(row4);
+                            add(Box.createRigidArea(window.getHightBorderDim()));
 
-                                add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 3)));  // 150 at 1440p
-                                add(row2);
-                                add(Box.createRigidArea(window.getHightBorderDim()));
-                                add(row3);
-                                add(Box.createRigidArea(new Dimension(0,window.getButtonTitleFont().getSize() * 2)));  // 100 at 1440p
-                                add(row4);
-                                add(Box.createRigidArea(window.getHightBorderDim()));
-
-                            } else {
-                                window.getDashboardPanel().getDataPanel().setCampName(currentCamp.getName());
-                                window.getDashboardPanel().reset();
-                                window.getCampFrame().close();
-                            }
-
-                        }
-                        else {
+                        } else {
+                            window.getDashboardPanel().getDataPanel().setCampName(currentCamp.getName());
+                            window.getDashboardPanel().reset();
                             window.getCampFrame().close();
                         }
 
                     }
-
-                    else{
-                        JOptionPane.showMessageDialog(window, "Please select a campaign containing required files.");
+                    else {
+                        window.getCampFrame().close();
                     }
+
                 }
+
                 else{
-                    JOptionPane.showMessageDialog(window, "Please select a campaign.");
+                    JOptionPane.showMessageDialog(window, "Please select a campaign containing required files.");
                 }
+            }
+            else{
+                JOptionPane.showMessageDialog(window, "Please select a campaign.");
             }
         });
 
@@ -122,14 +119,11 @@ public class LoginPanel extends JPanel {
         campList.setLayoutOrientation(JList.VERTICAL);
         campList.setVisibleRowCount(-1);
 
-        campList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int index = campList.getSelectedIndex();
+        campList.addListSelectionListener(e -> {
+            int index = campList.getSelectedIndex();
 
-                if(index >= 0){
-                    currentCamp = (File) ((DefaultListModel) listModel).getElementAt(index);
-                }
+            if(index >= 0){
+                currentCamp = (File) listModel.getElementAt(index);
             }
         });
 
@@ -137,50 +131,45 @@ public class LoginPanel extends JPanel {
         delBut.setFont(window.getButtonBigFont());
         delBut.setBackground(window.getDelColor());
 
-        delBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int index = campList.getSelectedIndex();
+        delBut.addActionListener(e -> {
+            int index = campList.getSelectedIndex();
 
-                if(index >= 0) {
-                    ((DefaultListModel) listModel).remove(index);
+            if(index >= 0) {
+                ((DefaultListModel) listModel).remove(index);
 
-                    if (index > 0) {
-                        index--;
-                        campList.setSelectedIndex(index);
-                        campList.ensureIndexIsVisible(index);
-                        currentCamp = (File) ((DefaultListModel) listModel).getElementAt(index);
-                    }
-                    else{
-                        currentCamp = null;
-                    }
+                if (index > 0) {
+                    index--;
+                    campList.setSelectedIndex(index);
+                    campList.ensureIndexIsVisible(index);
+                    currentCamp = (File) listModel.getElementAt(index);
+                }
+                else{
+                    currentCamp = null;
                 }
             }
         });
 
-        addbut = new JButton("ADD");
-        addbut.setFont(window.getButtonBigFont());
-        addbut.setBackground(window.getAddColor());
+        addBut = new JButton("ADD");
+        addBut.setFont(window.getButtonBigFont());
+        addBut.setBackground(window.getAddColor());
 
-        addbut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Select Campaign Folder");
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        addBut.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Select Campaign Folder");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-                int choice = fileChooser.showOpenDialog(window);
+            int choice = fileChooser.showOpenDialog(window);
 
-                if(choice != JFileChooser.APPROVE_OPTION)
-                    return;
+            if(choice != JFileChooser.APPROVE_OPTION)
+                return;
 
-                File chosenFile = fileChooser.getSelectedFile();
-                ((DefaultListModel) listModel).addElement(chosenFile);
-            }
+            File chosenFile = fileChooser.getSelectedFile();
+            ((DefaultListModel) listModel).addElement(chosenFile);
         });
 
-        //  ---- Layout ----
 
+
+        //  ---- Layout ----
         row1.setBackground(window.getBackgoundColor());
         row1.setLayout(new BoxLayout(row1, BoxLayout.LINE_AXIS));
         row1.add(Box.createHorizontalGlue());
@@ -198,7 +187,7 @@ public class LoginPanel extends JPanel {
         row3.setBackground(window.getBackgoundColor());
         row3.setLayout(new BoxLayout(row3, BoxLayout.LINE_AXIS));
         row3.add(Box.createHorizontalGlue());
-        row3.add(addbut);
+        row3.add(addBut);
         row3.add(Box.createRigidArea(window.getWidthBorderDim()));
         row3.add(delBut);
         row3.add(Box.createHorizontalGlue());
@@ -223,32 +212,25 @@ public class LoginPanel extends JPanel {
 
     }
 
+    // Update GUI colours.
     public void updateColors(){
         this.setBackground(window.getBackgoundColor());
         title.setForeground(window.getHeadingColour());
         loadBut.setBackground(window.getActionButColor());
         delBut.setBackground(window.getDelColor());
-        addbut.setBackground(window.getAddColor());
+        addBut.setBackground(window.getAddColor());
         row1.setBackground(window.getBackgoundColor());
         row2.setBackground(window.getBackgoundColor());
         row3.setBackground(window.getBackgoundColor());
         row4.setBackground(window.getBackgoundColor());
     }
 
+    // Update GUI sizing.
     public void updateTextSize(){
         title.setFont(window.getHeadingFont());
         loadBut.setFont(window.getButtonBigFont());
-        addbut.setFont(window.getButtonBigFont());
+        addBut.setFont(window.getButtonBigFont());
         delBut.setFont(window.getButtonBigFont());
         campList.setFont(window.getTextFont());
     }
-
-    public File getLastLoadedCamp() {
-        return lastLoadedCamp;
-    }
-
-    public void setLastLoadedCamp(File lastLoadedCamp) {
-        this.lastLoadedCamp = lastLoadedCamp;
-    }
-
 }
