@@ -34,10 +34,12 @@ public class View extends JFrame {
     private Color headingColour;
     private Color highlightColor;
     private Color unhighlightColor;
+    private Color addColor;
+    private Color delColor;
+    private Color actionButColor;
 
     private Container window;
     private LoginPanel loginPanel;
-    private HelpPanel helpPanel;
     private DashboardPanel dashboardPanel;
     private SettingsPanel settingsPanel;
 
@@ -47,35 +49,38 @@ public class View extends JFrame {
     public View(String title) {
         super(title);
         screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-        windowDim = new Dimension(3 * ((screenDim.width)/4), 3 * ((screenDim.height)/4));
+        windowDim = new Dimension(3 * ((screenDim.width) / 4), 3 * ((screenDim.height) / 4));
 
-        int textSizeXL = ((int) Math.round(screenDim.getHeight()/18)) + 2; //80 at 1440p
-        int textSizeL = (Math.round((textSizeXL/8)*5)) + 2;          //50 at 1440p
-        int textSizeM = (Math.round((textSizeXL/8)*3)) + 2;          //30 at 1440p
-        int textSizeS = (Math.round((textSizeXL/16)*5)) + 2;         //25 at 1440p
-        int textSizeXS = (Math.round((textSizeXL/16)*3)) + 2;        //15 at 1440p
+        int textSizeXL = ((int) Math.round(screenDim.getHeight() / 18)) + 2; //80 at 1440p
+        int textSizeL = (Math.round((textSizeXL / 8) * 5)) + 2;          //50 at 1440p
+        int textSizeM = (Math.round((textSizeXL / 8) * 3)) + 2;          //30 at 1440p
+        int textSizeS = (Math.round((textSizeXL / 16) * 5)) + 2;         //25 at 1440p
+        int textSizeXS = (Math.round((textSizeXL / 16) * 3)) + 2;        //15 at 1440p
 
-        widthBorderDim = new Dimension(textSizeS,0);
+        widthBorderDim = new Dimension(textSizeS, 0);
         hightBorderDim = new Dimension(0, textSizeS);
 
-        titleFont = new Font("Verdana", Font.BOLD, textSizeXL);
-        headingFont = new Font("Verdana", Font.BOLD, textSizeL);
-        subHeadingFont = new Font("Verdana", Font.PLAIN, textSizeM);
-        textFont = new Font("Verdana", Font.PLAIN, textSizeXS);
-        textFontBold = new Font("Verdana", Font.BOLD, textSizeXS);
-        buttonTitleFont = new Font("Verdana", Font.BOLD, textSizeS);
-        buttonBigFont = new Font("Verdana", Font.BOLD, textSizeXS);
-        buttonSmallFont = new Font("Verdana", Font.PLAIN, textSizeXS);
+        setTitleFont(new Font("Verdana", Font.BOLD, textSizeXL));
+        setHeadingFont(new Font("Verdana", Font.BOLD, textSizeL));
+        setSubHeadingFont(new Font("Verdana", Font.PLAIN, textSizeM));
+        setTextFont(new Font("Verdana", Font.PLAIN, textSizeXS));
+        setTextFontBold(new Font("Verdana", Font.BOLD, textSizeXS));
+        setButtonTitleFont(new Font("Verdana", Font.BOLD, textSizeS));
+        setButtonBigFont(new Font("Verdana", Font.BOLD, textSizeXS));
+        setButtonSmallFont(new Font("Verdana", Font.PLAIN, textSizeXS));
 
-        backgoundColor = new Color(0x8DABCF);
-        filterColor = new Color(0xEDB980);
-        filterColor2 = new Color(0xEDB980);
-        headingColour = new Color(0xFBFBFB);
-        highlightColor = new Color(0xFFFFFF);
-        unhighlightColor = new Color(0xF7F7F7);
+        setHeadingColour(new Color(0x4167B2));
+        setHighlightColor(new Color(0x71B9FF));
+        setUnhighlightColor(new Color(0xFFFFFF));
+        setBackgoundColor(new Color(0xEAEBEF));
+        setFilterColor(new Color(0x468DDF));
+        setFilterColor2(new Color(0x468DDF));
+        setAddColor(new Color(0x71B9FF));
+        setDelColor(new Color(0x71B9FF));
+        setActionButColor(new Color(0xEF934E));
     }
 
-    public void init(Controller control){
+    public void init(Controller control) {
         this.control = control;
 
         window = this.getContentPane();
@@ -83,33 +88,41 @@ public class View extends JFrame {
         this.setVisible(true);
 
         loginPanel = new LoginPanel(this);
-        helpPanel = new HelpPanel(this);
         settingsPanel = new SettingsPanel(this);
         dashboardPanel = new DashboardPanel(this);
 
         this.add(loginPanel);
         this.pack();
         this.setSize(windowDim);
-        this.setLocation(screenDim.width/2-this.getSize().width/2, screenDim.height/2-this.getSize().height/2);
+        this.setLocation(screenDim.width / 2 - this.getSize().width / 2, screenDim.height / 2 - this.getSize().height / 2);
     }
 
-    public void changePanel(String panel){
-            Dimension windowSize = new Dimension(this.getWidth(), this.getHeight());
-            window.removeAll();
-            this.repaint();
+    public void changePanel(String panel) {
+        Dimension windowSize = new Dimension(this.getWidth(), this.getHeight());
+        window.removeAll();
+        this.repaint();
 
-            if (panel.equals("loginPanel"))
-                window.add(loginPanel);
-            else if (panel.equals("helpPanel"))
-                window.add(helpPanel);
-            else if (panel.equals("dashboardPanel")) {
-                window.add(dashboardPanel);
-            }
-            else if (panel.equals("settingsPanel"))
-                window.add(settingsPanel);
+        if (panel.equals("loginPanel"))
+            window.add(loginPanel);
+        else if (panel.equals("dashboardPanel")) {
+            window.add(dashboardPanel);
+        } else if (panel.equals("settingsPanel"))
+            window.add(settingsPanel);
 
-            this.pack();
-            this.setSize(windowSize);
+        this.pack();
+        this.setSize(windowSize);
+    }
+
+    public void updateColors(){
+        loginPanel.updateColors();
+        dashboardPanel.updateColors();
+        settingsPanel.updateColors();
+    }
+
+    public void updateTextSize(){
+        loginPanel.updateTextSize();
+        settingsPanel.updateTextSize();
+        dashboardPanel.updateTextSize();
     }
 
     public void setDashboardPanel(DashboardPanel dashboardPanel) {
@@ -132,7 +145,7 @@ public class View extends JFrame {
         return windowDim;
     }
 
-    public Color getBackgoundColor(){
+    public Color getBackgoundColor() {
         return backgoundColor;
     }
 
@@ -200,7 +213,7 @@ public class View extends JFrame {
         unhighlightColor = color;
     }
 
-    public void setBackgoundColor(Color color){
+    public void setBackgoundColor(Color color) {
         backgoundColor = color;
     }
 
@@ -256,11 +269,11 @@ public class View extends JFrame {
         return filterColor2;
     }
 
-    public SettingsPanel getSettingsPanel(){
+    public SettingsPanel getSettingsPanel() {
         return settingsPanel;
     }
 
-    public LoginPanel getLoginPanel(){
+    public LoginPanel getLoginPanel() {
         return loginPanel;
     }
 
@@ -279,4 +292,65 @@ public class View extends JFrame {
     public void setCampFrame(CampFrame campFrame) {
         this.campFrame = campFrame;
     }
+
+    public void setFilterColor2(Color filterColor2) {
+        this.filterColor2 = filterColor2;
+    }
+
+    public Color getAddColor() {
+        return addColor;
+    }
+
+    public void setAddColor(Color addColor) {
+        this.addColor = addColor;
+    }
+
+    public Color getDelColor() {
+        return delColor;
+    }
+
+    public void setDelColor(Color delColor) {
+        this.delColor = delColor;
+    }
+
+    public Color getActionButColor() {
+        return actionButColor;
+    }
+
+    public void setActionButColor(Color actionButColor) {
+        this.actionButColor = actionButColor;
+    }
+
+    public void setTitleFont(Font titleFont) {
+        this.titleFont = titleFont;
+    }
+
+    public void setHeadingFont(Font headingFont) {
+        this.headingFont = headingFont;
+    }
+
+    public void setSubHeadingFont(Font subHeadingFont) {
+        this.subHeadingFont = subHeadingFont;
+    }
+
+    public void setTextFont(Font textFont) {
+        this.textFont = textFont;
+    }
+
+    public void setTextFontBold(Font textFontBold) {
+        this.textFontBold = textFontBold;
+    }
+
+    public void setButtonTitleFont(Font buttonTitleFont) {
+        this.buttonTitleFont = buttonTitleFont;
+    }
+
+    public void setButtonBigFont(Font buttonBigFont) {
+        this.buttonBigFont = buttonBigFont;
+    }
+
+    public void setButtonSmallFont(Font buttonSmallFont) {
+        this.buttonSmallFont = buttonSmallFont;
+    }
 }
+
