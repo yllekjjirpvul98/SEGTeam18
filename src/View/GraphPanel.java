@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -110,6 +111,12 @@ public class GraphPanel extends JPanel {
 
     public void setSavedFilterLists(ArrayList<ArrayList<String>> savedFilterLists) {
         this.savedFilterLists = savedFilterLists;
+    }
+
+    public BufferedImage getImage(){
+        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_BGR);
+        this.paint(image.getGraphics());
+        return image;
     }
 
 }
