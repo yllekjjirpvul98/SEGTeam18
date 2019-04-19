@@ -1,9 +1,16 @@
 package View;
 
+import org.apache.commons.io.FilenameUtils;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.IOException;
 
 /*
     Class contains a FilterPanel, DataPanel and GraphPanel object as well as the components that make up the top section
@@ -89,12 +96,57 @@ public class DashboardPanel extends JPanel {
         printBut = new JButton(new ImageIcon(((new ImageIcon("Images\\PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
 
-        printBut.addActionListener(e -> System.out.println("Print Graph"));
+        printBut.addActionListener(e -> {
+            PrinterJob printJob = PrinterJob.getPrinterJob();
+            printJob.setPrintable((graphics, pageFormat, pageIndex) -> {
+                if (pageIndex != 0) {
+                    return Printable.NO_SUCH_PAGE;
+                }
+                BufferedImage image = graphPanel.getImage();
+                Graphics2D g = (Graphics2D) graphics;
+                double scale_factor =  pageFormat.getImageableWidth() / image.getWidth();
+                g.scale(scale_factor, scale_factor);
+                g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+
+                return Printable.PAGE_EXISTS;
+            });
+            try {
+                if (printJob.printDialog()) {
+                    printJob.print();
+                }
+            } catch (PrinterException e1) {
+                e1.printStackTrace();
+            }
+
+        });
 
         saveBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         saveBut.setBackground(window.getHighlightColor());
 
-        saveBut.addActionListener(e -> System.out.println("Save Graph"));
+        saveBut.addActionListener(e ->{
+            JFrame parentFrame = new JFrame();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Saving graph");
+            fileChooser.setSelectedFile(new File("graph.png"));
+            int userSelection = fileChooser.showSaveDialog(parentFrame);
+
+            if(userSelection == JFileChooser.APPROVE_OPTION) {
+                File outputFile = fileChooser.getSelectedFile();
+                if (FilenameUtils.getExtension(outputFile.getName()).equalsIgnoreCase("xml")) {
+
+                } else {
+                    outputFile = new File(outputFile.toString());
+                    outputFile = new File(outputFile.getParentFile(), FilenameUtils.getBaseName(outputFile.getName())+".png");
+                }
+                BufferedImage image = graphPanel.getImage();
+                try {
+                    ImageIO.write(image, "png", outputFile);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        });
 
         String[] metrics = { "Impression","Clicks","Unique","Conversion", "Bounce", "BounceRate", "TotalCost", "CPA", "CPC", "CPM", "CTR"};
         metricSelect = new JComboBox<>(metrics);
@@ -287,13 +339,57 @@ public class DashboardPanel extends JPanel {
         printBut = new JButton(new ImageIcon(((new ImageIcon("Images\\PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
 
-        printBut.addActionListener(e -> System.out.println("Print Graph"));
+        printBut.addActionListener(e -> {
+            PrinterJob printJob = PrinterJob.getPrinterJob();
+            printJob.setPrintable((graphics, pageFormat, pageIndex) -> {
+                if (pageIndex != 0) {
+                    return Printable.NO_SUCH_PAGE;
+                }
+                BufferedImage image = graphPanel.getImage();
+                Graphics2D g = (Graphics2D) graphics;
+                double scale_factor =  pageFormat.getImageableWidth() / image.getWidth();
+                g.scale(scale_factor, scale_factor);
+                g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+
+                return Printable.PAGE_EXISTS;
+            });
+            try {
+                if (printJob.printDialog()) {
+                    printJob.print();
+                }
+            } catch (PrinterException e1) {
+                e1.printStackTrace();
+            }
+
+        });
 
         saveBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         saveBut.setBackground(window.getHighlightColor());
 
-        saveBut.addActionListener(e -> System.out.println("Save Graph"));
+        saveBut.addActionListener(e ->{
+            JFrame parentFrame = new JFrame();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Saving graph");
+            fileChooser.setSelectedFile(new File("graph.png"));
+            int userSelection = fileChooser.showSaveDialog(parentFrame);
 
+            if(userSelection == JFileChooser.APPROVE_OPTION) {
+                File outputFile = fileChooser.getSelectedFile();
+                if (FilenameUtils.getExtension(outputFile.getName()).equalsIgnoreCase("xml")) {
+
+                } else {
+                    outputFile = new File(outputFile.toString());
+                    outputFile = new File(outputFile.getParentFile(), FilenameUtils.getBaseName(outputFile.getName())+".png");
+                }
+                BufferedImage image = graphPanel.getImage();
+                try {
+                    ImageIO.write(image, "png", outputFile);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        });
 
         histoBut = new JButton(new ImageIcon(((new ImageIcon("Images\\HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         histoBut.setBackground(window.getHighlightColor());

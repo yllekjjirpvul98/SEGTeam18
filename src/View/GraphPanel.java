@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -67,6 +68,15 @@ public class GraphPanel extends JPanel {
         southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         eastPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+    }
+
+    // method to get screenshot of graph
+    public BufferedImage getImage(){
+        BufferedImage image = new BufferedImage(this.getWidth()*2, this.getHeight()*2, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
+        graphics.scale(2, 2);
+        this.paint(graphics);
+        return image;
     }
 
     // Getters and Setters.
