@@ -2,8 +2,13 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Map;
+
+/*
+    Class holds the Graph and Lists for the saved graph data.
+ */
 
 public class GraphPanel extends JPanel {
 
@@ -13,34 +18,40 @@ public class GraphPanel extends JPanel {
     private String time = "day";
     private ArrayList<Map<String, Double>> savedDataMaps;
     private ArrayList<String> savedDataLables;
+    private ArrayList<ArrayList<String>> savedFilterLists;
 
-    public GraphPanel(DashboardPanel dashboardPanel) {
+    private JPanel eastPanel;
+    private JPanel southPanel;
+    private JPanel centrePanel;
+
+    GraphPanel(DashboardPanel dashboardPanel) {
         this.dashboardPanel = dashboardPanel;
         this.graph = new Graph2(this);
         this.savedDataMaps = new ArrayList<>();
         this.savedDataLables = new ArrayList<>();
+        this.savedFilterLists = new ArrayList<>();
         this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         this.setLayout(new BorderLayout());
         this.init();
     }
 
-    private void init() {
+    void init() {
 
         //  ---- Layout ----
-        JPanel eastPanel = new JPanel();
+        eastPanel = new JPanel();
         eastPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.LINE_AXIS));
 
         eastPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getWidthBorderDim()));
 
-        JPanel southPanel = new JPanel();
+        southPanel = new JPanel();
         southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.PAGE_AXIS));
         southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
 
         southPanel.add(Box.createRigidArea(dashboardPanel.getWindow().getHightBorderDim()));
 
-        JPanel centrePanel = new JPanel();
-        centrePanel.setBackground(dashboardPanel.getWindow().getUnhighlightColor());
+        centrePanel = new JPanel();
+        centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
         centrePanel.setLayout(new BoxLayout(centrePanel, BoxLayout.PAGE_AXIS));
         centrePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
 
@@ -51,6 +62,24 @@ public class GraphPanel extends JPanel {
         this.add(eastPanel, BorderLayout.EAST);
     }
 
+    // Update GUI colors.
+    public void updateColors(){
+        this.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        southPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        eastPanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+        centrePanel.setBackground(dashboardPanel.getWindow().getBackgoundColor());
+    }
+
+    // method to get screenshot of graph
+    public BufferedImage getImage(){
+        BufferedImage image = new BufferedImage(this.getWidth()*2, this.getHeight()*2, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
+        graphics.scale(2, 2);
+        this.paint(graphics);
+        return image;
+    }
+
+    // Getters and Setters.
     public DashboardPanel getDashboardPanel(){
         return dashboardPanel;
     }
@@ -79,15 +108,11 @@ public class GraphPanel extends JPanel {
         return savedDataMaps;
     }
 
-    public void setSavedDataMaps(ArrayList<Map<String, Double>> savedDataMaps) {
-        this.savedDataMaps = savedDataMaps;
-    }
-
     public ArrayList<String> getSavedDataLables() {
         return savedDataLables;
     }
 
-    public void setSavedDataLables(ArrayList<String> savedDataLables) {
-        this.savedDataLables = savedDataLables;
+    public ArrayList<ArrayList<String>> getSavedFilterLists() {
+        return savedFilterLists;
     }
 }

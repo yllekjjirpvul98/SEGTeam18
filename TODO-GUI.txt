@@ -1,20 +1,16 @@
----- After Inc 2 ----
+--- Main Tasks ---
 
-Update Maps for graph so all maps have same Date object to be comparable instead of String
+Implement functionality for the "print" button
+Implement functionality for the "save" button
 
-Make settings panel listeners work
 
-Make campaign select load in different folders
+--- Additional Tasks ---
 
-Create Histogram
+Calander start from start of dataset date  -- Waiting on method
 
----- Feedback ----
+Better solution to pauseing program for axis bug
 
-Table clickable
-Filter boarders
-Graph axis labels
-More info about saved lines
-Remove checkboxes
-Calander start at first datapoint date
-Drop down for campaign select
-
+Clean up code:
+	- remove unused code
+	- reduce duplicated code
+	- comment code

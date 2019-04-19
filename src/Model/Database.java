@@ -9,15 +9,10 @@ public class Database {
     private Connection connect = null;
     private Statement statement = null;
     private String campaignName = null;
-//
-//    Database(){
-//
-//    }
 
     public void connectToDatabase(){
         //method to create database AdAuction using sql
         try {
-//            connect = DriverManager.getConnection("jdbc:mysql://db4free.net/adauction?" + "user=segteam18&password=iloveprogramming");
             connect = DriverManager.getConnection("jdbc:h2:mem:"  + ";MODE=MYSQL;");
             statement = connect.createStatement();
         }catch (Exception e){
