@@ -2,8 +2,6 @@
 
 Calander start from start of dataset date  -- Waiting on method
 
-Better solution to pauseing program for axis bug
-
 Clean up code:
 	- remove unused code
 	- reduce duplicated code

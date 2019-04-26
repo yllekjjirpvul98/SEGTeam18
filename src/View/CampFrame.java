@@ -10,9 +10,9 @@ import java.awt.event.WindowEvent;
     Displays as a popup menu off the main Dashboard interface.
  */
 
-class CampFrame extends JFrame {
+public class CampFrame extends JFrame {
 
-    CampFrame(View window){
+    public CampFrame(View window){
         super("Campaign Select");
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

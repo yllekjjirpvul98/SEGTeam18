@@ -708,12 +708,6 @@ class FilterPanel extends JPanel {
         dashboardPanel.getDataPanel().updateData();
 
         dashboardPanel.getGraphPanel().getGraph().updateSeries();
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        dashboardPanel.getGraphPanel().getGraph().updateSeries();
     }
 
     // Methods for enabling/disabling components for a filter.

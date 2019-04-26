@@ -159,14 +159,8 @@ public class DashboardPanel extends JPanel {
             JComboBox metricSelect = (JComboBox) event.getSource();
             graphPanel.setMetric(metricSelect.getSelectedItem().toString());
 
+            graphPanel.getGraph().refresh();
             graphPanel.getGraph().updateSeries();
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            graphPanel.getGraph().updateSeries();
-
         });
 
         String[] TimeScales = {"Hour","Day","Week","Month","Year"};
@@ -199,12 +193,6 @@ public class DashboardPanel extends JPanel {
                     }
 
                     graphPanel.getGraph().updateSeries();
-                    try {
-                        Thread.sleep(1500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    graphPanel.getGraph().updateSeries();
 
                 } else {
                     // NO selected
@@ -215,12 +203,6 @@ public class DashboardPanel extends JPanel {
                 preTimeSelected = timeSelect.getSelectedIndex();
                 graphPanel.setTime(timeUpper.toLowerCase());
 
-                graphPanel.getGraph().updateSeries();
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 graphPanel.getGraph().updateSeries();
             }
         });

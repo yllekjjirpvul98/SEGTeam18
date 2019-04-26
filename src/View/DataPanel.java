@@ -1,8 +1,6 @@
 package View;
 
 import Model.Calculation;
-import Model.Filter;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
