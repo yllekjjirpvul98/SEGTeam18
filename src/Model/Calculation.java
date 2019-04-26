@@ -46,13 +46,11 @@ public class Calculation {
                     query += "(";
                     query += "Gender = '" + map.get("gender").get(0) + "'";
 
-                    boolean doAdd = false;
-
-                    for (String g : map.get("gender")) {
-                        if(doAdd)
-                            query += " OR Gender = '" + g + "'";
+                    for (int i = 0; i < map.get("gender").size(); i++) {
+                        if(i == 0)
+                            continue;
                         else
-                            doAdd = true;
+                            query += " OR Gender = '" + map.get("gender").get(i) + "'";
                     }
                     query += ") ";
                 }
@@ -69,13 +67,11 @@ public class Calculation {
                     query += "(";
                     query += "Age = '" + map.get("age").get(0) + "'";
 
-                    boolean doAdd = false;
-
-                    for (String a : map.get("age")) {
-                        if(doAdd)
-                            query += " OR Age = '" + a + "'";
+                    for (int i = 0; i < map.get("age").size(); i++) {
+                        if(i == 0)
+                            continue;
                         else
-                            doAdd = true;
+                            query += " OR Age = '" + map.get("age").get(i) + "'";
                     }
                     query += ") ";
                 }
@@ -92,13 +88,11 @@ public class Calculation {
                     query += "(";
                     query += "Income = '" + map.get("income").get(0) + "'";
 
-                    boolean doAdd = false;
-
-                    for (String in : map.get("income")) {
-                        if(doAdd)
-                            query += " OR Age = '" + in + "'";
+                    for (int i = 0; i < map.get("income").size(); i++) {
+                        if(i == 0)
+                            continue;
                         else
-                            doAdd = true;
+                            query += " OR Income = '" + map.get("income").get(i) + "'";
                     }
                     query += ") ";
                 }
@@ -114,13 +108,11 @@ public class Calculation {
                     query += "(";
                     query += "Context = '" + map.get("context").get(0) + "'";
 
-                    boolean doAdd = false;
-
-                    for (String context : map.get("context")) {
-                        if(doAdd)
-                            query += " OR context = '" + context + "'";
+                    for (int i = 0; i < map.get("context").size(); i++) {
+                        if(i == 0)
+                            continue;
                         else
-                            doAdd = true;
+                            query += " OR Context = '" + map.get("context").get(i) + "'";
                     }
                     query += ") ";
                 }

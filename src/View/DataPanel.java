@@ -1,12 +1,12 @@
 package View;
 
 import Model.Calculation;
-import Model.Filter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -169,7 +169,7 @@ public class DataPanel extends JPanel {
 
         addBut.addActionListener(e -> {
             dashboardPanel.getGraphPanel().getGraph().addGraph();
-            dashboardPanel.getGraphPanel().getGraph().updateSeries();
+            //dashboardPanel.getGraphPanel().getGraph().updateSeries();
 
             ((DefaultListModel) listModel).addElement(" Graph " + (listModel.getSize()+1) + " ("+ dashboardPanel.getGraphPanel().getMetric() + ") - " + campName);
         });
