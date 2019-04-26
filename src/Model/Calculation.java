@@ -429,7 +429,6 @@ public class Calculation {
 
                 query = query.replaceFirst(";", "");
                 query += " GROUP BY Granularity ORDER BY Granularity;";
-                System.out.println(query);
                 ResultSet rs = statement.executeQuery(query);
                 while (rs.next()) {
                     String date = rs.getString("Granularity");
@@ -461,7 +460,6 @@ public class Calculation {
                 if (timeG.equals("week")) {
                     query = query.replaceFirst("week\\(ImpressionDate\\)", "concat(year(ImpressionDate),\' \', week(ImpressionDate))");
                 }
-                System.out.println(query);
 
                 ResultSet rs = statement.executeQuery(query);
                 while (rs.next()) {
@@ -469,7 +467,6 @@ public class Calculation {
                     double datapoint = rs.getInt("count(*)");
                     granularity.put(date, datapoint);
                 }
-                System.out.println(granularity);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

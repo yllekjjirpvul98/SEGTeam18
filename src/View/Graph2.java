@@ -87,18 +87,23 @@ public class Graph2 extends JFXPanel {
             else {
                 Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
 
+                lineChart.setAnimated(false);
                 lineChart.getData().removeAll();
                 lineChart.getData().clear();
+                lineChart.setAnimated(true);
 
                 series = new XYChart.Series();
-
                 for (String date : currentGraphData.keySet()) {
                     series.getData().add(new XYChart.Data(date, currentGraphData.get(date)));
                 }
 
                 series.setName(graphPanel.getMetric());
 
-                lineChart.getData().add(series);
+                if (lineChart.getData().size() == 0) {
+                    lineChart.getData().add(series);
+                }else {
+                    lineChart.getData().set(0, series);
+                }
 
                 for (int i = 0; i < graphPanel.getSavedDataMaps().size(); i++) {
                     XYChart.Series savedSeries = new XYChart.Series();
@@ -110,7 +115,12 @@ public class Graph2 extends JFXPanel {
                     }
 
                     savedSeries.setName(savedDataLable);
-                    lineChart.getData().add(savedSeries);
+                    if (i < lineChart.getData().size()-1){
+                        lineChart.getData().set(i+1, savedSeries);
+                    }else {
+                        lineChart.getData().add(savedSeries);
+                    }
+
 
                 }
 
@@ -121,6 +131,13 @@ public class Graph2 extends JFXPanel {
             }
         });
     }
+
+    void refresh (){
+        Platform.runLater(() -> {
+            lineChart.getData().removeAll();
+            lineChart.getData().clear();
+        });
+    };
 
     /*
         Adds current mapping to saved mappings list.
@@ -187,6 +204,7 @@ public class Graph2 extends JFXPanel {
         }
 
         graphPanel.getSavedFilterLists().add(filters);
+        updateSeries();
     }
 
     // Deletes the given position from all 3 saving lists.
@@ -194,5 +212,6 @@ public class Graph2 extends JFXPanel {
         graphPanel.getSavedDataMaps().remove(position);
         graphPanel.getSavedDataLables().remove(position);
         graphPanel.getSavedFilterLists().remove(position);
+        lineChart.getData().remove(position+1);
     }
 }

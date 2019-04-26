@@ -167,7 +167,7 @@ public class DashboardPanel extends JPanel {
         metricSelect.addActionListener(event -> {
             JComboBox metricSelect = (JComboBox) event.getSource();
             graphPanel.setMetric(metricSelect.getSelectedItem().toString());
-
+            graphPanel.getGraph().refresh();
             graphPanel.getGraph().updateSeries();
             try {
                 Thread.sleep(1500);
