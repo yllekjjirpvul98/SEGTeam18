@@ -15,8 +15,7 @@ public class Model {
     private Bounce bounce;
     private Settings settings;
     private Calculation cal;
-
-
+    
     public void init(Controller control){
         this.control = control;
         db = new Database();
