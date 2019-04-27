@@ -182,7 +182,6 @@ public class DataPanel extends JPanel {
             if(index >= 0){
                 ((DefaultListModel) listModel).remove(index);
                 dashboardPanel.getGraphPanel().getGraph().deleteGraph(index);
-                dashboardPanel.getGraphPanel().getGraph().updateSeries();
             }
         });
 

@@ -90,8 +90,8 @@ public class Graph2 extends JFXPanel {
                 Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
 
                 //lineChart.setAnimated(false);
-                lineChart.getData().removeAll();
-                lineChart.getData().clear();
+//                lineChart.getData().removeAll();
+//                lineChart.getData().clear();
                 //lineChart.setAnimated(true);
 
                 series = new XYChart.Series();
