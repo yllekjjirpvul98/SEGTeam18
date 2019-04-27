@@ -42,7 +42,7 @@ public class Graph2 extends JFXPanel {
         barChart = new BarChart(barXAxis, barYAxis);
         barChart.setBarGap(-5);
 
-        lineChart.setAnimated(false); // test
+        lineChart.setAnimated(false);
 
         updateSeries();
 
@@ -76,23 +76,46 @@ public class Graph2 extends JFXPanel {
 
                 series = new XYChart.Series();
 
-                series.getData().add(new XYChart.Data("0 - 4", currBarData.get(0)));
-                series.getData().add(new XYChart.Data("5 - 9", currBarData.get(1)));
-                series.getData().add(new XYChart.Data("10 - 14", currBarData.get(2)));
-                series.getData().add(new XYChart.Data("15 - 19", currBarData.get(3)));
+                int barSize0;
+                int barSize1;
+                int barSize2;
+                int barSize3;
+
+                if(currBarData.get(0) == null){
+                    barSize0 = 0;
+                }else{
+                    barSize0 = currBarData.get(0);
+                }
+                if(currBarData.get(1) == null){
+                    barSize1 = 0;
+                }else{
+                    barSize1 = currBarData.get(1);
+                }
+                if(currBarData.get(2) == null){
+                    barSize2 = 0;
+                }else{
+                    barSize2 = currBarData.get(2);
+                }
+                if(currBarData.get(3) == null){
+                    barSize3 = 0;
+                }else{
+                    barSize3 = currBarData.get(3);
+                }
+
+                series.getData().add(new XYChart.Data("0 - 4", barSize0));
+                series.getData().add(new XYChart.Data("5 - 9", barSize1));
+                series.getData().add(new XYChart.Data("10 - 14", barSize2));
+                series.getData().add(new XYChart.Data("15 - 19", barSize3));
 
                 series.setName(graphPanel.getMetric());
-
                 barChart.getData().add(series);
             }
 
             else {
                 Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
 
-                //lineChart.setAnimated(false);
                 lineChart.getData().removeAll();
                 lineChart.getData().clear();
-                //lineChart.setAnimated(true);
 
                 series = new XYChart.Series();
 
