@@ -1,6 +1,5 @@
 package Model;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/*
+    Class that stores all back-end calculations including SQL queries.
+ */
 public class Calculation {
 
     private Database db;
@@ -25,7 +27,7 @@ public class Calculation {
         this.connection = db.getConnect();
     }
 
-    //apply filter
+    //get the where clause depending on the user filters
     public String whereClause() {
         Map<String, ArrayList<String>> map = filter.getFilterArray();
         String query = "";
@@ -122,6 +124,7 @@ public class Calculation {
         return query;
     }
 
+    //Calculate the number of impressions
     public int calImpression() {
         int count = 0;
         String query = "SELECT count(ID) FROM Impression ";
@@ -137,6 +140,7 @@ public class Calculation {
         return count;
     }
 
+    //Calculate the number of Clicks
     public int calClicks() {
 
         String query = "SELECT count(Click.ID) FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
@@ -155,6 +159,7 @@ public class Calculation {
         return count;
     }
 
+    //Calculate the number of Uniques
     public int calUnique() {
 
         String query = "SELECT COUNT(DISTINCT Click.ID) AS id_count FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
@@ -162,8 +167,6 @@ public class Calculation {
 
         int count = 0;
         try {
-//            statement.execute("DROP TABLE IF EXISTS temp2;");
-//            statement.execute(table);
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 count = rs.getInt("id_count");
@@ -174,6 +177,7 @@ public class Calculation {
         return count;
     }
 
+    //Calculate the number of Bounces
     public int calBounce() {
         Map<String, Integer> map = bounce.getBounceSettings();
 
@@ -188,11 +192,6 @@ public class Calculation {
 
             if (map.size() != 0) {
                 if (map.containsKey("times")) {
-//                    String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, (DATEDIFF('second',EntryDate, ExitDate)) =  "
-//                            + map.get("times") + " FROM Server";
-//                    statement.execute("DROP TABLE IF EXISTS tempTime;");
-//                    statement.execute(tableB);
-//                    query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
                     query = query.replaceFirst(";", "");
                     String tableB = "AND EntryDate < ExitDate - INTERVAL '" + map.get("times") + "' SECOND";
                     query += tableB;
@@ -213,6 +212,7 @@ public class Calculation {
         return count;
     }
 
+    //Calculate the number of Conversions
     public int calConversion() {
         int count = 0;
 
@@ -236,6 +236,7 @@ public class Calculation {
         return count;
     }
 
+    //Calculate the cost of clicks
     public float calClickCost() {
         float clickCost = 0;
 
@@ -256,7 +257,7 @@ public class Calculation {
         return clickCost;
     }
 
-
+    //Calculate the total cost
     public float calTotal() {
         float impressionCost = 0;
 
@@ -274,26 +275,32 @@ public class Calculation {
         return calClickCost() + impressionCost;
     }
 
+    //Calculate the Click-through-rate
     public double calCTR() {
         return calClicks() / calImpression();
     }
 
+    //Calculate the Cost-per-acquisition
     public double calCPA() {
         return calTotal() / calConversion();
     }
 
+    //Calculate the Cost-per-click
     public double calCPC() {
         return calClickCost() / calClicks();
     }
 
+    //Calculate the Cost-per-thousand impression
     public double calCPM() {
         return calTotal() / (1000 * calImpression());
     }
 
+    //Calculate the BounceRate
     public double calBounceRate() {
         return calBounce() / calClicks();
     }
 
+    //Get calculations results according to the time granularity applied
     public Map<String, Double> getTimeG(String metric, String timeG) {
         Map<String, Double> granularity = new LinkedHashMap<>();
 
@@ -305,12 +312,13 @@ public class Calculation {
             timeG : hour => return String in the format "2015-01-02 8", "2015-01-02 7" representing hour of the day
          */
 
-
         if (metric.equals("Impression")) {
+
             String query = "SELECT count(*), " + timeG + "(ImpressionDate) AS Granularity FROM Impression ";
             query += whereClause();
             query = query.replaceFirst(";", " ");
             query += "GROUP BY Granularity ORDER BY Granularity";
+
             if (timeG.equals("hour")) {
                 query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
             }
@@ -335,6 +343,7 @@ public class Calculation {
         }
 
         if (metric.equals("Clicks")) {
+
             String query = "SELECT count(Click.ID), " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
 
             try {
@@ -364,11 +373,13 @@ public class Calculation {
         }
 
         if (metric.equals("Unique")) {
+
             String query = "SELECT COUNT(DISTINCT Click.ID) AS id_count, " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN Impression ON Impression.ID = Click.ID ";
             query += whereClause();
             query = query.substring(0, query.length() - 1);
             query = query.replaceFirst(";", "");
             query += " group by Granularity ORDER BY Granularity";
+
             if (timeG.equals("hour")) {
                 query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
             }
@@ -402,11 +413,6 @@ public class Calculation {
 
                 if (map.size() != 0) {
                     if (map.containsKey("times")) {
-//                        String tableB = "CREATE TEMPORARY TABLE tempTime AS SELECT ID, (DATEDIFF('second',EntryDate, ExitDate)) =  "
-//                                + map.get("times") + " FROM Server";
-//                        statement.execute("DROP TABLE IF EXISTS tempTime;");
-//                        statement.execute(tableB);
-//                        query += " INNER JOIN tempTime ON Server.ID = tempTime.ID";
                         query = query.replaceFirst(";", "");
                         String tableB = " AND EntryDate < ExitDate - INTERVAL '" + map.get("times") + "' SECOND";
                         query += tableB;
@@ -414,7 +420,6 @@ public class Calculation {
                 }
 
                 if (map.containsKey("numPage")) {
-
                     query += " AND PageViewed = " + map.get("numPage");
                 }
                 if (timeG.equals("hour")) {
@@ -441,16 +446,16 @@ public class Calculation {
         }
 
         if (metric.equals("Conversion")) {
+
             String query = "SELECT count(*) ," + timeG + "(ImpressionDate) AS Granularity FROM Server INNER JOIN ";
 
             try {
                 query += "Impression ON Server.ID = Impression.ID ";
-
                 query += whereClause();
                 query = query.replaceFirst(";", "");
                 query += " AND Conversion = 'Yes'";
-
                 query += " GROUP BY Granularity ORDER BY Granularity";
+
                 if (timeG.equals("hour")) {
                     query = query.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
@@ -479,9 +484,9 @@ public class Calculation {
             try {
                 totalQuery += "Impression ON Click.ID = Impression.ID ";
                 totalQuery += whereClause();
-
                 totalQuery = totalQuery.replaceFirst(";", "");
                 totalQuery += " GROUP BY Granularity ORDER BY Granularity";
+
                 if (timeG.equals("hour")) {
                     totalQuery = totalQuery.replaceFirst("hour\\(ImpressionDate\\)", "concat(date(ImpressionDate),\' \', hour(ImpressionDate))");
                 }
@@ -506,12 +511,12 @@ public class Calculation {
         }
 
         if (metric.equals("clickCost")) {
+
             String clickQuery = "SELECT sum(clickCost), " + timeG + "(ImpressionDate) AS Granularity FROM Click INNER JOIN ";
 
             try {
                 clickQuery += "Impression ON Click.ID = Impression.id ";
                 clickQuery += whereClause();
-
                 clickQuery = clickQuery.replaceFirst(";", "");
                 clickQuery += " GROUP BY Granularity ORDER BY Granularity";
 
@@ -538,7 +543,6 @@ public class Calculation {
                     granularity.put(entry.getKey(), c / d);
                 }
             }
-
         }
         if (metric.equals("CPA")) {
             Map<String, Double> total = getTimeG("TotalCost", timeG);
@@ -552,10 +556,8 @@ public class Calculation {
                     granularity.put(entry.getKey(), c / d);
                 }
             }
-
         }
         if (metric.equals("CPC")) {
-
             Map<String, Double> clicks = getTimeG("Clicks", timeG);
             Map<String, Double> clickCost = getTimeG("clickCost", timeG);
 
@@ -567,7 +569,6 @@ public class Calculation {
                     granularity.put(entry.getKey(), c / d);
                 }
             }
-
         }
 
         if (metric.equals("CPM")) {
@@ -582,7 +583,6 @@ public class Calculation {
                     granularity.put(entry.getKey(), c / (d * 1000));
                 }
             }
-
         }
 
         if (metric.equals("BounceRate")) {
@@ -597,11 +597,12 @@ public class Calculation {
                     granularity.put(entry.getKey(), c / d);
                 }
             }
-
         }
 
         return granularity;
     }
+
+    //Get cost of click with time granularity applied
     public Map<Integer, Integer> getClickCost () {
         Map<Integer, Integer> granularity = new LinkedHashMap<>();
         Map<Integer, Integer> result = new LinkedHashMap<>();
@@ -610,7 +611,6 @@ public class Calculation {
         try {
             clickQuery += "Impression ON Click.ID = Impression.id ";
             clickQuery += whereClause();
-
             clickQuery = clickQuery.replaceFirst(";", "");
             clickQuery += " GROUP BY RoundCost ORDER BY RoundCost";
 

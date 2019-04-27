@@ -212,6 +212,14 @@ public class DashboardPanel extends JPanel {
 
         histoBut.addActionListener(e -> {
             if(!histoEnabled){
+
+                if(true){
+                    System.out.println("No data - Filters to strict!");
+                }
+                else{
+                    System.out.println("Data is available - Filters OK!");
+                }
+
                 dataPanel.getAddBut().setEnabled(false);
                 dataPanel.getDeleteBut().setEnabled(false);
                 dataPanel.getGraphList().setEnabled(false);

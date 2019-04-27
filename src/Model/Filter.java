@@ -5,8 +5,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+    Class represents the Filter with all its configurations.
+ */
+
 public class Filter {
 
+    //default configurations
     private Date dateUpperRange = null;
     private Date dateLowerRange = null;
     private ArrayList<String> gender = new ArrayList<String>();
@@ -27,6 +32,7 @@ public class Filter {
         this.contextSelected = contextSelected;
     }
 
+    //resets all
     public void reset(){
         dateRangeSelected = false;
         genderSelected = false;
@@ -52,6 +58,7 @@ public class Filter {
         Travel
     }
 
+    //Get all filters configurations
     public Map<String, ArrayList<String>> getFilterArray() {
         Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         if (dateRangeSelected){
@@ -77,6 +84,7 @@ public class Filter {
         }return map;
     }
 
+    //Getters and Setters
     public ArrayList<Context> getContext() {
         return context;
     }
