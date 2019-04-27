@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.SQLException;
 
+/*
+    class that is responsible for parsing the impression log file
+ */
 public class ImpressionParser implements Parser{
     private Database db;
     private String filepath;
 
+    //when initialising the ImpressionParser instance, create an Impression table
     ImpressionParser (Database db, String filepath){
         this.db = db;
         this.filepath = filepath;
@@ -27,6 +31,8 @@ public class ImpressionParser implements Parser{
             System.out.println(e.getMessage());
         }
     }
+
+    //method to batch insert the records to the Impression table
     @Override
     public void loadDatabase() {
         String filename = filepath + "/impression_log.csv";
@@ -57,6 +63,7 @@ public class ImpressionParser implements Parser{
     }
 
 
+    //method to load database when the thread starts
     @Override
     public void run() {
         float start = System.nanoTime();

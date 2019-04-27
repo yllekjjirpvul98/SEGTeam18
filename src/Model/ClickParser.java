@@ -4,10 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.SQLException;
 
+/*
+    class that is responsible for parsing the click log file
+ */
+
 public class ClickParser implements Parser{
     private Database db;
     private String filepath;
 
+    //Create click table when initialising a click parser instance
     ClickParser(Database db, String filepath){
         this.db = db;
         this.filepath = filepath;
@@ -24,6 +29,7 @@ public class ClickParser implements Parser{
         }
     }
 
+    //method to batch insert each click record
     @Override
     public void loadDatabase() {
         String filename = filepath + "/click_log.csv";
@@ -31,7 +37,7 @@ public class ClickParser implements Parser{
             BufferedReader r = new BufferedReader(new FileReader(filename));
             String line = "";
             int count = 0;
-            r.readLine(); //the firstline is not needed because it is the attributes
+            r.readLine();
             db.getStatement().execute("BEGIN TRANSACTION ");
             String query = "INSERT into Click (Date, ID, ClickCost) VALUES ";
             while ((line = r.readLine()) != null){
@@ -53,6 +59,7 @@ public class ClickParser implements Parser{
 
     }
 
+    //run load database when starting the thread
     @Override
     public void run() {
         float start = System.nanoTime();

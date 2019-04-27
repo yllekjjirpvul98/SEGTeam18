@@ -114,9 +114,6 @@ public class Graph2 extends JFXPanel {
             else {
                 Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
 
-                lineChart.getData().removeAll();
-                lineChart.getData().clear();
-
                 series = new XYChart.Series();
 
                 for (String date : currentGraphData.keySet()) {
@@ -155,6 +152,7 @@ public class Graph2 extends JFXPanel {
             }
         });
     }
+
 
     void refresh(){
         Platform.runLater(() -> {

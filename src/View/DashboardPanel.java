@@ -207,7 +207,7 @@ public class DashboardPanel extends JPanel {
             }
         });
 
-        histoBut = new JButton(new ImageIcon(((new ImageIcon("Images\\HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        histoBut = new JButton(new ImageIcon(((new ImageIcon("Images/HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         histoBut.setBackground(window.getHighlightColor());
 
         histoBut.addActionListener(e -> {
@@ -234,7 +234,7 @@ public class DashboardPanel extends JPanel {
             }
         });
 
-        lineBut = new JButton(new ImageIcon(((new ImageIcon("Images\\LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        lineBut = new JButton(new ImageIcon(((new ImageIcon("Images/LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         lineBut.setBackground(window.getHighlightColor());
 
         lineBut.addActionListener(e -> {
@@ -310,7 +310,7 @@ public class DashboardPanel extends JPanel {
     private void updateNorthPanel(){
         this.remove(northPanel);
 
-        campBut = new JButton(new ImageIcon(((new ImageIcon("Images\\CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        campBut = new JButton(new ImageIcon(((new ImageIcon("Images/CampIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         campBut.setBackground(window.getHighlightColor());
 
         campBut.addActionListener(e -> {
@@ -318,7 +318,7 @@ public class DashboardPanel extends JPanel {
             campBut.setEnabled(false);
         });
 
-        settingsBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        settingsBut = new JButton(new ImageIcon(((new ImageIcon("Images/SettingsIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         settingsBut.setBackground(window.getHighlightColor());
 
         settingsBut.addActionListener(e -> {
@@ -326,7 +326,7 @@ public class DashboardPanel extends JPanel {
             settingsBut.setEnabled(false);
         });
 
-        printBut = new JButton(new ImageIcon(((new ImageIcon("Images\\PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        printBut = new JButton(new ImageIcon(((new ImageIcon("Images/PrintIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         printBut.setBackground(window.getHighlightColor());
 
         printBut.addActionListener(e -> {
@@ -353,7 +353,7 @@ public class DashboardPanel extends JPanel {
 
         });
 
-        saveBut = new JButton(new ImageIcon(((new ImageIcon("Images\\SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        saveBut = new JButton(new ImageIcon(((new ImageIcon("Images/SaveIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         saveBut.setBackground(window.getHighlightColor());
 
         saveBut.addActionListener(e ->{
@@ -381,7 +381,7 @@ public class DashboardPanel extends JPanel {
 
         });
 
-        histoBut = new JButton(new ImageIcon(((new ImageIcon("Images\\HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        histoBut = new JButton(new ImageIcon(((new ImageIcon("Images/HistoIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         histoBut.setBackground(window.getHighlightColor());
 
         histoBut.addActionListener(e -> {
@@ -400,7 +400,7 @@ public class DashboardPanel extends JPanel {
             }
         });
 
-        lineBut = new JButton(new ImageIcon(((new ImageIcon("Images\\LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
+        lineBut = new JButton(new ImageIcon(((new ImageIcon("Images/LineIcon.png")).getImage()).getScaledInstance(Math.round((window.getButtonBigFont().getSize()/3) * 5), Math.round((window.getButtonBigFont().getSize()/3) * 5), java.awt.Image.SCALE_SMOOTH)));
         lineBut.setBackground(window.getHighlightColor());
 
         lineBut.addActionListener(e -> {

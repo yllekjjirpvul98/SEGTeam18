@@ -1,9 +1,13 @@
 package Model;
 
+/*
+    class that is responsible for managing the population of database by running multiple threads
+ */
 public class PopulateDatabase {
 
     Database db;
 
+    //To populate the database, set up different threads for Impression Parser, Server Parser and Click Parser
     public PopulateDatabase(Database db, String filepath) {
 
         float start = System.nanoTime();
@@ -24,6 +28,7 @@ public class PopulateDatabase {
         while (tg.activeCount() != 0) {
             //System.out.println("Loading...");
         }
+
         float elapsedTime = (System.nanoTime() - start) / 1_000_000_000;
         System.out.println("It takes " + elapsedTime + "s to load all the data");
     }
