@@ -2,6 +2,10 @@ package Model;
 
 import Control.Controller;
 
+/*
+    Class contains the back-end code of the program that allows the user to initialize all the configurations.
+ */
+
 public class Model {
 
     private Controller control;
@@ -23,6 +27,7 @@ public class Model {
         cal = new Calculation(db, bounce, filter);
     }
 
+    //Getters
     public Database getDb() {
         return db;
     }
