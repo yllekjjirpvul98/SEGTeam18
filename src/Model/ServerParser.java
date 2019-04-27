@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.SQLException;
 
+/*
+    class that is responsible for parsing the server log file
+ */
 public class ServerParser implements Parser {
     private Database db;
     private String filepath;
 
+    //when creating a server parser instance, create a Server table to store the records
     ServerParser (Database db, String filepath){
         this.db = db;
         this.filepath = filepath;
@@ -29,6 +33,7 @@ public class ServerParser implements Parser {
         }
     }
 
+    //Batch insert the records from the server log to the Server table
     @Override
     public void loadDatabase() {
         String filename = filepath + "/server_log.csv";
@@ -64,6 +69,7 @@ public class ServerParser implements Parser {
 
     }
 
+    //Method to load data to the database when the thread starts
     @Override
     public void run() {
         float start = System.nanoTime();

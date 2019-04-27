@@ -42,6 +42,8 @@ public class Graph2 extends JFXPanel {
         barChart = new BarChart(barXAxis, barYAxis);
         barChart.setBarGap(-5);
 
+        lineChart.setAnimated(false); // test
+
         updateSeries();
 
         if(graphPanel.getMetric() == "Click Cost Frequency") {
@@ -87,10 +89,10 @@ public class Graph2 extends JFXPanel {
             else {
                 Map<String, Double> currentGraphData = calc.getTimeG(graphPanel.getMetric(), graphPanel.getTime());
 
-                lineChart.setAnimated(false);
+                //lineChart.setAnimated(false);
                 lineChart.getData().removeAll();
                 lineChart.getData().clear();
-                lineChart.setAnimated(true);
+                //lineChart.setAnimated(true);
 
                 series = new XYChart.Series();
                 for (String date : currentGraphData.keySet()) {
@@ -120,8 +122,6 @@ public class Graph2 extends JFXPanel {
                     }else {
                         lineChart.getData().add(savedSeries);
                     }
-
-
                 }
 
                 yAxis.setLabel(graphPanel.getMetric());
@@ -132,12 +132,13 @@ public class Graph2 extends JFXPanel {
         });
     }
 
-    void refresh (){
+
+    void refresh(){
         Platform.runLater(() -> {
             lineChart.getData().removeAll();
             lineChart.getData().clear();
         });
-    };
+    }
 
     /*
         Adds current mapping to saved mappings list.
@@ -209,9 +210,12 @@ public class Graph2 extends JFXPanel {
 
     // Deletes the given position from all 3 saving lists.
     void deleteGraph(int position){
-        graphPanel.getSavedDataMaps().remove(position);
-        graphPanel.getSavedDataLables().remove(position);
-        graphPanel.getSavedFilterLists().remove(position);
-        lineChart.getData().remove(position+1);
+
+        Platform.runLater(() -> {
+            graphPanel.getSavedDataMaps().remove(position);
+            graphPanel.getSavedDataLables().remove(position);
+            graphPanel.getSavedFilterLists().remove(position);
+            lineChart.getData().remove(position + 1);
+        });
     }
 }

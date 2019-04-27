@@ -3,6 +3,10 @@ package Control;
 import Model.Model;
 import View.View;
 
+/*
+    The Controller class acts as the medium to communicate between View and Model.
+ */
+
 public class Controller {
 
     private View view;

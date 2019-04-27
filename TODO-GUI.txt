@@ -1,14 +1,6 @@
---- Main Tasks ---
-
-Implement functionality for the "print" button
-Implement functionality for the "save" button
-
-
 --- Additional Tasks ---
 
 Calander start from start of dataset date  -- Waiting on method
-
-Better solution to pauseing program for axis bug
 
 Clean up code:
 	- remove unused code
