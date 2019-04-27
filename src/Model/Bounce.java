@@ -3,8 +3,12 @@ package Model;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+    Class that is responsible for configuring the bounce settings.
+ */
 public class Bounce {
 
+    //default configurations
     private int time = 3;
     private int numOfPageVisited = 3;
     private boolean timeSet = false;
@@ -15,6 +19,7 @@ public class Bounce {
         this.numPageSet = numPageSet;
     }
 
+    //Get all Bounce configurations
     public Map<String, Integer> getBounceSettings(){
         Map map = new HashMap<String, Integer>();
         if (timeSet){
@@ -25,6 +30,7 @@ public class Bounce {
         }return  map;
     }
 
+    //Getters and Setters
     public void setNumPageSet(boolean numPageSet) {
         this.numPageSet = numPageSet;
     }

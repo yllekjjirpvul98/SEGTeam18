@@ -1,5 +1,9 @@
 package Model;
 
+/*
+    Class implements functionality of Settings.
+    Store user selections.
+ */
 public class Settings {
 
     private boolean colorBlind = false;
@@ -10,6 +14,7 @@ public class Settings {
         this.largeText = largeText;
     }
 
+    //Getters and Setters
     public void setColorBlind(boolean colorBlind) {
         this.colorBlind = colorBlind;
     }
