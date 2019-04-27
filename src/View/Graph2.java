@@ -43,6 +43,7 @@ public class Graph2 extends JFXPanel {
         barChart.setBarGap(-5);
 
         lineChart.setAnimated(false);
+        barChart.setAnimated(false);
 
         updateSeries();
 
