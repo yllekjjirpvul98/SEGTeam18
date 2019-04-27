@@ -210,9 +210,11 @@ public class Graph2 extends JFXPanel {
 
     // Deletes the given position from all 3 saving lists.
     void deleteGraph(int position){
-        graphPanel.getSavedDataMaps().remove(position);
-        graphPanel.getSavedDataLables().remove(position);
-        graphPanel.getSavedFilterLists().remove(position);
-        //lineChart.getData().remove(position+1);
+            graphPanel.getSavedDataMaps().remove(position);
+            graphPanel.getSavedDataLables().remove(position);
+            graphPanel.getSavedFilterLists().remove(position);
+        Platform.runLater(() -> {
+            lineChart.getData().remove(position + 1);
+        });
     }
 }
