@@ -48,7 +48,7 @@ public class Model {
     }
 
     public void populateDatabase (String filepath){
-        PopulateDatabase pd = new PopulateDatabase(getDb(), filepath);
+        new PopulateDatabase(getDb(), filepath);
     }
 
 }

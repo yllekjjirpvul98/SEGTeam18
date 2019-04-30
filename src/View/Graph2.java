@@ -35,7 +35,7 @@ public class Graph2 extends JFXPanel {
 
         CategoryAxis barXAxis = new CategoryAxis();
         NumberAxis barYAxis = new NumberAxis();
-        barYAxis.setLabel("Frequency");
+        barYAxis.setLabel("Frequency Density");
         barXAxis.setLabel("Click Cost Range");
 
         lineChart = new LineChart(xAxis, yAxis);
@@ -85,22 +85,22 @@ public class Graph2 extends JFXPanel {
                 if(currBarData.get(0) == null){
                     barSize0 = 0;
                 }else{
-                    barSize0 = currBarData.get(0);
+                    barSize0 = currBarData.get(0) / 4;
                 }
                 if(currBarData.get(1) == null){
                     barSize1 = 0;
                 }else{
-                    barSize1 = currBarData.get(1);
+                    barSize1 = currBarData.get(1) / 4;
                 }
                 if(currBarData.get(2) == null){
                     barSize2 = 0;
                 }else{
-                    barSize2 = currBarData.get(2);
+                    barSize2 = currBarData.get(2) / 4;
                 }
                 if(currBarData.get(3) == null){
                     barSize3 = 0;
                 }else{
-                    barSize3 = currBarData.get(3);
+                    barSize3 = currBarData.get(3) / 4;
                 }
 
                 series.getData().add(new XYChart.Data("0 - 4", barSize0));

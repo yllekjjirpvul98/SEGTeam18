@@ -125,6 +125,7 @@ class FilterPanel extends JPanel {
         When a radio button is selected add corresponding filter in model.
         When radio button deselected remove corresponding filter in model.
      */
+
     private void init(){
         //  ---- Creating components ----
         fil = dashboardPanel.getWindow().getControl().getModel().getFilter();
@@ -184,7 +185,7 @@ class FilterPanel extends JPanel {
             disableConRad(fil.getContextSelected());
         });
 
-        //METHOD TO RETURN THE FIRST DATA DATE OF THE CAMPAIGN (RESET THE DATE AND JDATEPICKER WHEN NEW CAMPAIGN LOADED)
+        // Return the first date in the campaign to set as the opening date in the date picker.
         int year = 2015;
         int month = 0;
 
