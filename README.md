@@ -4,7 +4,7 @@
 - To build a data analytics dashboard for Ad Auction
 - Practice Agile development
 
-## Technlogy Stack
+## Technology Stack
 - Front end: Java Swing & JavaFx
 - Back end: Java
 - Database: H3 Database
